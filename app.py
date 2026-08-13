@@ -66,68 +66,91 @@ with right:
         width=250
     )
 
+
+
 # ============================================================
 # DATASET OVERVIEW
 # ============================================================
 
 st.divider()
 
-st.markdown(
-    '<div class="section-title">Dataset Overview</div>',
-    unsafe_allow_html=True
-)
+st.markdown("## Dataset Overview")
 
 st.caption(
-    "One month of e-commerce behavioral data capturing customer "
-    "interactions across the complete shopping journey."
+    "One month of e-commerce behavioral data capturing customer interactions "
+    "across the complete shopping journey."
 )
+
+# ============================================================
+# CARD STYLING
+# ============================================================
+
+st.markdown("""
+<style>
+
+.metric-card {
+    background-color: #F8F9FA;
+    border: 1px solid #E8E8E8;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    min-height: 95px;
+}
+
+.metric-icon {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.metric-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #E72F3D;
+}
+
+.metric-label {
+    font-size: 13px;
+    color: #666666;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 
 # ============================================================
-# DATASET METRICS — ROW 1
+# ROW 1
 # ============================================================
 
 c1, c2, c3, c4 = st.columns(4)
 
-
 with c1:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">📊</div>
         <div class="metric-value">42.45M</div>
         <div class="metric-label">Total Records</div>
-        <div class="metric-detail">42,448,764 interactions</div>
     </div>
     """, unsafe_allow_html=True)
 
-
 with c2:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">👥</div>
         <div class="metric-value">3.02M</div>
         <div class="metric-label">Unique Customers</div>
-        <div class="metric-detail">3,022,290 customers</div>
     </div>
     """, unsafe_allow_html=True)
 
-
 with c3:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">🛒</div>
         <div class="metric-value">9.24M</div>
         <div class="metric-label">Unique Sessions</div>
-        <div class="metric-detail">9,244,421 sessions</div>
     </div>
     """, unsafe_allow_html=True)
 
-
 with c4:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">📦</div>
@@ -138,14 +161,12 @@ with c4:
 
 
 # ============================================================
-# DATASET METRICS — ROW 2
+# ROW 2
 # ============================================================
 
 c1, c2, c3, c4 = st.columns(4)
 
-
 with c1:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">🏷️</div>
@@ -154,9 +175,7 @@ with c1:
     </div>
     """, unsafe_allow_html=True)
 
-
 with c2:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">🗂️</div>
@@ -165,9 +184,7 @@ with c2:
     </div>
     """, unsafe_allow_html=True)
 
-
 with c3:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">🔢</div>
@@ -176,9 +193,7 @@ with c3:
     </div>
     """, unsafe_allow_html=True)
 
-
 with c4:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">📅</div>
@@ -189,43 +204,34 @@ with c4:
 
 
 # ============================================================
-# DATASET METRICS — ROW 3
+# ROW 3
 # ============================================================
 
 c1, c2, c3 = st.columns(3)
 
-
 with c1:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">🧭</div>
         <div class="metric-value">4</div>
         <div class="metric-label">Category Levels</div>
-        <div class="metric-detail">Hierarchical product categories</div>
     </div>
     """, unsafe_allow_html=True)
 
-
 with c2:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">⚠️</div>
         <div class="metric-value">30,220</div>
-        <div class="metric-label">Duplicate Records</div>
-        <div class="metric-detail">0.07% of total records</div>
+        <div class="metric-label">Duplicate Records · 0.07%</div>
     </div>
     """, unsafe_allow_html=True)
 
-
 with c3:
-
     st.markdown("""
     <div class="metric-card">
         <div class="metric-icon">👆</div>
-        <div class="metric-value">3</div>
-        <div class="metric-label">Unique Event Types</div>
-        <div class="metric-detail">View · Cart · Purchase</div>
+        <div class="metric-value">3 Event Types</div>
+        <div class="metric-label">View · Cart · Purchase</div>
     </div>
     """, unsafe_allow_html=True)
