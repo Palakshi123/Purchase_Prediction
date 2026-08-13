@@ -479,171 +479,123 @@ space()
 
 section_title(
     "Feature Engineering",
-    "Created behavioral, temporal, session, and purchase-intent signals from raw customer interactions."
+    "Generating predictive behavioral signals and transforming categorical features into model-ready representations."
 )
 
 
 # ============================================================
-# FEATURE KPI
+# 01 — FEATURE GENERATION
 # ============================================================
 
+subsection("01 · Feature Generation")
+
+st.markdown(
+    """
+    Behavioral, temporal, session, and purchase-intent features were created
+    using customer activity observed up to the current interaction.
+    """
+)
+
 metric_cards([
-    ("🧩", "24", "Predictor Features"),
-    ("🕒", "4", "Temporal Features"),
-    ("👆", "7", "Behavioral Features"),
-    ("⚡", "9", "Session Features"),
-    ("🎯", "4", "Purchase Intent Features")
+    ("🧩", "24", "Generated Features"),
+    ("🕒", "4", "Temporal"),
+    ("👆", "7", "Behavioral"),
+    ("⚡", "9", "Session"),
+    ("🎯", "4", "Purchase Intent")
 ])
 
 
 # ============================================================
-# FEATURE TABLES
+# 02 — FEATURE ENCODING
 # ============================================================
 
-left, right = st.columns(
-    2,
-    gap="large"
+space()
+
+subsection("02 · Feature Encoding — Linear Model")
+
+st.markdown(
+    """
+    Categorical features were encoded based on their cardinality to create
+    efficient numerical inputs for the linear model.
+    """
+)
+
+encoding_col1, encoding_col2 = st.columns(2, gap="large")
+
+
+with encoding_col1:
+
+    pill("FREQUENCY ENCODING")
+
+    st.markdown(
+        """
+        ### `brand` — 2,618 categories
+
+        - High-cardinality feature
+        - Frequency encoding avoids thousands of sparse columns
+        - Preserves brand prevalence in a single numerical feature
+        """
+    )
+
+
+with encoding_col2:
+
+    pill("ONE-HOT ENCODING")
+
+    st.markdown(
+        """
+        ### Lower-Cardinality Features
+
+        - `event_type` — **2**
+        - `day_of_week` — **6**
+        - `category_level_1` — **14**
+        - `category_level_2` — **57**
+        - `category_level_3` — **82**
+        - `category_level_4` — **2**
+        - `previous_event` — **3**
+
+        One-hot encoding creates independent binary indicators without
+        imposing an artificial ordinal relationship.
+        """
+    )
+
+
+# ============================================================
+# IDENTIFIER EXCLUSION
+# ============================================================
+
+st.markdown(
+    "<div style='height:18px'></div>",
+    unsafe_allow_html=True
+)
+
+st.info(
+    """
+    **`user_session` — 1,369,239 unique values**
+
+    Used to construct session-level features and the leakage-free data split,
+    but excluded as a direct model predictor because it is a high-cardinality
+    session identifier.
+    """
 )
 
 
 # ============================================================
-# TEMPORAL + BEHAVIORAL
+# TARGET
 # ============================================================
 
-with left:
+st.info(
+    """
+**🎯 Target Variable — `purchase_later`**
 
-    subsection("🕒 Temporal Features")
+Binary target indicating whether a purchase occurs later within the same
+user session.
+"""
+)
 
-    pill("4 retained features")
-
-
-    temporal_features = pd.DataFrame({
-        "Feature": [
-            "hour",
-            "day_of_week",
-            "is_weekend",
-            "is_evening"
-        ],
-        "Purpose": [
-            "Hourly shopping behavior",
-            "Day-specific behavioral patterns",
-            "Weekend activity indicator",
-            "Evening shopping indicator"
-        ]
-    })
+space()
 
 
-    st.dataframe(
-        temporal_features,
-        use_container_width=True,
-        hide_index=True
-    )
-
-
-    subsection("👆 Behavioral Features")
-
-    pill("7 retained features")
-
-
-    behavioral_features = pd.DataFrame({
-        "Feature": [
-            "events_so_far",
-            "views_so_far",
-            "carts_so_far",
-            "cart_to_view_ratio",
-            "product_views_so_far",
-            "category_events_so_far",
-            "brand_events_so_far"
-        ],
-        "Purpose": [
-            "Session activity depth",
-            "Cumulative views",
-            "Cumulative cart actions",
-            "Cart-to-view conversion tendency",
-            "Repeated product interest",
-            "Category engagement",
-            "Brand engagement"
-        ]
-    })
-
-
-    st.dataframe(
-        behavioral_features,
-        use_container_width=True,
-        hide_index=True
-    )
-
-
-# ============================================================
-# SESSION + INTENT
-# ============================================================
-
-with right:
-
-    subsection("⚡ Session & Intensity Features")
-
-    pill("9 retained features")
-
-
-    session_features = pd.DataFrame({
-        "Feature": [
-            "session_start",
-            "elapsed_seconds",
-            "previous_event",
-            "previous_event_time",
-            "seconds_since_previous_event",
-            "session_activity_rate",
-            "cart_intensity",
-            "engagement_intensity",
-            "fast_session"
-        ],
-        "Purpose": [
-            "Session starting timestamp",
-            "Elapsed session duration",
-            "Previous customer action",
-            "Previous interaction timestamp",
-            "Time between interactions",
-            "Interaction speed",
-            "Cart activity concentration",
-            "Weighted engagement intensity",
-            "Fast-session indicator"
-        ]
-    })
-
-
-    st.dataframe(
-        session_features,
-        use_container_width=True,
-        hide_index=True
-    )
-
-
-    subsection("🎯 Purchase Intent Features")
-
-    pill("4 retained features")
-
-
-    intent_features = pd.DataFrame({
-        "Feature": [
-            "repeat_product_view",
-            "previous_event_cart",
-            "view_after_cart",
-            "high_intent_no_cart"
-        ],
-        "Purpose": [
-            "Repeated product consideration",
-            "Recent cart intent",
-            "Post-cart browsing behavior",
-            "High views without cart action"
-        ]
-    })
-
-
-    st.dataframe(
-        intent_features,
-        use_container_width=True,
-        hide_index=True
-    )
 
 
 # ============================================================
