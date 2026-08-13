@@ -736,17 +736,19 @@ st.markdown(
 
 from pathlib import Path
 
-st.divider()
-
-# ============================================================
-# SECTION TITLE
-# ============================================================
-
-st.markdown("### 📊 Exploratory Data Analysis — Visualizations")
-
-st.caption(
-    "Explore customer behavior, purchase patterns, session activity, "
-    "and temporal trends by selecting a visualization below."
+st.markdown(
+    """
+    <div class="section-container">
+        <div class="dataset-heading">
+            Exploratory Data Analysis
+        </div>
+        <div class="section-caption">
+            Explore customer behavior, purchase patterns, session activity,
+            and temporal trends by selecting a visualization below.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 
@@ -837,38 +839,24 @@ selected_visualization = st.selectbox(
     options=list(eda_visualizations.keys())
 )
 
-
-# ============================================================
-# GET SELECTED IMAGE
-# ============================================================
-
 selected_file = eda_visualizations[selected_visualization]
-
 image_path = IMAGE_DIR / selected_file
 
 
 # ============================================================
-# DISPLAY SELECTED VISUALIZATION
+# VISUALIZATION + BUSINESS INSIGHT
 # ============================================================
 
 if image_path.exists():
 
-    # Smaller centered visualization
     left, center, right = st.columns([1.5, 2, 1.5])
 
     with center:
 
         st.markdown(
-            f"""
-            <div style="
-                text-align: center;
-                font-size: 16px;
-                font-weight: 600;
-                margin-bottom: 5px;
-            ">
-                {selected_visualization}
-            </div>
-            """,
+            f'<div class="subsection-heading" style="text-align:center;">'
+            f'{selected_visualization}'
+            f'</div>',
             unsafe_allow_html=True
         )
 
@@ -885,57 +873,144 @@ else:
 
 
 # ============================================================
+# BUSINESS INSIGHT
+# ============================================================
+
+st.markdown(
+    f"""
+    <div class="target-box" style="margin-top:8px;">
+        <div class="target-name">
+            💡 Business Insight
+        </div>
+        <div class="target-description">
+            {business_insights[selected_visualization]}
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
+# SPACE BETWEEN SECTIONS
+# ============================================================
+
+st.markdown(
+    '<div class="section-spacer"></div>',
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
 # TEXT ENRICHMENT & LLM INTEGRATION
 # ============================================================
 
-st.divider()
-
-st.markdown("### 🤖 Text Enrichment & LLM Integration")
-
-st.caption(
-    "Enriching structured product metadata with semantic product descriptions "
-    "to introduce meaningful text features into the modeling pipeline."
+st.markdown(
+    """
+    <div class="section-container">
+        <div class="dataset-heading">
+            Text Enrichment & LLM Integration
+        </div>
+        <div class="section-caption">
+            Generating semantic product descriptions from structured metadata
+            to introduce richer product context into the modeling pipeline.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 
 # ============================================================
-# WHY TEXT ENRICHMENT?
+# WHY TEXT ENRICHMENT
 # ============================================================
 
-st.markdown("#### Why Text Enrichment?")
+st.markdown(
+    '<div class="subsection-heading" style="margin-top:18px;">Why Text Enrichment?</div>',
+    unsafe_allow_html=True
+)
 
-st.caption(
-    "The original dataset primarily identifies products using product_id, category_id, "
-    "category_code, and brand. Product ID and category ID are high-cardinality identifiers "
-    "and provide limited semantic information about what a product actually represents."
+st.markdown(
+    """
+    <div class="cleaning-note">
+        The original dataset identifies products primarily through
+        <b>product_id</b>, <b>category_id</b>, <b>category_code</b>, and
+        <b>brand</b>. Product ID and Category ID are high-cardinality identifiers
+        that identify an item but provide little semantic information about
+        what the product actually represents. Product descriptions were therefore
+        generated to introduce meaningful product-level context.
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 
 # ============================================================
-# APPROACH
+# LLM ENRICHMENT APPROACH
 # ============================================================
 
-col1, col2, col3 = st.columns(3)
+st.markdown(
+    '<div class="subsection-heading" style="margin-top:18px;">LLM Enrichment Approach</div>',
+    unsafe_allow_html=True
+)
+
+col1, col2, col3 = st.columns(3, gap="large")
+
 
 with col1:
-    st.markdown("**① Product Metadata**")
-    st.caption(
-        "Combined available product, brand, and category information to create "
-        "a structured representation of each product."
+
+    st.markdown(
+        '<div class="feature-group-label">01 · PRODUCT METADATA</div>',
+        unsafe_allow_html=True
     )
+
+    st.markdown(
+        """
+        <div class="cleaning-note">
+            Combined available Product ID, Brand, Category Code,
+            and category hierarchy information to create a structured
+            representation of each product.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 with col2:
-    st.markdown("**② LLM Enrichment**")
-    st.caption(
-        "Used the OpenAI API to generate concise product descriptions that capture "
-        "semantic meaning beyond numerical identifiers."
+
+    st.markdown(
+        '<div class="feature-group-label">02 · LLM ENRICHMENT</div>',
+        unsafe_allow_html=True
     )
 
+    st.markdown(
+        """
+        <div class="cleaning-note">
+            Used the <b>OpenAI API</b> to transform structured product
+            metadata into concise natural-language product descriptions
+            containing richer semantic information.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
 with col3:
-    st.markdown("**③ Text Features**")
-    st.caption(
-        "Converted generated descriptions into numerical features using TF-IDF "
-        "for downstream machine-learning experiments."
+
+    st.markdown(
+        '<div class="feature-group-label">03 · TEXT FEATURES</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div class="cleaning-note">
+            Generated descriptions were transformed using
+            <b>TF-IDF vectorization</b>, converting semantic product
+            information into numerical features for ML experimentation.
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
 
@@ -943,54 +1018,100 @@ with col3:
 # PIPELINE
 # ============================================================
 
-st.markdown("#### Enrichment Pipeline")
+st.markdown(
+    '<div class="subsection-heading" style="margin-top:22px;">Enrichment Pipeline</div>',
+    unsafe_allow_html=True
+)
 
-st.code(
-    "Product ID + Brand + Category Metadata  →  OpenAI LLM  →  Product Description  →  TF-IDF  →  ML Features",
-    language=None
+st.markdown(
+    """
+    <div class="target-box" style="margin-top:5px;">
+        <div class="target-description" style="text-align:center;">
+            <b>Product Metadata</b>
+            &nbsp; → &nbsp;
+            <b>OpenAI LLM</b>
+            &nbsp; → &nbsp;
+            <b>Product Description</b>
+            &nbsp; → &nbsp;
+            <b>TF-IDF</b>
+            &nbsp; → &nbsp;
+            <b>ML Features</b>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 
 # ============================================================
-# WHY LLM?
+# WHY OPENAI
 # ============================================================
 
-st.markdown("#### Why an LLM?")
+st.markdown(
+    '<div class="subsection-heading" style="margin-top:20px;">Why OpenAI?</div>',
+    unsafe_allow_html=True
+)
 
-st.caption(
-    "A lightweight, cost-efficient OpenAI model was selected because the task required "
-    "large-scale generation of short and structured product descriptions rather than "
-    "complex reasoning. This reduced enrichment cost while still providing sufficient "
-    "semantic context for NLP feature engineering."
+st.markdown(
+    """
+    <div class="cleaning-note">
+        A <b>cost-efficient OpenAI model</b> was selected because this task
+        required large-scale generation of short, structured product descriptions
+        rather than complex reasoning. A lightweight model provided the semantic
+        quality required for text enrichment while reducing API cost and inference
+        overhead across thousands of unique products.
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 
 # ============================================================
-# EXAMPLE
+# EXAMPLE ENRICHMENT
 # ============================================================
 
-st.markdown("#### Example")
+st.markdown(
+    '<div class="subsection-heading" style="margin-top:20px;">Example Enrichment</div>',
+    unsafe_allow_html=True
+)
 
-example_left, example_right = st.columns(2)
+example_left, example_right = st.columns(2, gap="large")
+
 
 with example_left:
 
-    st.markdown("**Original Product Metadata**")
-
-    st.code(
-        """Product ID: 1004856
-Category: electronics.smartphone
-Brand: Samsung""",
-        language=None
+    st.markdown(
+        '<div class="feature-group-label">STRUCTURED METADATA</div>',
+        unsafe_allow_html=True
     )
+
+    st.markdown(
+        """
+        <div class="cleaning-note">
+            <b>Product ID:</b> 1004856<br>
+            <b>Category:</b> electronics.smartphone<br>
+            <b>Brand:</b> Samsung
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 with example_right:
 
-    st.markdown("**LLM-Generated Description**")
+    st.markdown(
+        '<div class="feature-group-label">LLM-GENERATED DESCRIPTION</div>',
+        unsafe_allow_html=True
+    )
 
-    st.info(
-        "Samsung smartphone in the consumer electronics category, "
-        "designed for mobile communication and everyday digital use."
+    st.markdown(
+        """
+        <div class="cleaning-note">
+            Samsung smartphone in the consumer electronics category,
+            designed for mobile communication and everyday digital use.
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
 
@@ -998,10 +1119,28 @@ with example_right:
 # KEY TAKEAWAY
 # ============================================================
 
-st.markdown("#### 💡 Key Takeaway")
+st.markdown(
+    """
+    <div class="target-box">
+        <div class="target-name">
+            💡 Key Takeaway
+        </div>
+        <div class="target-description">
+            Text enrichment converts opaque product identifiers into semantic
+            product representations, allowing downstream models to capture
+            product context that Product ID and Category ID alone cannot provide.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-st.caption(
-    "Text enrichment transforms opaque product identifiers into semantic product "
-    "representations, enabling the modeling pipeline to capture product context "
-    "that product_id and category_id alone cannot provide."
+
+# ============================================================
+# SPACE BETWEEN SECTIONS
+# ============================================================
+
+st.markdown(
+    '<div class="section-spacer"></div>',
+    unsafe_allow_html=True
 )
