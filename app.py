@@ -805,7 +805,7 @@ space()
 # ============================================================
 
 section_title(
-    "Text Enrichment & LLM Integration",
+    "Product Description Generation - Text Generation + Enrichment",
     "Generating semantic product descriptions from structured metadata to introduce richer product context into the modeling pipeline."
 )
 
