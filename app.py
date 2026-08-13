@@ -2184,6 +2184,7 @@ at lower probabilities. The overlap between the distributions represents
 observations that remain difficult for the model to distinguish.
 """
 )
+
 # ============================================================
 # XGBOOST — GRADIENT BOOSTING MODEL
 # ============================================================
@@ -2219,6 +2220,7 @@ with config_col1:
         unsafe_allow_html=True
     )
 
+
 with config_col2:
 
     pill("MAX DEPTH")
@@ -2228,6 +2230,7 @@ with config_col2:
         unsafe_allow_html=True
     )
 
+
 with config_col3:
 
     pill("LEARNING RATE")
@@ -2236,6 +2239,7 @@ with config_col3:
         '<div class="content-heading">0.10</div>',
         unsafe_allow_html=True
     )
+
 
 with config_col4:
 
@@ -2250,6 +2254,11 @@ with config_col4:
 # ============================================================
 # ADDITIONAL MODEL SETTINGS
 # ============================================================
+
+st.markdown(
+    '<div class="small-space"></div>',
+    unsafe_allow_html=True
+)
 
 xgb_config = pd.DataFrame({
     "Parameter": [
@@ -2281,18 +2290,6 @@ st.dataframe(
 # MODEL-SPECIFIC PREPROCESSING
 # ============================================================
 
-st.info(
-    """
-**No Feature Scaling**
-
-Numerical features were **not standardized** for XGBoost because
-tree-based boosting learns threshold-based splits and does not require
-features to share a common numerical scale.
-
-Training performance was monitored on the **validation set**, keeping
-the test set untouched until final evaluation.
-"""
-)
 
 
 # ============================================================
@@ -2312,13 +2309,6 @@ metric_cards([
     ("📉", "0.2649", "PR-AUC")
 ])
 
-st.info(
-    """
-**Initial Performance:** XGBoost achieved **0.2649 PR-AUC** and
-**27.19% F1 Score**, providing the strongest PR-AUC among the
-initial model experiments.
-"""
-)
 
 
 # ============================================================
@@ -2490,6 +2480,7 @@ with tune_col1:
         unsafe_allow_html=True
     )
 
+
 with tune_col2:
 
     pill("LEARNING RATE")
@@ -2498,6 +2489,7 @@ with tune_col2:
         '<div class="content-heading">0.05 · 0.10</div>',
         unsafe_allow_html=True
     )
+
 
 with tune_col3:
 
@@ -2588,16 +2580,6 @@ st.dataframe(
 # SELECTED CONFIGURATION
 # ============================================================
 
-st.info(
-    """
-**Selected Configuration**
-
-`max_depth = 8` · `learning_rate = 0.05` · `n_estimators = 300`
-
-This configuration achieved the highest **validation PR-AUC of 0.2771**,
-with **54.36% Recall** and **27.30% F1 Score**.
-"""
-)
 
 
 # ============================================================
@@ -2713,7 +2695,7 @@ cart-to-view ratio**.
 
 
 # ============================================================
-# LOCAL EXPLAINABILITY
+# LOCAL EXPLAINABILITY — SHAP
 # ============================================================
 
 space()
@@ -2723,79 +2705,81 @@ subsection("Local Explainability — SHAP")
 st.markdown(
     """
     Local SHAP waterfall plots show how individual feature values move
-    a prediction away from the baseline toward either purchase or
-    no purchase.
+    predictions away from the model baseline toward either purchase
+    or no purchase.
     """
 )
 
-
-# ============================================================
-# LOCAL SHAP EXAMPLE 1
-# ============================================================
-
-pill("EXAMPLE 1 · NO PURCHASE")
-
-example_1_image = (
-    IMAGE_DIR /
-    "xgb-example 1.png"
+example_col1, example_col2 = st.columns(
+    2,
+    gap="large"
 )
 
-if example_1_image.exists():
 
-    left, center, right = st.columns(
-        [1, 2, 1]
+# ============================================================
+# EXAMPLE 1
+# ============================================================
+
+with example_col1:
+
+    pill("EXAMPLE 1 · NO PURCHASE")
+
+    example_1_image = (
+        IMAGE_DIR /
+        "xgb-example 1.png"
     )
 
-    with center:
+    if example_1_image.exists():
 
         st.image(
             str(example_1_image),
-            width=650
+            use_container_width=True
         )
 
-else:
+    else:
 
-    st.warning(
-        f"Image not found: {example_1_image.name}"
-    )
+        st.warning(
+            f"Image not found: {example_1_image.name}"
+        )
 
 
 # ============================================================
-# LOCAL SHAP EXAMPLE 2
+# EXAMPLE 2
 # ============================================================
 
-pill("EXAMPLE 2 · HIGHER PURCHASE INTENT")
+with example_col2:
 
-example_2_image = (
-    IMAGE_DIR /
-    "xgb-example 2.png"
-)
+    pill("EXAMPLE 2 · HIGHER PURCHASE INTENT")
 
-if example_2_image.exists():
-
-    left, center, right = st.columns(
-        [1, 2, 1]
+    example_2_image = (
+        IMAGE_DIR /
+        "xgb-example 2.png"
     )
 
-    with center:
+    if example_2_image.exists():
 
         st.image(
             str(example_2_image),
-            width=650
+            use_container_width=True
         )
 
-else:
+    else:
 
-    st.warning(
-        f"Image not found: {example_2_image.name}"
-    )
+        st.warning(
+            f"Image not found: {example_2_image.name}"
+        )
 
+
+# ============================================================
+# SHAP INTERPRETATION
+# ============================================================
 
 st.info(
     """
 **Reading SHAP:** Positive SHAP values push the prediction toward
-**Purchase**, while negative SHAP values push it toward **No Purchase**.
-Larger absolute SHAP values indicate stronger influence on the prediction.
+**Purchase**, while negative SHAP values push the prediction toward
+**No Purchase**. Larger absolute SHAP values indicate stronger influence
+on the individual prediction.
 """
 )
 
@@ -2868,17 +2852,6 @@ st.dataframe(
     hide_index=True
 )
 
-
-st.info(
-    """
-**Local Interpretation:** The baseline purchase probability was
-**50.75%**, while the final predicted probability decreased to
-**10.42%**.
-
-`brand = masei` was the strongest negative contributor, accounting
-for **37.62% of the total absolute SHAP impact** for this prediction.
-"""
-)
 
 
 # ============================================================
