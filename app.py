@@ -62,20 +62,20 @@ st.markdown("""
 
 
 /* ------------------------------------------------------------
-   DATASET INFORMATION HEADING
+   SECTION HEADINGS
 ------------------------------------------------------------ */
 
 .dataset-heading {
     font-size: 24px;
     font-weight: 700;
     color: #E72F3D;
-    margin-top: 5px;
+    margin-top: 12px;
     margin-bottom: 2px;
 }
 
 
 /* ------------------------------------------------------------
-   DATASET KPI INFORMATION
+   KPI INFORMATION
 ------------------------------------------------------------ */
 
 .metric-card {
@@ -103,6 +103,30 @@ st.markdown("""
     font-size: 10px;
     color: #777777;
     margin-top: 2px;
+}
+
+
+/* ------------------------------------------------------------
+   SMALL SUBSECTION HEADINGS
+------------------------------------------------------------ */
+
+.subsection-heading {
+    font-size: 15px;
+    font-weight: 700;
+    color: #E72F3D;
+    margin-bottom: 8px;
+}
+
+
+/* ------------------------------------------------------------
+   CLEANING NOTE
+------------------------------------------------------------ */
+
+.cleaning-note {
+    font-size: 11px;
+    color: #666666;
+    margin-top: 10px;
+    line-height: 1.6;
 }
 
 </style>
@@ -134,8 +158,6 @@ st.caption(
 # DATASET INFORMATION
 # ============================================================
 
-st.divider()
-
 st.markdown(
     '<div class="dataset-heading">Dataset Information</div>',
     unsafe_allow_html=True
@@ -144,6 +166,8 @@ st.markdown(
 st.caption(
     "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions."
 )
+
+st.divider()
 
 
 # ============================================================
@@ -166,6 +190,7 @@ for col, (icon, value, label) in zip(
     cards_row1
 ):
     with col:
+
         st.markdown(
             f"""
             <div class="metric-card">
@@ -173,7 +198,10 @@ for col, (icon, value, label) in zip(
                     <span class="metric-icon">{icon}</span>
                     <span class="metric-value">{value}</span>
                 </div>
-                <div class="metric-label">{label}</div>
+
+                <div class="metric-label">
+                    {label}
+                </div>
             </div>
             """,
             unsafe_allow_html=True
@@ -184,21 +212,21 @@ for col, (icon, value, label) in zip(
 # ROW 2 — DATASET INFORMATION
 # ============================================================
 
-c1, c2, c3, c4, c5 = st.columns(5)
+c1, c2, c3, c4 = st.columns(4)
 
 cards_row2 = [
     ("🔢", "9", "Initial Features"),
     ("📅", "1 Month", "Dataset Period"),
     ("🧭", "4", "Category Levels"),
-    ("⚠️", "30,220", "Duplicates · 0.07%"),
     ("👆", "3", "Event Types · View · Cart · Purchase")
 ]
 
 for col, (icon, value, label) in zip(
-    [c1, c2, c3, c4, c5],
+    [c1, c2, c3, c4],
     cards_row2
 ):
     with col:
+
         st.markdown(
             f"""
             <div class="metric-card">
@@ -206,17 +234,19 @@ for col, (icon, value, label) in zip(
                     <span class="metric-icon">{icon}</span>
                     <span class="metric-value">{value}</span>
                 </div>
-                <div class="metric-label">{label}</div>
+
+                <div class="metric-label">
+                    {label}
+                </div>
             </div>
             """,
             unsafe_allow_html=True
         )
 
+
 # ============================================================
 # DATA QUALITY & CLEANING
 # ============================================================
-
-st.divider()
 
 st.markdown(
     '<div class="dataset-heading">Data Quality & Cleaning</div>',
@@ -227,103 +257,68 @@ st.caption(
     "Assessment of missing values, recoverable product metadata, and duplicate records."
 )
 
-
-# ============================================================
-# CALCULATE MISSING VALUES
-# ============================================================
-
-total_records = len(df)
-
-missing_count = df.isnull().sum()
-missing_pct = (missing_count / total_records) * 100
-
-missing_table = (
-    missing_count[missing_count > 0]
-    .reset_index()
-)
-
-missing_table.columns = [
-    "Column",
-    "Missing Records"
-]
-
-missing_table["Missing %"] = (
-    missing_table["Missing Records"] / total_records * 100
-).round(2)
-
-missing_table["Missing Records"] = (
-    missing_table["Missing Records"]
-    .map(lambda x: f"{x:,}")
-)
-
-missing_table["Missing %"] = (
-    missing_table["Missing %"]
-    .map(lambda x: f"{x:.2f}%")
-)
+st.divider()
 
 
 # ============================================================
-# RECOVERABLE BRAND ANALYSIS
+# STATIC DATA — NO LARGE DATASET REQUIRED
 # ============================================================
 
-product_brand_lookup = (
-    df.dropna(subset=["brand"])
-    .groupby("product_id")["brand"]
-    .agg(lambda x: x.mode().iloc[0])
-)
+missing_table = pd.DataFrame({
+    "Column": [
+        "category_code",
+        "brand",
+        "user_session"
+    ],
 
-missing_brand_mask = df["brand"].isna()
+    "Missing Records": [
+        "13,515,609",
+        "6,117,080",
+        "2"
+    ],
 
-recoverable_brand_mask = (
-    missing_brand_mask
-    & df["product_id"].isin(product_brand_lookup.index)
-)
-
-missing_brand_records = missing_brand_mask.sum()
-
-recoverable_brand_records = recoverable_brand_mask.sum()
-
-recoverable_brand_pct = (
-    recoverable_brand_records / missing_brand_records * 100
-    if missing_brand_records > 0
-    else 0
-)
+    "Missing %": [
+        "31.84%",
+        "14.41%",
+        "0.00%"
+    ]
+})
 
 
-# ============================================================
-# DUPLICATE ANALYSIS
-# ============================================================
+brand_recovery_table = pd.DataFrame({
+    "Metric": [
+        "Missing Before Recovery",
+        "Recovered Brand Values",
+        "Remaining Missing",
+        "Recovery Rate"
+    ],
 
-duplicate_count = df.duplicated().sum()
-
-duplicate_percentage = (
-    duplicate_count / total_records
-) * 100
-
-unique_records = total_records - duplicate_count
+    "Value": [
+        "6,117,080",
+        "172,423",
+        "5,944,657",
+        "2.82%"
+    ]
+})
 
 
 duplicate_table = pd.DataFrame({
     "Metric": [
-        "Total Records",
         "Duplicate Records",
-        "Unique Records"
+        "Duplicate Rate",
+        "Treatment"
     ],
-    "Records": [
-        f"{total_records:,}",
-        f"{duplicate_count:,}",
-        f"{unique_records:,}"
-    ],
-    "Percentage": [
-        "100.00%",
-        f"{duplicate_percentage:.2f}%",
-        f"{100 - duplicate_percentage:.2f}%"
+
+    "Value": [
+        "30,220",
+        "0.07%",
+        "Removed"
     ]
 })
 
 
 # ============================================================
-# SIDE-BY-SIDE ANALYSIS
+# SIDE-BY-SIDE DATA QUALITY ANALYSIS
 # ============================================================
 
 left, right = st.columns(2)
@@ -336,16 +331,7 @@ left, right = st.columns(2)
 with left:
 
     st.markdown(
-        """
-        <div style="
-            font-size:15px;
-            font-weight:700;
-            color:#E72F3D;
-            margin-bottom:8px;
-        ">
-        Missing Value Analysis
-        </div>
-        """,
+        '<div class="subsection-heading">Missing Value Analysis</div>',
         unsafe_allow_html=True
     )
 
@@ -355,28 +341,30 @@ with left:
         hide_index=True
     )
 
+
+    # ========================================================
+    # BRAND RECOVERY
+    # ========================================================
+
     st.markdown(
-        f"""
-        <div style="
-            font-size:12px;
-            margin-top:10px;
-            line-height:1.7;
-        ">
-        <b>Brand Recovery:</b><br>
-        Missing Brand Records:
-        <span style="color:#E72F3D; font-weight:700;">
-        {missing_brand_records:,}
-        </span><br>
+        '<div class="subsection-heading" style="margin-top:15px;">Brand Metadata Recovery</div>',
+        unsafe_allow_html=True
+    )
 
-        Recoverable Brand Records:
-        <span style="color:#E72F3D; font-weight:700;">
-        {recoverable_brand_records:,}
-        </span><br>
+    st.dataframe(
+        brand_recovery_table,
+        use_container_width=True,
+        hide_index=True
+    )
 
-        Recoverable:
-        <span style="color:#E72F3D; font-weight:700;">
-        {recoverable_brand_pct:.2f}%
-        </span>
+    st.markdown(
+        """
+        <div class="cleaning-note">
+            <b>Recovery Strategy:</b>
+            Missing brand values were recovered where a reliable brand
+            mapping existed for the same Product ID.
+            This restored <b>172,423 records (2.82%)</b> without assigning
+            synthetic brand information.
         </div>
         """,
         unsafe_allow_html=True
@@ -390,16 +378,7 @@ with left:
 with right:
 
     st.markdown(
-        """
-        <div style="
-            font-size:15px;
-            font-weight:700;
-            color:#E72F3D;
-            margin-bottom:8px;
-        ">
-        Duplicate Record Analysis
-        </div>
-        """,
+        '<div class="subsection-heading">Duplicate Record Analysis</div>',
         unsafe_allow_html=True
     )
 
@@ -411,15 +390,61 @@ with right:
 
     st.markdown(
         """
-        <div style="
-            font-size:12px;
-            color:#666666;
-            margin-top:10px;
-            line-height:1.6;
-        ">
-        <b>Treatment:</b> Exact duplicate interaction records were removed
-        before feature engineering and predictive modeling.
+        <div class="cleaning-note">
+            <b>Duplicate Treatment:</b>
+            30,220 exact duplicate interaction records were identified,
+            representing only <b>0.07%</b> of the dataset.
+            These records were removed before downstream analysis.
         </div>
         """,
         unsafe_allow_html=True
     )
+
+
+    # ========================================================
+    # MISSING VALUE DECISIONS
+    # ========================================================
+
+    st.markdown(
+        '<div class="subsection-heading" style="margin-top:15px;">Missing Value Treatment</div>',
+        unsafe_allow_html=True
+    )
+
+    treatment_table = pd.DataFrame({
+        "Data Issue": [
+            "Brand",
+            "Category Code",
+            "User Session"
+        ],
+
+        "Treatment": [
+            "Recover using Product ID",
+            "Retain / handle downstream",
+            "Remove 2 records"
+        ]
+    })
+
+    st.dataframe(
+        treatment_table,
+        use_container_width=True,
+        hide_index=True
+    )
+
+
+# ============================================================
+# DATA QUALITY SUMMARY
+# ============================================================
+
+st.markdown(
+    """
+    <div class="cleaning-note" style="margin-top:15px;">
+        <b>Data Quality Decision:</b>
+        Missing metadata was recovered only when a reliable product-level
+        mapping was available. Unrecoverable values were preserved as missing
+        rather than introducing potentially incorrect information. Duplicate
+        records and the two records without a valid user session were removed
+        before feature engineering and predictive modeling.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
