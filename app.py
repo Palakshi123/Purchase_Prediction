@@ -3122,15 +3122,6 @@ else:
     )
 
 
-st.info(
-    """
-**Selected Threshold · 0.70**
-
-Validation F1 reached its maximum of **32.04%** at a threshold of
-**0.70**, balancing **32.75% precision** with **31.37% recall**.
-"""
-)
-
 
 # ============================================================
 # FINAL TEST PERFORMANCE
