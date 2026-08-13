@@ -448,6 +448,16 @@ st.markdown(
 
 
 # ============================================================
+# SPACE BETWEEN MAJOR SECTIONS
+# ============================================================
+
+st.markdown(
+    '<div class="section-spacer"></div>',
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
 # FEATURE ENGINEERING
 # ============================================================
 
@@ -467,6 +477,31 @@ st.markdown(
 
 
 # ============================================================
+# FEATURE ENGINEERING SUMMARY
+# ============================================================
+
+c1, c2, c3, c4, c5 = st.columns(5)
+
+feature_summary = [
+    ("🧩", "33", "Total Features Created"),
+    ("🕒", "12", "Temporal Features"),
+    ("👆", "7", "Behavioral Features"),
+    ("⚡", "9", "Session Features"),
+    ("🎯", "5", "Purchase Intent Features")
+]
+
+for col, (icon, value, label) in zip(
+    [c1, c2, c3, c4, c5],
+    feature_summary
+):
+    with col:
+        st.markdown(
+            f'<div class="metric-card"><span class="metric-icon">{icon}</span><span class="metric-value">{value}</span><div class="metric-label">{label}</div></div>',
+            unsafe_allow_html=True
+        )
+
+
+# ============================================================
 # FEATURE ENGINEERING TABLES
 # ============================================================
 
@@ -480,33 +515,41 @@ feature_col1, feature_col2 = st.columns(2)
 with feature_col1:
 
     # --------------------------------------------------------
-    # EVENT TIME FEATURES
+    # TEMPORAL FEATURES
     # --------------------------------------------------------
 
     st.markdown(
-        '<div class="subsection-heading">🕒 Event Time Features</div>',
+        '<div class="subsection-heading">🕒 Temporal Features</div>',
         unsafe_allow_html=True
     )
 
     time_features = pd.DataFrame({
         "Feature": [
             "year",
-            "month / month_name",
-            "day / date",
-            "hour / minute",
+            "month",
+            "day",
+            "hour",
+            "minute",
             "day_of_week",
+            "day_of_week_num",
             "is_weekend",
+            "date",
+            "month_name",
             "week_of_year",
             "is_evening"
         ],
         "Purpose": [
             "Year-level activity",
-            "Monthly behavior patterns",
-            "Daily interaction trends",
-            "Time-of-day behavior",
-            "Weekday behavior",
+            "Monthly behavior",
+            "Daily behavior",
+            "Hourly shopping patterns",
+            "Minute-level timing",
+            "Day-specific behavior",
+            "Numeric weekday representation",
             "Weekend activity indicator",
-            "Weekly behavioral patterns",
+            "Date-level trends",
+            "Readable month grouping",
+            "Weekly behavioral trends",
             "Evening shopping indicator"
         ]
     })
@@ -539,9 +582,9 @@ with feature_col1:
         ],
         "Purpose": [
             "Session activity depth",
-            "Cumulative product views",
+            "Cumulative views",
             "Cumulative cart actions",
-            "Cart conversion tendency",
+            "Cart-to-view conversion tendency",
             "Repeated product interest",
             "Category engagement",
             "Brand engagement"
@@ -566,7 +609,7 @@ with feature_col2:
     # --------------------------------------------------------
 
     st.markdown(
-        '<div class="subsection-heading">⚡ Session & Intensity Features</div>',
+        '<div class="subsection-heading">⚡ Session Features</div>',
         unsafe_allow_html=True
     )
 
@@ -575,19 +618,23 @@ with feature_col2:
             "session_start",
             "elapsed_seconds",
             "previous_event",
+            "previous_event_time",
             "seconds_since_previous_event",
             "session_activity_rate",
             "cart_intensity",
-            "engagement_intensity"
+            "engagement_intensity",
+            "fast_session"
         ],
         "Purpose": [
             "Session starting timestamp",
-            "Time elapsed within session",
+            "Elapsed session duration",
             "Previous customer action",
+            "Previous interaction timestamp",
             "Time between interactions",
             "Interaction speed",
             "Cart activity concentration",
-            "Weighted engagement level"
+            "Weighted engagement level",
+            "Short-session indicator"
         ]
     })
 
@@ -612,15 +659,15 @@ with feature_col2:
             "repeat_product_view",
             "previous_event_cart",
             "view_after_cart",
-            "fast_session",
-            "high_intent_no_cart"
+            "high_intent_no_cart",
+            "purchase_later"
         ],
         "Purpose": [
             "Repeated product consideration",
             "Recent cart intent",
             "Post-cart browsing behavior",
-            "High-speed session indicator",
-            "High views without cart action"
+            "High views without cart action",
+            "Future purchase target"
         ]
     })
 
@@ -629,31 +676,3 @@ with feature_col2:
         use_container_width=True,
         hide_index=True
     )
-
-
-# ============================================================
-# TARGET CREATION
-# ============================================================
-
-st.markdown(
-    '<div class="subsection-heading" style="margin-top:14px;">🎯 Target Variable</div>',
-    unsafe_allow_html=True
-)
-
-target_table = pd.DataFrame({
-    "Target": [
-        "purchase_later"
-    ],
-    "Definition": [
-        "1 if a purchase occurs later within the same user session; otherwise 0"
-    ],
-    "Prediction Goal": [
-        "Predict future purchase intent using behavior observed up to the current interaction"
-    ]
-})
-
-st.dataframe(
-    target_table,
-    use_container_width=True,
-    hide_index=True
-)
