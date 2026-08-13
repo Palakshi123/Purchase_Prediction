@@ -2788,3 +2788,528 @@ can prioritize high-intent sessions.
 )
 
 space()
+
+# ============================================================
+# LIGHTGBM — GRADIENT BOOSTING MODEL
+# ============================================================
+
+space()
+
+subsection("LightGBM — Gradient Boosting Model")
+
+st.markdown(
+    """
+    LightGBM was evaluated as an efficient gradient boosting model
+    for capturing nonlinear purchase-intent patterns while accounting
+    for the highly imbalanced target.
+    """
+)
+
+
+# ============================================================
+# MODEL CONFIGURATION
+# ============================================================
+
+config_col1, config_col2, config_col3, config_col4 = st.columns(
+    4,
+    gap="large"
+)
+
+with config_col1:
+
+    pill("TREES")
+
+    st.markdown(
+        '<div class="content-heading">300 Estimators</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col2:
+
+    pill("LEARNING RATE")
+
+    st.markdown(
+        '<div class="content-heading">0.05</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col3:
+
+    pill("LEAVES")
+
+    st.markdown(
+        '<div class="content-heading">31</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col4:
+
+    pill("CLASS WEIGHT")
+
+    st.markdown(
+        '<div class="content-heading">11.94</div>',
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# MODEL SETTINGS
+# ============================================================
+
+lgbm_config = pd.DataFrame({
+
+    "Parameter": [
+        "Estimators",
+        "Learning Rate",
+        "Number of Leaves",
+        "Minimum Child Samples",
+        "Subsample",
+        "Features / Tree",
+        "L1 Regularization",
+        "L2 Regularization",
+        "Class Imbalance",
+        "Evaluation Metric"
+    ],
+
+    "Value": [
+        "300",
+        "0.05",
+        "31",
+        "100",
+        "80%",
+        "80%",
+        "0.1",
+        "1.0",
+        "scale_pos_weight = 11.94",
+        "Average Precision / PR-AUC"
+    ]
+})
+
+st.dataframe(
+    lgbm_config,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# CLASS IMBALANCE
+# ============================================================
+
+space()
+
+subsection("Class Imbalance Handling")
+
+imbalance_col1, imbalance_col2, imbalance_col3 = st.columns(
+    3,
+    gap="large"
+)
+
+with imbalance_col1:
+
+    pill("NO PURCHASE")
+
+    st.markdown(
+        '<div class="content-heading">4,071,663</div>',
+        unsafe_allow_html=True
+    )
+
+
+with imbalance_col2:
+
+    pill("PURCHASE")
+
+    st.markdown(
+        '<div class="content-heading">341,073</div>',
+        unsafe_allow_html=True
+    )
+
+
+with imbalance_col3:
+
+    pill("PURCHASE RATE")
+
+    st.markdown(
+        '<div class="content-heading">7.73%</div>',
+        unsafe_allow_html=True
+    )
+
+
+st.info(
+    """
+The training data was highly imbalanced, with purchases representing
+only **7.73%** of observations. A **scale_pos_weight of 11.94** was
+applied to increase the influence of the minority purchase class
+during model training.
+"""
+)
+
+
+# ============================================================
+# VALIDATION PERFORMANCE
+# ============================================================
+
+space()
+
+subsection("Validation Performance")
+
+st.markdown(
+    """
+    Model performance was monitored on the **validation set** using
+    Average Precision, while the test set remained untouched during
+    model development and threshold selection.
+    """
+)
+
+
+training_summary = pd.DataFrame({
+
+    "Trees": [
+        25,
+        50,
+        100,
+        150,
+        200,
+        250,
+        300
+    ],
+
+    "Validation PR-AUC": [
+        0.2568,
+        0.2685,
+        0.2735,
+        0.2753,
+        0.2762,
+        0.2763,
+        0.2768
+    ]
+})
+
+st.dataframe(
+    training_summary,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# THRESHOLD OPTIMIZATION
+# ============================================================
+
+space()
+
+subsection("Classification Threshold Optimization")
+
+st.markdown(
+    """
+    Classification thresholds from **0.10 to 0.90** were evaluated
+    using the validation set. The threshold maximizing **F1 Score**
+    was selected before final test evaluation.
+    """
+)
+
+
+threshold_col1, threshold_col2, threshold_col3 = st.columns(
+    3,
+    gap="large"
+)
+
+with threshold_col1:
+
+    pill("DEFAULT")
+
+    st.markdown(
+        '<div class="content-heading">0.50</div>',
+        unsafe_allow_html=True
+    )
+
+
+with threshold_col2:
+
+    pill("SELECTED")
+
+    st.markdown(
+        '<div class="content-heading">0.70</div>',
+        unsafe_allow_html=True
+    )
+
+
+with threshold_col3:
+
+    pill("VALIDATION F1")
+
+    st.markdown(
+        '<div class="content-heading">32.04%</div>',
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# THRESHOLD RESULTS
+# ============================================================
+
+threshold_results = pd.DataFrame({
+
+    "Threshold": [
+        0.50,
+        0.55,
+        0.60,
+        0.65,
+        0.70,
+        0.75,
+        0.80
+    ],
+
+    "Precision": [
+        "17.97%",
+        "21.50%",
+        "25.60%",
+        "29.18%",
+        "32.75%",
+        "36.09%",
+        "42.30%"
+    ],
+
+    "Recall": [
+        "55.69%",
+        "47.14%",
+        "40.33%",
+        "35.24%",
+        "31.37%",
+        "28.04%",
+        "23.15%"
+    ],
+
+    "F1 Score": [
+        "27.18%",
+        "29.53%",
+        "31.32%",
+        "31.92%",
+        "32.04%",
+        "31.56%",
+        "29.92%"
+    ]
+})
+
+st.dataframe(
+    threshold_results,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# THRESHOLD SELECTION IMAGE
+# Exact filename: lightgbm-threshold.png
+# ============================================================
+
+threshold_image = (
+    IMAGE_DIR /
+    "lightgbm-threshold.png"
+)
+
+if threshold_image.exists():
+
+    left, center, right = st.columns(
+        [0.65, 2.7, 0.65]
+    )
+
+    with center:
+
+        st.image(
+            str(threshold_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {threshold_image.name}"
+    )
+
+
+st.info(
+    """
+**Selected Threshold · 0.70**
+
+Validation F1 reached its maximum of **32.04%** at a threshold of
+**0.70**, balancing **32.75% precision** with **31.37% recall**.
+"""
+)
+
+
+# ============================================================
+# FINAL TEST PERFORMANCE
+# ============================================================
+
+space()
+
+subsection("Final Test Performance")
+
+metric_cards([
+    ("📊", "90.08%", "Accuracy"),
+    ("🎯", "33.55%", "Precision"),
+    ("🔎", "29.14%", "Recall"),
+    ("⚖️", "31.19%", "F1 Score"),
+    ("📈", "0.7240", "ROC-AUC"),
+    ("📉", "0.2640", "PR-AUC")
+])
+
+
+st.info(
+    """
+At the validation-selected **0.70 threshold**, LightGBM achieved
+**33.55% precision**, **29.14% recall**, and **31.19% F1 Score**
+on the untouched test set.
+"""
+)
+
+
+# ============================================================
+# PREDICTED PROBABILITY DISTRIBUTION
+# Exact filename: lightgbm-purchase pro.png
+# ============================================================
+
+space()
+
+subsection("Predicted Probability Distribution")
+
+st.markdown(
+    """
+    The probability distribution shows how predicted purchase scores
+    differ between actual purchasers and non-purchasers relative to
+    the selected classification threshold.
+    """
+)
+
+
+probability_image = (
+    IMAGE_DIR /
+    "lightgbm-purchase pro.png"
+)
+
+if probability_image.exists():
+
+    left, center, right = st.columns(
+        [0.65, 2.7, 0.65]
+    )
+
+    with center:
+
+        st.image(
+            str(probability_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {probability_image.name}"
+    )
+
+
+st.markdown(
+    """
+Actual purchases are more concentrated in the higher predicted
+probability range, while non-purchases are concentrated primarily
+below the **0.70 classification threshold**.
+"""
+)
+
+
+# ============================================================
+# MODEL COMPARISON
+# ============================================================
+
+space()
+
+subsection("Model Comparison")
+
+comparison_df = pd.DataFrame({
+
+    "Model": [
+        "Logistic Regression",
+        "Decision Tree",
+        "Random Forest",
+        "XGBoost",
+        "LightGBM"
+    ],
+
+    "Accuracy": [
+        "71.36%",
+        "77.34%",
+        "79.73%",
+        "79.92%",
+        "90.08%"
+    ],
+
+    "Precision": [
+        "14.20%",
+        "17.17%",
+        "18.76%",
+        "18.87%",
+        "33.55%"
+    ],
+
+    "Recall": [
+        "53.80%",
+        "50.68%",
+        "48.85%",
+        "48.59%",
+        "29.14%"
+    ],
+
+    "F1 Score": [
+        "22.47%",
+        "25.65%",
+        "27.11%",
+        "27.19%",
+        "31.19%"
+    ],
+
+    "ROC-AUC": [
+        "0.6901",
+        "0.7046",
+        "0.7162",
+        "0.7156",
+        "0.7240"
+    ],
+
+    "PR-AUC": [
+        "0.2264",
+        "0.2546",
+        "0.2595",
+        "0.2649",
+        "0.2640"
+    ]
+})
+
+st.dataframe(
+    comparison_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# MODEL TAKEAWAY
+# ============================================================
+
+st.info(
+    """
+**LightGBM Performance**
+
+LightGBM achieved the highest **ROC-AUC (0.7240)** and
+**F1 Score (31.19%)** among the evaluated models.
+
+XGBoost retained a marginally higher **PR-AUC
+(0.2649 vs. 0.2640)**, while LightGBM's validation-optimized
+**0.70 threshold** produced a stronger precision–recall balance
+for binary classification.
+"""
+)
+
+space()
