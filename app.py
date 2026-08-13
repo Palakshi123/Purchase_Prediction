@@ -6,38 +6,69 @@ st.set_page_config(
     layout="wide"
 )
 
-# Rocket Logo
-st.image("images.png", width=280)
+# ============================================================
+# STYLING
+# ============================================================
 
-# Rocket Red Styling
 st.markdown("""
 <style>
-.main-title {
+
+.rocket-title {
     color: #E72F3D;
-    font-size: 48px;
+    font-size: 46px;
     font-weight: 700;
-    margin-bottom: 0px;
+    line-height: 1.1;
+    margin-top: 20px;
 }
 
-.subtitle {
-    font-size: 25px;
+.rocket-subtitle {
+    font-size: 24px;
     font-weight: 500;
-    margin-top: 0px;
+    margin-top: 8px;
 }
+
+.description {
+    font-size: 16px;
+    color: #666666;
+    margin-top: 8px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
-# Title
-st.markdown(
-    '<div class="main-title">Will This Session Convert?</div>',
-    unsafe_allow_html=True
-)
 
-st.markdown(
-    '<div class="subtitle">Predicting Purchase Intent</div>',
-    unsafe_allow_html=True
-)
+# ============================================================
+# HEADER
+# ============================================================
 
-st.caption(
-    "Will a purchase happen before the current user session ends?"
-)
+left, right = st.columns([3, 1])
+
+
+# LEFT — TITLE
+with left:
+
+    st.markdown(
+        '<div class="rocket-title">Will This Session Convert?</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="rocket-subtitle">Predicting Purchase Intent</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="description">'
+        'Will a purchase happen before the current user session ends?'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+
+# RIGHT — ROCKET LOGO
+with right:
+
+    st.image(
+        "images.png",
+        width=250
+    )
