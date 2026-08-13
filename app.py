@@ -33,8 +33,6 @@ IMAGE_DIR = BASE_DIR / "images"
 st.markdown("""
 <style>
 
-/* PAGE */
-
 .block-container {
     padding-top: 1.6rem;
     padding-bottom: 3rem;
@@ -42,9 +40,6 @@ st.markdown("""
     padding-right: 3rem;
     max-width: 100%;
 }
-
-
-/* GLOBAL TYPOGRAPHY */
 
 html, body, [class*="css"] {
     font-family: "Source Sans Pro", sans-serif;
@@ -54,9 +49,6 @@ p, li {
     font-size: 13px !important;
     line-height: 1.55 !important;
 }
-
-
-/* DASHBOARD HEADER */
 
 .dashboard-title {
     font-size: 26px;
@@ -88,9 +80,6 @@ p, li {
     margin-bottom: 5px;
 }
 
-
-/* SECTION TITLES */
-
 .section-title {
     font-size: 20px;
     font-weight: 700;
@@ -108,9 +97,6 @@ p, li {
     margin-bottom: 16px;
 }
 
-
-/* SUBSECTION TITLES */
-
 .subsection-title {
     font-size: 15px;
     font-weight: 700;
@@ -120,9 +106,6 @@ p, li {
     margin-bottom: 8px;
 }
 
-
-/* CONTENT HEADINGS */
-
 .content-heading {
     font-size: 14px;
     font-weight: 700;
@@ -130,9 +113,6 @@ p, li {
     margin-top: 5px;
     margin-bottom: 6px;
 }
-
-
-/* KPI CARDS */
 
 .metric-card {
     text-align: center;
@@ -157,9 +137,6 @@ p, li {
     margin-top: 3px;
 }
 
-
-/* FEATURE PILLS */
-
 .feature-pill {
     display: inline-block;
     font-size: 10px;
@@ -172,15 +149,9 @@ p, li {
     margin-bottom: 7px;
 }
 
-
-/* DATAFRAMES */
-
 div[data-testid="stDataFrame"] {
     font-size: 12px !important;
 }
-
-
-/* SELECTBOX */
 
 div[data-testid="stSelectbox"] label p {
     font-size: 13px !important;
@@ -190,26 +161,6 @@ div[data-testid="stSelectbox"] label p {
 div[data-baseweb="select"] {
     font-size: 13px !important;
 }
-
-
-/* ALERTS */
-
-div[data-testid="stAlert"] p,
-div[data-testid="stAlert"] li {
-    font-size: 13px !important;
-    line-height: 1.5 !important;
-}
-
-
-/* BORDERED CONTAINERS */
-
-div[data-testid="stVerticalBlockBorderWrapper"] p {
-    font-size: 13px !important;
-    line-height: 1.5 !important;
-}
-
-
-/* SPACING */
 
 .section-space {
     height: 22px;
@@ -228,7 +179,6 @@ div[data-testid="stVerticalBlockBorderWrapper"] p {
 # ============================================================
 
 def section_title(title, subtitle):
-
     st.markdown(
         f'<div class="section-title">{title}</div>',
         unsafe_allow_html=True
@@ -241,7 +191,6 @@ def section_title(title, subtitle):
 
 
 def subsection(title):
-
     st.markdown(
         f'<div class="subsection-title">{title}</div>',
         unsafe_allow_html=True
@@ -249,7 +198,6 @@ def subsection(title):
 
 
 def pill(text):
-
     st.markdown(
         f'<span class="feature-pill">{text}</span>',
         unsafe_allow_html=True
@@ -257,29 +205,60 @@ def pill(text):
 
 
 def space():
-
     st.markdown(
         '<div class="section-space"></div>',
         unsafe_allow_html=True
     )
 
 
-def metric_cards(cards):
+def small_space():
+    st.markdown(
+        '<div class="small-space"></div>',
+        unsafe_allow_html=True
+    )
 
+
+def metric_cards(cards):
     cols = st.columns(len(cards))
 
     for col, (icon, value, label) in zip(cols, cards):
-
         with col:
-
             st.markdown(
-                f'<div class="metric-card">'
-                f'<span class="metric-icon">{icon}</span>'
-                f'<span class="metric-value">{value}</span>'
-                f'<div class="metric-label">{label}</div>'
-                f'</div>',
+                f"""
+                <div class="metric-card">
+                    <span class="metric-icon">{icon}</span>
+                    <span class="metric-value">{value}</span>
+                    <div class="metric-label">{label}</div>
+                </div>
+                """,
                 unsafe_allow_html=True
             )
+
+
+def centered_image(filename, width=None, ratio=(0.7, 2.6, 0.7)):
+    image_path = IMAGE_DIR / filename
+
+    if image_path.exists():
+
+        left, center, right = st.columns(ratio)
+
+        with center:
+
+            if width:
+                st.image(
+                    str(image_path),
+                    width=width
+                )
+            else:
+                st.image(
+                    str(image_path),
+                    use_container_width=True
+                )
+
+    else:
+        st.warning(
+            f"Image not found: {image_path.name}"
+        )
 
 
 # ============================================================
@@ -292,9 +271,11 @@ st.markdown(
 )
 
 st.markdown(
-    '<div class="dashboard-subtitle">'
-    'Customer Behavior Analytics & Machine Learning Dashboard'
-    '</div>',
+    """
+    <div class="dashboard-subtitle">
+        Customer Behavior Analytics & Machine Learning Dashboard
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
@@ -304,10 +285,12 @@ st.markdown(
 )
 
 st.markdown(
-    '<div class="dashboard-description">'
-    'Predicting purchase intent from customer browsing, cart, product, '
-    'and session behavior.'
-    '</div>',
+    """
+    <div class="dashboard-description">
+        Predicting purchase intent from customer browsing, cart,
+        product, and session behavior.
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
@@ -337,12 +320,12 @@ metric_cards([
     ("👆", "3", "Event Types · View · Cart · Purchase")
 ])
 
+
+# ============================================================
+# DATA QUALITY
+# ============================================================
+
 space()
-
-
-# ============================================================
-# MISSING VALUE & DUPLICATE RECORD ANALYSIS
-# ============================================================
 
 section_title(
     "Missing Value & Duplicate Records Analysis",
@@ -367,7 +350,6 @@ missing_table = pd.DataFrame({
     ]
 })
 
-
 brand_recovery_table = pd.DataFrame({
     "Metric": [
         "Missing Before Recovery",
@@ -383,7 +365,6 @@ brand_recovery_table = pd.DataFrame({
     ]
 })
 
-
 duplicate_table = pd.DataFrame({
     "Metric": [
         "Duplicate Records",
@@ -397,7 +378,6 @@ duplicate_table = pd.DataFrame({
     ]
 })
 
-
 treatment_table = pd.DataFrame({
     "Data Issue": [
         "Brand",
@@ -410,7 +390,6 @@ treatment_table = pd.DataFrame({
         "Remove 2 records"
     ]
 })
-
 
 left, right = st.columns(2, gap="large")
 
@@ -433,11 +412,12 @@ with left:
     )
 
     st.markdown(
-        "**Recovery Strategy:** Missing brand values were recovered where "
-        "a reliable brand mapping existed for the same Product ID, restoring "
-        "**172,423 records (2.82%)**."
+        """
+**Recovery Strategy:** Missing brand values were recovered where a reliable
+brand mapping existed for the same Product ID, restoring
+**172,423 records (2.82%)**.
+"""
     )
-
 
 with right:
 
@@ -450,8 +430,10 @@ with right:
     )
 
     st.markdown(
-        "**Duplicate Treatment:** 30,220 exact duplicate interaction "
-        "records (**0.07%**) were removed before downstream analysis."
+        """
+**Duplicate Treatment:** 30,220 exact duplicate interaction records
+(**0.07%**) were removed before downstream analysis.
+"""
     )
 
     subsection("Missing Value Treatment")
@@ -462,54 +444,115 @@ with right:
         hide_index=True
     )
 
-space()
-
 
 # ============================================================
 # FEATURE ENGINEERING
 # ============================================================
 
+space()
+
 section_title(
     "Feature Engineering",
-    "Generating predictive behavioral signals and transforming categorical features into model-ready representations."
+    "Generating predictive behavioral signals from customer activity observed up to the current interaction."
 )
 
 
 # ============================================================
-# 01 — FEATURE GENERATION
+# FEATURE GENERATION
 # ============================================================
 
 subsection("01 · Feature Generation")
 
 st.markdown(
     """
-    Behavioral, temporal, session, and purchase-intent features were created
-    using customer activity observed up to the current interaction.
-    """
+Behavioral and session-level features were generated using only information
+available **up to the current interaction**, preventing future information
+from leaking into model inputs.
+"""
 )
 
 metric_cards([
-    ("🧩", "24", "Generated Features"),
-    ("🕒", "4", "Temporal"),
-    ("👆", "7", "Behavioral"),
-    ("⚡", "9", "Session"),
-    ("🎯", "4", "Purchase Intent")
+    ("🧩", "14", "Generated Features"),
+    ("👆", "4", "Behavioral"),
+    ("🕒", "2", "Temporal / Session"),
+    ("⚡", "2", "Session Intensity"),
+    ("🎯", "4", "Purchase Intent"),
+    ("🔄", "2", "Context")
 ])
+
+small_space()
+
+feature_groups = pd.DataFrame({
+    "Feature Group": [
+        "Behavioral",
+        "Temporal / Session",
+        "Session Intensity",
+        "Purchase Intent",
+        "Context"
+    ],
+
+    "Features": [
+        "events_so_far · views_so_far · carts_so_far · product_views_so_far",
+        "session_start · elapsed_seconds",
+        "session_activity_rate · engagement_intensity",
+        "repeat_product_view · previous_event_cart · fast_session · high_intent_no_cart",
+        "brand_events_so_far · previous_event"
+    ]
+})
+
+st.dataframe(
+    feature_groups,
+    use_container_width=True,
+    hide_index=True
+)
+
+st.markdown(
+    """
+**Feature Engineering Principle**
+
+Each observation represents a snapshot of the customer session at the
+current interaction. Predictors are constructed only from behavior that
+has already occurred, ensuring the model does not have access to future
+session information.
+"""
+)
 
 
 # ============================================================
-# 02 — FEATURE ENCODING
+# TARGET VARIABLE
+# ============================================================
+
+subsection("Target Variable")
+
+st.markdown(
+    """
+### 🎯 `purchase_later`
+
+Binary target indicating whether a purchase occurs **later within the
+same user session**.
+
+- `1` — Purchase occurs later
+- `0` — No purchase occurs later
+
+The modeling objective is therefore to predict **future purchase intent**
+from customer behavior already observed during the session.
+"""
+)
+
+
+# ============================================================
+# FEATURE ENCODING
 # ============================================================
 
 space()
 
-subsection("02 · Feature Encoding — Linear Model")
+subsection("02 · Feature Encoding")
 
 st.markdown(
     """
-    Categorical features were encoded based on cardinality to create
-    efficient numerical inputs for the linear model.
-    """
+Categorical variables were converted into model-ready numerical
+representations based on their cardinality and model requirements.
+"""
 )
 
 encoding_col1, encoding_col2 = st.columns(
@@ -517,24 +560,23 @@ encoding_col1, encoding_col2 = st.columns(
     gap="large"
 )
 
-
 with encoding_col1:
 
     pill("FREQUENCY ENCODING")
 
     st.markdown(
-        '<div class="content-heading">brand · 2,618 categories</div>',
+        '<div class="content-heading">Brand</div>',
         unsafe_allow_html=True
     )
 
     st.markdown(
         """
-- High-cardinality categorical feature
-- Avoids creating thousands of sparse columns
-- Represents brand prevalence with one numerical feature
+- Handles high-cardinality brand information
+- Avoids thousands of sparse dummy variables
+- Represents relative brand prevalence
+- Reduces memory requirements
 """
     )
-
 
 with encoding_col2:
 
@@ -547,50 +589,27 @@ with encoding_col2:
 
     st.markdown(
         """
-- `event_type` — **3**
-- `day_of_week` — **6**
-- `category_level_1` — **14**
-- `category_level_2` — **57**
-- `category_level_3` — **82**
-- `category_level_4` — **2**
-- `previous_event` — **3**
+- Event type
+- Day of week
+- Category hierarchy
+- Previous event
+
+One-hot encoding avoids introducing an artificial ordinal relationship
+between categorical values.
 """
     )
-
-    st.markdown(
-        """
-        One-hot encoding creates independent binary indicators without
-        imposing an artificial ordinal relationship.
-        """
-    )
-
-
-# ============================================================
-# TARGET VARIABLE
-# ============================================================
-
-st.info(
-    """
-**🎯 Target Variable — `purchase_later`**
-
-Binary target indicating whether a purchase occurs later within the same
-user session. Customer behavior observed up to the current interaction
-is used to predict future purchase intent.
-"""
-)
-
-space()
 
 
 # ============================================================
 # EXPLORATORY DATA ANALYSIS
 # ============================================================
 
-section_title(
-    "Univariate/Bivariate/Multivariate Data Visualization",
-    "Explore customer behavior, purchase patterns, session activity, and temporal trends."
-)
+space()
 
+section_title(
+    "Univariate / Bivariate / Multivariate Data Visualization",
+    "Exploring customer behavior, purchase patterns, session activity, and temporal trends."
+)
 
 eda_visualizations = {
 
@@ -622,23 +641,22 @@ eda_visualizations = {
         "time_first_purchase.png"
 }
 
-
 business_insights = {
 
     "Event Distribution":
         "Product views dominate customer activity, while purchases represent a much smaller share of interactions.",
 
     "Purchase vs No-Purchase Sessions":
-        "Most customer sessions do not result in a purchase, highlighting a significant conversion opportunity.",
+        "Most customer sessions do not result in a purchase, highlighting the imbalance in conversion behavior.",
 
     "Repeat Customer Conversion":
         "Repeat customers demonstrate stronger purchase intent than one-session customers.",
 
     "Customer Activity by Day of Week":
-        "Tuesday records the highest purchase activity, making it a key day for targeted promotions.",
+        "Tuesday records the highest purchase activity, making it a potentially important day for targeted engagement.",
 
     "Weekend vs Weekday Behavior":
-        "Weekday activity is higher than weekend activity, indicating stronger customer engagement during the workweek.",
+        "Weekday activity is higher than weekend activity, indicating stronger engagement during the workweek.",
 
     "Price by Event Type":
         "Purchased products are concentrated within a narrower price range than products customers only view.",
@@ -650,9 +668,8 @@ business_insights = {
         "Purchase likelihood increases as customers interact with more events during a session.",
 
     "Time to First Purchase":
-        "Most purchases occur relatively early in the session, suggesting that purchase intent develops quickly."
+        "Most purchases occur relatively early in the session, suggesting purchase intent develops quickly."
 }
-
 
 selected_visualization = st.selectbox(
     "Select an analysis",
@@ -663,7 +680,6 @@ image_path = (
     IMAGE_DIR /
     eda_visualizations[selected_visualization]
 )
-
 
 if image_path.exists():
 
@@ -684,71 +700,53 @@ else:
         f"Visualization not found: {image_path.name}"
     )
 
-
 subsection("💡 Business Insight")
 
-st.info(
-    business_insights[selected_visualization]
+st.markdown(
+    f"**{business_insights[selected_visualization]}**"
 )
+
+
+# ============================================================
+# TEXT ENRICHMENT
+# ============================================================
 
 space()
 
-
-# ============================================================
-# TEXT ENRICHMENT & LLM INTEGRATION
-# ============================================================
-
 section_title(
     "Product Description Generation — Text Generation + Enrichment",
-    "Generating semantic product descriptions from structured metadata to introduce richer product context into the modeling pipeline."
+    "Generating semantic product descriptions from structured metadata to introduce richer product context."
 )
-
-
-# ============================================================
-# WHY TEXT ENRICHMENT
-# ============================================================
 
 subsection("Why Product Description Generation using LLM API?")
 
 st.markdown(
     """
-- **Product ID** and **Category ID** are internal identifiers and could not be reliably matched with external product databases.
-- **Open-source datasets** provided similar metadata such as ID, category, and brand but lacked product-level descriptions.
-- Therefore, an **LLM API** was used to generate standardized product descriptions from the available metadata.
+- **Product ID** and **Category ID** are internal identifiers and could not
+  be reliably matched with external product databases.
+- Open-source datasets contained similar metadata but lacked reliable
+  descriptions mapped to these specific products.
+- An **LLM API** was therefore used to generate standardized product
+  descriptions from available product metadata.
 """
 )
 
 
 # ============================================================
-# TEXT ENRICHMENT PIPELINE
+# TEXT PIPELINE
 # ============================================================
 
 subsection("Text Enrichment Pipeline")
 
-pipeline_image = IMAGE_DIR / "text_enrichment_pipeline.png"
-
-if pipeline_image.exists():
-
-    left, center, right = st.columns(
-        [0.5, 3, 0.5]
-    )
-
-    with center:
-
-        st.image(
-            str(pipeline_image),
-            width=900
-        )
-
-else:
-
-    st.warning(
-        f"Pipeline image not found: {pipeline_image.name}"
-    )
+centered_image(
+    "text_enrichment_pipeline.png",
+    width=900,
+    ratio=(0.5, 3, 0.5)
+)
 
 
 # ============================================================
-# LLM SELECTION STRATEGY
+# LLM SELECTION
 # ============================================================
 
 subsection("LLM API Selection Strategy")
@@ -757,7 +755,6 @@ local_col, cloud_col, openai_col = st.columns(
     3,
     gap="large"
 )
-
 
 with local_col:
 
@@ -772,7 +769,6 @@ with local_col:
 """
     )
 
-
 with cloud_col:
 
     pill("LARGE CLOUD LLM")
@@ -784,7 +780,6 @@ with cloud_col:
 - More capability than required
 """
     )
-
 
 with openai_col:
 
@@ -800,13 +795,12 @@ with openai_col:
 """
     )
 
-
-st.success(
+st.markdown(
     """
-**✓ Model Selection Decision**
+**Model Selection Decision**
 
 An OpenAI API model was selected because it provided a practical balance
-of **cost, quality, speed, and scalability**.
+between **cost, quality, speed, and scalability**.
 """
 )
 
@@ -847,42 +841,32 @@ designed for mobile communication and everyday digital use.
 """
         )
 
+
+# ============================================================
+# MACHINE LEARNING MODELING
+# ============================================================
+
 space()
-
-
-# ============================================================
-# PREDICTIVE MODELING
-# ============================================================
 
 section_title(
     "Machine Learning Modeling",
-    "Robust machine learning models to predict purchase intent while preventing data leakage and ensuring reliable evaluation on unseen customer sessions"
+    "Evaluating linear, tree-based, boosting, and ensemble models for future purchase-intent prediction."
 )
 
 
 # ============================================================
-# TRAIN / VALIDATION / TEST SPLIT
+# TRAIN / VALIDATION / TEST
 # ============================================================
 
 subsection("Train / Validation / Test Split")
 
 st.markdown(
     """
-    Data was split **chronologically at the user-session level** using each
-    session's start time, ensuring that an entire session belongs to only
-    one dataset.
-    """
+Data was split **chronologically at the user-session level** using each
+session's start time, ensuring that an entire session belongs to only
+one dataset.
+"""
 )
-
-st.markdown(
-    '<div class="small-space"></div>',
-    unsafe_allow_html=True
-)
-
-
-# ============================================================
-# SPLIT KPI
-# ============================================================
 
 metric_cards([
     ("🧠", "70%", "Training Sessions"),
@@ -890,34 +874,32 @@ metric_cards([
     ("🧪", "15%", "Test Sessions")
 ])
 
-
-# ============================================================
-# SPLIT SUMMARY
-# ============================================================
-
-subsection("Split Summary")
-
 split_summary = pd.DataFrame({
+
     "Dataset": [
         "Training",
         "Validation",
         "Test"
     ],
+
     "Sessions": [
         "958,551",
         "205,405",
         "205,404"
     ],
+
     "Rows": [
         "4,412,736",
         "1,017,454",
         "999,551"
     ],
+
     "Purchase Rate": [
         "7.73%",
         "8.49%",
         "7.71%"
     ],
+
     "Purpose": [
         "Model training",
         "Model tuning & selection",
@@ -931,26 +913,44 @@ st.dataframe(
     hide_index=True
 )
 
-
-# ============================================================
-# WHY THIS SPLIT
-# ============================================================
-
 subsection("Why This Split?")
 
 st.markdown(
     """
-- **No session overlap** — all events from the same user session remain in one split.
-- **Prevents data leakage** — session information cannot appear across training and evaluation sets.
-- **Preserves chronology** — models train on earlier sessions and are evaluated on later sessions.
-- **Production-like evaluation** — reflects predicting purchase intent for future customer sessions.
-- **Consistent evaluation** — all models use the same leakage-free validation and test sets.
+- **No session overlap** — all events from the same session remain together.
+- **Prevents data leakage** across training and evaluation datasets.
+- **Preserves chronology** by training on earlier sessions.
+- **Production-like evaluation** measures performance on future sessions.
+- Every model uses the **same validation and test datasets**.
 """
 )
 
 
 # ============================================================
-# LOGISTIC REGRESSION — BASELINE MODEL
+# MODEL EVALUATION STRATEGY
+# ============================================================
+
+space()
+
+subsection("Evaluation Strategy")
+
+st.markdown(
+    """
+Purchases represent a minority of observations, so **Accuracy alone can
+be misleading**.
+
+Models were evaluated using **Precision, Recall, F1 Score, ROC-AUC and
+PR-AUC**.
+
+**PR-AUC was prioritized for model selection** because it directly evaluates
+performance on the minority purchase class while accounting for the
+Precision–Recall trade-off.
+"""
+)
+
+
+# ============================================================
+# LOGISTIC REGRESSION
 # ============================================================
 
 space()
@@ -959,425 +959,36 @@ subsection("Logistic Regression — Baseline Model")
 
 st.markdown(
     """
-    Logistic Regression was implemented as the baseline linear classifier
-    using standardized numerical features, class-balanced learning,
-    L2 regularization, and mini-batch training.
-    """
+Logistic Regression provides an interpretable linear baseline.
+Class-balanced learning was used to increase sensitivity to the minority
+purchase class.
+"""
 )
-
-
-# ============================================================
-# MODEL CONFIGURATION
-# ============================================================
-
-config_col1, config_col2, config_col3, config_col4, config_col5 = st.columns(
-    5,
-    gap="large"
-)
-
-with config_col1:
-
-    pill("MODEL")
-
-    st.markdown(
-        '<div class="content-heading">SGD Logistic Regression</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col2:
-
-    pill("SCALING")
-
-    st.markdown(
-        '<div class="content-heading">StandardScaler</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col3:
-
-    pill("REGULARIZATION")
-
-    st.markdown(
-        '<div class="content-heading">L2</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col4:
-
-    pill("CLASS BALANCE")
-
-    st.markdown(
-        '<div class="content-heading">Balanced Weights</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col5:
-
-    pill("TRAINING")
-
-    st.markdown(
-        '<div class="content-heading">100K Mini-Batches</div>',
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# STANDARDIZATION
-# ============================================================
-
-st.markdown(
-    '<div class="small-space"></div>',
-    unsafe_allow_html=True
-)
-
-
-# ============================================================
-# TEST PERFORMANCE
-# ============================================================
-
-space()
-
-subsection("Test Performance")
 
 metric_cards([
-    ("📊", "71.36%", "Accuracy"),
-    ("🎯", "14.20%", "Precision"),
-    ("🔎", "53.80%", "Recall"),
-    ("⚖️", "22.47%", "F1 Score"),
-    ("📈", "0.6901", "ROC-AUC"),
-    ("📉", "0.2264", "PR-AUC")
+    ("📊", "39.55%", "Accuracy"),
+    ("🎯", "9.76%", "Precision"),
+    ("🔎", "82.92%", "Recall"),
+    ("⚖️", "17.47%", "F1 Score"),
+    ("📈", "0.6961", "ROC-AUC"),
+    ("📉", "0.2294", "PR-AUC")
 ])
 
-
-# ============================================================
-# MODEL PERFORMANCE ANALYSIS
-# ============================================================
-
-space()
-
-subsection("Model Performance Analysis")
-
-performance_col1, performance_col2 = st.columns(
-    2,
-    gap="large"
-)
-
-
-# ============================================================
-# ROC CURVE
-# ============================================================
-
-with performance_col1:
-
-    pill("ROC CURVE")
-
-    st.markdown(
-        '<div class="content-heading">AUROC · 0.6901</div>',
-        unsafe_allow_html=True
-    )
-
-    roc_image = IMAGE_DIR / "lr-roc-curve.png"
-
-    if roc_image.exists():
-
-        st.image(
-            str(roc_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {roc_image.name}"
-        )
-
-    st.markdown(
-        """
-        Evaluates the model's ability to distinguish purchase from
-        non-purchase outcomes across classification thresholds.
-        """
-    )
-
-
-# ============================================================
-# CONFUSION MATRIX
-# ============================================================
-
-with performance_col2:
-
-    pill("CONFUSION MATRIX")
-
-    st.markdown(
-        '<div class="content-heading">Classification Performance</div>',
-        unsafe_allow_html=True
-    )
-
-    confusion_image = IMAGE_DIR / "lr-confusion-metrics.png"
-
-    if confusion_image.exists():
-
-        st.image(
-            str(confusion_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {confusion_image.name}"
-        )
-
-    st.markdown(
-        """
-        Shows the balance between correctly identified future purchases,
-        missed purchases, and false-positive purchase predictions.
-        """
-    )
-
-
-# ============================================================
-# GLOBAL EXPLAINABILITY
-# ============================================================
-
-space()
-
-subsection("Global Explainability")
-
 st.markdown(
     """
-    Logistic Regression coefficients and odds ratios were analyzed to
-    understand the direction and magnitude of each feature's relationship
-    with predicted purchase intent.
-    """
-)
-
-
-# ============================================================
-# COEFFICIENT + ODDS RATIO
-# ============================================================
-
-exp_col1, exp_col2 = st.columns(
-    2,
-    gap="large"
-)
-
-
-with exp_col1:
-
-    pill("COEFFICIENT")
-
-    st.markdown(
-        '<div class="content-heading">Direction & Strength</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        """
-- **Positive coefficient** → pushes prediction toward purchase
-- **Negative coefficient** → pushes prediction away from purchase
-- Larger absolute values indicate stronger model influence
-- Standardization makes numerical coefficient magnitudes more comparable
-"""
-    )
-
-
-with exp_col2:
-
-    pill("ODDS RATIO")
-
-    st.markdown(
-        '<div class="content-heading">Effect on Purchase Odds</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        """
-- Calculated as **exp(coefficient)**
-- **Odds Ratio > 1** → higher predicted purchase odds
-- **Odds Ratio < 1** → lower predicted purchase odds
-- **Odds Ratio = 1** → no change in predicted odds
-"""
-    )
-
-
-# ============================================================
-# GLOBAL FEATURE INFLUENCE
-# ============================================================
-
-st.markdown(
-    '<div class="small-space"></div>',
-    unsafe_allow_html=True
-)
-
-subsection("Global Feature Influence")
-
-feature_image = IMAGE_DIR / "feature-importance-lr.png"
-
-if feature_image.exists():
-
-    left, center, right = st.columns(
-        [0.6, 2.8, 0.6]
-    )
-
-    with center:
-
-        st.image(
-            str(feature_image),
-            use_container_width=True
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {feature_image.name}"
-    )
-
-
-# ============================================================
-# KEY GLOBAL PURCHASE DRIVERS
-# ============================================================
-
-subsection("Key Global Purchase Drivers")
-
-global_drivers = pd.DataFrame({
-    "Feature": [
-        "events_so_far",
-        "views_so_far",
-        "view_after_cart",
-        "category_events_so_far",
-        "event_type_view",
-        "previous_event_cart"
-    ],
-
-    "Coefficient": [
-        4.4972,
-        -4.6013,
-        0.5282,
-        0.4583,
-        -1.5663,
-        -0.3913
-    ],
-
-    "Odds Ratio": [
-        89.7657,
-        0.0100,
-        1.6959,
-        1.5813,
-        0.2088,
-        0.6762
-    ],
-
-    "Direction": [
-        "Positive",
-        "Negative",
-        "Positive",
-        "Positive",
-        "Negative",
-        "Negative"
-    ]
-})
-
-st.dataframe(
-    global_drivers,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# GLOBAL INTERPRETATION
-# ============================================================
-
-
-# ============================================================
-# LOCAL EXPLAINABILITY
-# ============================================================
-
-space()
-
-subsection("Local Explainability — Single Prediction")
-
-st.markdown(
-    """
-    Feature-level contributions were examined for an individual prediction
-    to understand which signals pushed the model toward or away from purchase.
-    """
-)
-
-
-# ============================================================
-# LOCAL PREDICTION SUMMARY
-# ============================================================
-
-metric_cards([
-    ("🎯", "100.0%", "Predicted Probability"),
-    ("🤖", "Purchase", "Model Prediction"),
-    ("📌", "No Purchase", "Actual Outcome")
-])
-
-
-# ============================================================
-# LOCAL FEATURE CONTRIBUTIONS
-# ============================================================
-
-subsection("Top Feature Contributions")
-
-contribution_table = pd.DataFrame({
-    "Feature": [
-        "events_so_far",
-        "cart_to_view_ratio",
-        "carts_so_far",
-        "category_events_so_far",
-        "product_views_so_far"
-    ],
-
-    "Contribution": [
-        "+26.88",
-        "-11.07",
-        "-6.93",
-        "+3.89",
-        "+3.54"
-    ],
-
-    "Impact": [
-        "Toward Purchase",
-        "Away from Purchase",
-        "Away from Purchase",
-        "Toward Purchase",
-        "Toward Purchase"
-    ]
-})
-
-st.dataframe(
-    contribution_table,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# LOCAL INTERPRETATION
-# ============================================================
-
-st.info(
-    """
-**Prediction Interpretation:** Strong session activity, repeated category
-engagement, and repeated product views pushed the prediction toward purchase,
-while cart-related signals pushed in the opposite direction.
-
-Despite the strong predicted purchase intent, the customer ultimately did
-not purchase, providing an example of a **high-confidence false positive**.
+**Model Interpretation:** Logistic Regression achieved the **highest Recall
+(82.92%)**, successfully identifying most future purchasers. However,
+Precision was only **9.76%**, resulting in a large number of false-positive
+purchase predictions.
 """
 )
 
-space()
+centered_image("lr-roc-curve.png")
+centered_image("lr-confusion-metrics.png")
+
 
 # ============================================================
-# DECISION TREE — NONLINEAR MODEL
+# DECISION TREE
 # ============================================================
 
 space()
@@ -1386,389 +997,47 @@ subsection("Decision Tree — Nonlinear Model")
 
 st.markdown(
     """
-    Decision Tree was evaluated as a nonlinear model to capture
-    threshold-based relationships and interactions in customer purchase behavior.
-    """
-)
-
-
-# ============================================================
-# MODEL CONFIGURATION
-# ============================================================
-
-config_col1, config_col2, config_col3, config_col4 = st.columns(
-    4,
-    gap="large"
-)
-
-with config_col1:
-
-    pill("MODEL")
-
-    st.markdown(
-        '<div class="content-heading">Decision Tree</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col2:
-
-    pill("MAX DEPTH")
-
-    st.markdown(
-        '<div class="content-heading">10</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col3:
-
-    pill("MIN LEAF SIZE")
-
-    st.markdown(
-        '<div class="content-heading">1,000</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col4:
-
-    pill("CLASS BALANCE")
-
-    st.markdown(
-        '<div class="content-heading">Balanced Weights</div>',
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# MODEL-SPECIFIC PREPROCESSING
-# ============================================================
-
-st.markdown(
-    '<div class="small-space"></div>',
-    unsafe_allow_html=True
-)
-
-st.info(
-    """
-**No Feature Scaling**
-
-Unlike Logistic Regression, numerical features were **not standardized**
-for the Decision Tree. Tree-based models learn threshold-based splits,
-so feature scaling is not required.
+Decision Tree was evaluated to capture nonlinear thresholds and interactions
+between customer behavioral signals.
 """
 )
-
-
-# ============================================================
-# TEST PERFORMANCE
-# ============================================================
-
-space()
-
-subsection("Test Performance")
 
 metric_cards([
-    ("📊", "77.34%", "Accuracy"),
-    ("🎯", "17.17%", "Precision"),
-    ("🔎", "50.68%", "Recall"),
-    ("⚖️", "25.65%", "F1 Score"),
-    ("📈", "0.7046", "ROC-AUC"),
-    ("📉", "0.2546", "PR-AUC")
+    ("📊", "74.64%", "Accuracy"),
+    ("🎯", "15.95%", "Precision"),
+    ("🔎", "53.55%", "Recall"),
+    ("⚖️", "24.57%", "F1 Score"),
+    ("📈", "0.6962", "ROC-AUC"),
+    ("📉", "0.2478", "PR-AUC")
 ])
 
-
-st.info(
+st.markdown(
     """
-**Model Performance:** Decision Tree improved **Precision, F1 Score,
-ROC-AUC, and PR-AUC** over Logistic Regression, while Recall decreased
-slightly. The higher PR-AUC indicates improved performance on the
-minority purchase class.
+**Model Interpretation:** The Decision Tree substantially improved Precision
+and F1 Score over the linear baseline while maintaining more than half of
+actual purchasers through **53.55% Recall**.
 """
 )
 
+centered_image("dt-confusion-matrix.png", width=480)
 
-# ============================================================
-# CLASSIFICATION PERFORMANCE
-# ============================================================
-
-space()
-
-subsection("Classification Performance")
-
-pill("CONFUSION MATRIX")
-
-st.markdown(
-    '<div class="content-heading">Decision Tree Predictions</div>',
-    unsafe_allow_html=True
-)
-
-confusion_image = IMAGE_DIR / "dt-confusion-matrix.png"
-
-if confusion_image.exists():
-
-    left, center, right = st.columns(
-        [1.25, 1.5, 1.25]
-    )
-
-    with center:
-
-        st.image(
-            str(confusion_image),
-            width=480
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {confusion_image.name}"
-    )
-
-
-st.markdown(
-    """
-The model correctly classified **73.43% as No Purchase** and
-**3.91% as Purchase**, while **18.86% were false positives**
-and **3.80% were false negatives**.
-"""
-)
-
-
-# ============================================================
-# COMPARISON WITH LOGISTIC REGRESSION
-# ============================================================
-
-space()
-
-subsection("Comparison with Logistic Regression")
-
-st.markdown(
-    """
-    ROC and Precision–Recall curves compare the nonlinear Decision Tree
-    against the Logistic Regression baseline across classification thresholds.
-    """
-)
-
-roc_col, pr_col = st.columns(
-    2,
-    gap="large"
-)
-
-
-# ============================================================
-# AUROC
-# ============================================================
+roc_col, pr_col = st.columns(2, gap="large")
 
 with roc_col:
-
-    pill("ROC CURVE")
-
-    st.markdown(
-        '<div class="content-heading">AUROC · 0.7046</div>',
-        unsafe_allow_html=True
+    centered_image(
+        "dt-auroc.png",
+        ratio=(0.05, 2.9, 0.05)
     )
-
-    roc_image = IMAGE_DIR / "dt-auroc.png"
-
-    if roc_image.exists():
-
-        st.image(
-            str(roc_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {roc_image.name}"
-        )
-
-    st.markdown(
-        """
-        AUROC improved from **0.6901 → 0.7046**, indicating stronger
-        overall discrimination than the Logistic Regression baseline.
-        """
-    )
-
-
-# ============================================================
-# PRECISION-RECALL
-# ============================================================
 
 with pr_col:
-
-    pill("PRECISION–RECALL CURVE")
-
-    st.markdown(
-        '<div class="content-heading">PR-AUC · 0.2546</div>',
-        unsafe_allow_html=True
-    )
-
-    pr_image = IMAGE_DIR / "dt-pr.png"
-
-    if pr_image.exists():
-
-        st.image(
-            str(pr_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {pr_image.name}"
-        )
-
-    st.markdown(
-        """
-        PR-AUC improved from **0.2264 → 0.2546**, showing stronger
-        performance on the minority purchase class.
-        """
+    centered_image(
+        "dt-pr.png",
+        ratio=(0.05, 2.9, 0.05)
     )
 
 
 # ============================================================
-# MODEL COMPARISON
-# ============================================================
-
-space()
-
-subsection("Model Comparison")
-
-comparison_df = pd.DataFrame({
-
-    "Metric": [
-        "Accuracy",
-        "Precision",
-        "Recall",
-        "F1 Score",
-        "ROC-AUC",
-        "PR-AUC"
-    ],
-
-    "Logistic Regression": [
-        "71.36%",
-        "14.20%",
-        "53.80%",
-        "22.47%",
-        "0.6901",
-        "0.2264"
-    ],
-
-    "Decision Tree": [
-        "77.34%",
-        "17.17%",
-        "50.68%",
-        "25.65%",
-        "0.7046",
-        "0.2546"
-    ]
-})
-
-st.dataframe(
-    comparison_df,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# GLOBAL EXPLAINABILITY
-# ============================================================
-
-space()
-
-subsection("Global Explainability")
-
-st.markdown(
-    """
-    Decision Tree feature importance measures how strongly each feature
-    contributes to reducing classification impurity across the tree.
-    """
-)
-
-
-# ============================================================
-# FEATURE IMPORTANCE
-# ============================================================
-
-feature_image = IMAGE_DIR / "dt-feature-importance.png"
-
-if feature_image.exists():
-
-    left, center, right = st.columns(
-        [0.8, 2.4, 0.8]
-    )
-
-    with center:
-
-        st.image(
-            str(feature_image),
-            use_container_width=True
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {feature_image.name}"
-    )
-
-
-# ============================================================
-# DECISION RULE EXPLAINABILITY
-# ============================================================
-
-space()
-
-subsection("Decision Rule Explainability")
-
-st.markdown(
-    """
-    The Decision Tree provides direct explainability through the sequence
-    of threshold-based rules used to generate predictions.
-    """
-)
-
-
-# ============================================================
-# TREE VISUALIZATION
-# ============================================================
-
-tree_image = IMAGE_DIR / "dt-tree.png"
-
-if tree_image.exists():
-
-    st.image(
-        str(tree_image),
-        use_container_width=True
-    )
-
-else:
-
-    st.warning(
-        f"Image not found: {tree_image.name}"
-    )
-
-
-# ============================================================
-# TREE INTERPRETATION
-# ============================================================
-
-st.info(
-    """
-**Decision Path Interpretation:** The tree begins with
-`cart_to_view_ratio`, confirming it as the strongest decision signal.
-
-Subsequent splits incorporate **product views, event type, hour, category,
-price, cart activity, and interaction timing**, demonstrating nonlinear
-relationships between behavioral, temporal, and product-level signals.
-"""
-)
-
-space()
-# ============================================================
-# RANDOM FOREST — ENSEMBLE MODEL
+# RANDOM FOREST
 # ============================================================
 
 space()
@@ -1777,416 +1046,71 @@ subsection("Random Forest — Ensemble Model")
 
 st.markdown(
     """
-    Random Forest extends the Decision Tree approach by combining multiple
-    trees to capture nonlinear behavioral patterns while improving prediction
-    stability and generalization.
-    """
+Random Forest combines multiple decision trees to improve prediction
+stability and capture nonlinear customer behavior.
+"""
 )
 
-
-# ============================================================
-# MODEL CONFIGURATION
-# ============================================================
-
-config_col1, config_col2, config_col3, config_col4 = st.columns(
-    4,
-    gap="large"
-)
-
-with config_col1:
-
-    pill("TREES")
-
-    st.markdown(
-        '<div class="content-heading">200 Estimators</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col2:
-
-    pill("MAX DEPTH")
-
-    st.markdown(
-        '<div class="content-heading">20</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col3:
-
-    pill("CLASS BALANCE")
-
-    st.markdown(
-        '<div class="content-heading">Balanced Subsample</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col4:
-
-    pill("CRITERION")
-
-    st.markdown(
-        '<div class="content-heading">Entropy</div>',
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# ADDITIONAL MODEL SETTINGS
-# ============================================================
-
-st.markdown(
-    '<div class="small-space"></div>',
-    unsafe_allow_html=True
-)
-
-rf_config = pd.DataFrame({
-    "Parameter": [
-        "Min Samples Split",
-        "Min Samples Leaf",
-        "Max Features",
-        "Bootstrap",
-        "Training Sample / Tree"
-    ],
-    "Value": [
-        "500",
-        "200",
-        "sqrt",
-        "True",
-        "80%"
-    ]
-})
-
-st.dataframe(
-    rf_config,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# MODEL-SPECIFIC PREPROCESSING
-# ============================================================
-
-
-# ============================================================
-# TEST PERFORMANCE
-# ============================================================
-
-space()
-
-subsection("Test Performance")
+subsection("Base Random Forest")
 
 metric_cards([
-    ("📊", "79.73%", "Accuracy"),
-    ("🎯", "18.76%", "Precision"),
-    ("🔎", "48.85%", "Recall"),
-    ("⚖️", "27.11%", "F1 Score"),
-    ("📈", "0.7162", "ROC-AUC"),
-    ("📉", "0.2595", "PR-AUC")
+    ("📊", "72.34%", "Accuracy"),
+    ("🎯", "15.25%", "Precision"),
+    ("🔎", "56.72%", "Recall"),
+    ("⚖️", "24.03%", "F1 Score"),
+    ("📈", "0.7116", "ROC-AUC"),
+    ("📉", "0.2516", "PR-AUC")
 ])
 
+subsection("Tuned Random Forest")
 
-
-# ============================================================
-# THRESHOLD SELECTION
-# ============================================================
-
-space()
-
-subsection("Classification Threshold Selection")
-
-st.markdown(
-    """
-    Classification thresholds were evaluated on the **validation set**
-    to examine the trade-off between Precision, Recall, and F1 Score.
-    """
-)
-
-threshold_image = (
-    IMAGE_DIR /
-    "rf-threshold-selection.png"
-)
-
-if threshold_image.exists():
-
-    left, center, right = st.columns(
-        [0.8, 2.4, 0.8]
-    )
-
-    with center:
-
-        st.image(
-            str(threshold_image),
-            use_container_width=True
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {threshold_image.name}"
-    )
-
-
-# ============================================================
-# ROC + PRECISION RECALL COMPARISON
-# ============================================================
-
-space()
-
-subsection("Comparison with Previous Models")
+metric_cards([
+    ("📊", "72.65%", "Accuracy"),
+    ("🎯", "15.19%", "Precision"),
+    ("🔎", "55.55%", "Recall"),
+    ("⚖️", "23.86%", "F1 Score"),
+    ("📈", "0.7055", "ROC-AUC"),
+    ("📉", "0.2471", "PR-AUC")
+])
 
 st.markdown(
     """
-    Random Forest was compared with Logistic Regression and Decision Tree
-    across classification thresholds.
-    """
+**Tuning Result:** Hyperparameter tuning did not improve Random Forest
+PR-AUC. The base Random Forest remained stronger with **0.2516 PR-AUC**
+compared with **0.2471** after tuning.
+"""
 )
 
-roc_col, pr_col = st.columns(
-    2,
-    gap="large"
-)
+centered_image("rf-threshold-selection.png")
 
-
-# ============================================================
-# AUROC
-# ============================================================
+roc_col, pr_col = st.columns(2, gap="large")
 
 with roc_col:
-
-    pill("ROC CURVE")
-
-    st.markdown(
-        '<div class="content-heading">AUROC · 0.7162</div>',
-        unsafe_allow_html=True
+    centered_image(
+        "rf-auroc.png",
+        ratio=(0.05, 2.9, 0.05)
     )
-
-    roc_image = (
-        IMAGE_DIR /
-        "rf-auroc.png"
-    )
-
-    if roc_image.exists():
-
-        st.image(
-            str(roc_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {roc_image.name}"
-        )
-
-    st.markdown(
-        """
-        AUROC improved from **0.6901 → 0.7046 → 0.7162**
-        across Logistic Regression, Decision Tree, and Random Forest.
-        """
-    )
-
-
-# ============================================================
-# PRECISION RECALL
-# ============================================================
 
 with pr_col:
-
-    pill("PRECISION–RECALL CURVE")
-
-    st.markdown(
-        '<div class="content-heading">PR-AUC · 0.2595</div>',
-        unsafe_allow_html=True
+    centered_image(
+        "rf-pr-rec.png",
+        ratio=(0.05, 2.9, 0.05)
     )
 
-    pr_image = (
-        IMAGE_DIR /
-        "rf-pr-rec.png"
-    )
+subsection("Global Feature Importance")
 
-    if pr_image.exists():
-
-        st.image(
-            str(pr_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {pr_image.name}"
-        )
-
-    st.markdown(
-        """
-        PR-AUC improved from **0.2264 → 0.2546 → 0.2595**,
-        showing stronger performance on the imbalanced purchase target.
-        """
-    )
-
-
-
-# ============================================================
-# GLOBAL EXPLAINABILITY
-# ============================================================
-
-space()
-
-subsection("Global Explainability")
+centered_image("rf-global.png")
 
 st.markdown(
     """
-    Random Forest feature importance aggregates information across
-    the ensemble to identify the behavioral and contextual signals
-    most influential in purchase prediction.
-    """
-)
-
-
-# ============================================================
-# GLOBAL FEATURE IMPORTANCE
-# ============================================================
-
-feature_image = (
-    IMAGE_DIR /
-    "rf-global.png"
-)
-
-if feature_image.exists():
-
-    left, center, right = st.columns(
-        [0.7, 2.6, 0.7]
-    )
-
-    with center:
-
-        st.image(
-            str(feature_image),
-            use_container_width=True
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {feature_image.name}"
-    )
-
-
-st.markdown(
-    """
-`cart_to_view_ratio` emerged as the strongest global feature, followed by
-`carts_so_far`, `cart_intensity`, and `product_views_so_far`, highlighting
-the importance of **cart progression and repeated product engagement**.
+Cart progression and repeated product engagement emerged as important
+predictive signals across the Random Forest ensemble.
 """
 )
 
 
 # ============================================================
-# FEATURE IMPORTANCE STABILITY
-# ============================================================
-
-space()
-
-subsection("Feature Importance Stability Across Trees")
-
-st.markdown(
-    """
-    Feature importance was evaluated across individual trees to determine
-    whether the strongest predictive signals remained consistent throughout
-    the ensemble.
-    """
-)
-
-feature_stability_image = (
-    IMAGE_DIR /
-    "rf-feature-expla.png"
-)
-
-if feature_stability_image.exists():
-
-    left, center, right = st.columns(
-        [0.7, 2.6, 0.7]
-    )
-
-    with center:
-
-        st.image(
-            str(feature_stability_image),
-            use_container_width=True
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {feature_stability_image.name}"
-    )
-
-
-st.info(
-    """
-**Ensemble Interpretation:** Leading behavioral features remain influential
-across multiple trees, while variation in importance reflects the diversity
-introduced through bootstrap sampling and random feature selection.
-"""
-)
-
-
-# ============================================================
-# PREDICTED PROBABILITY DISTRIBUTION
-# ============================================================
-
-space()
-
-subsection("Predicted Probability Distribution")
-
-st.markdown(
-    """
-    Predicted probabilities were compared across actual purchase and
-    non-purchase observations to examine how effectively the model
-    separates the two outcome classes.
-    """
-)
-
-probability_image = (
-    IMAGE_DIR /
-    "rf-predi-prob.png"
-)
-
-if probability_image.exists():
-
-    left, center, right = st.columns(
-        [0.7, 2.6, 0.7]
-    )
-
-    with center:
-
-        st.image(
-            str(probability_image),
-            use_container_width=True
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {probability_image.name}"
-    )
-
-
-st.info(
-    """
-**Probability Interpretation:** Purchase observations shift toward higher
-predicted probabilities, while non-purchase observations are concentrated
-at lower probabilities. The overlap between the distributions represents
-observations that remain difficult for the model to distinguish.
-"""
-)
-
-# ============================================================
-# XGBOOST — GRADIENT BOOSTING MODEL
+# XGBOOST
 # ============================================================
 
 space()
@@ -2195,258 +1119,25 @@ subsection("XGBoost — Gradient Boosting Model")
 
 st.markdown(
     """
-    XGBoost was evaluated as an advanced boosting model to capture
-    complex nonlinear relationships in customer purchase behavior while
-    explicitly accounting for class imbalance.
-    """
+XGBoost was evaluated to capture complex nonlinear relationships while
+explicitly accounting for class imbalance.
+"""
 )
 
-
-# ============================================================
-# INITIAL MODEL CONFIGURATION
-# ============================================================
-
-config_col1, config_col2, config_col3, config_col4 = st.columns(
-    4,
-    gap="large"
-)
-
-with config_col1:
-
-    pill("TREES")
-
-    st.markdown(
-        '<div class="content-heading">250 Estimators</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col2:
-
-    pill("MAX DEPTH")
-
-    st.markdown(
-        '<div class="content-heading">10</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col3:
-
-    pill("LEARNING RATE")
-
-    st.markdown(
-        '<div class="content-heading">0.10</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col4:
-
-    pill("EVALUATION")
-
-    st.markdown(
-        '<div class="content-heading">PR-AUC</div>',
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# ADDITIONAL MODEL SETTINGS
-# ============================================================
-
-st.markdown(
-    '<div class="small-space"></div>',
-    unsafe_allow_html=True
-)
-
-xgb_config = pd.DataFrame({
-    "Parameter": [
-        "Subsample",
-        "Features / Tree",
-        "Class Imbalance",
-        "Tree Method",
-        "Categorical Support",
-        "Validation Metric"
-    ],
-    "Value": [
-        "70%",
-        "70%",
-        "scale_pos_weight",
-        "Histogram",
-        "Enabled",
-        "PR-AUC"
-    ]
-})
-
-st.dataframe(
-    xgb_config,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# MODEL-SPECIFIC PREPROCESSING
-# ============================================================
-
-
-
-# ============================================================
-# INITIAL TEST PERFORMANCE
-# ============================================================
-
-space()
-
-subsection("Initial Model Performance")
+subsection("Base XGBoost")
 
 metric_cards([
-    ("📊", "79.92%", "Accuracy"),
-    ("🎯", "18.87%", "Precision"),
-    ("🔎", "48.59%", "Recall"),
-    ("⚖️", "27.19%", "F1 Score"),
-    ("📈", "0.7156", "ROC-AUC"),
-    ("📉", "0.2649", "PR-AUC")
+    ("📊", "75.86%", "Accuracy"),
+    ("🎯", "16.48%", "Precision"),
+    ("🔎", "52.35%", "Recall"),
+    ("⚖️", "25.07%", "F1 Score"),
+    ("📈", "0.7072", "ROC-AUC"),
+    ("📉", "0.2552", "PR-AUC")
 ])
 
 
-
 # ============================================================
-# CLASSIFICATION PERFORMANCE
-# ============================================================
-
-space()
-
-subsection("Classification Performance")
-
-pill("CONFUSION MATRIX")
-
-confusion_image = (
-    IMAGE_DIR /
-    "xgb-confusion.png"
-)
-
-if confusion_image.exists():
-
-    left, center, right = st.columns(
-        [1.25, 1.5, 1.25]
-    )
-
-    with center:
-
-        st.image(
-            str(confusion_image),
-            width=480
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {confusion_image.name}"
-    )
-
-
-# ============================================================
-# ROC + PRECISION RECALL
-# ============================================================
-
-space()
-
-subsection("Comparison with Tree-Based Models")
-
-st.markdown(
-    """
-    XGBoost was compared with Decision Tree and Random Forest using
-    ROC-AUC and Precision–Recall performance.
-    """
-)
-
-roc_col, pr_col = st.columns(
-    2,
-    gap="large"
-)
-
-
-# ============================================================
-# AUROC
-# ============================================================
-
-with roc_col:
-
-    pill("ROC CURVE")
-
-    st.markdown(
-        '<div class="content-heading">AUROC · 0.7156</div>',
-        unsafe_allow_html=True
-    )
-
-    roc_image = (
-        IMAGE_DIR /
-        "xgb-auroc.png"
-    )
-
-    if roc_image.exists():
-
-        st.image(
-            str(roc_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {roc_image.name}"
-        )
-
-    st.markdown(
-        """
-        XGBoost achieved **0.7156 AUROC**, essentially matching
-        Random Forest's **0.7162** overall discrimination.
-        """
-    )
-
-
-# ============================================================
-# PRECISION RECALL
-# ============================================================
-
-with pr_col:
-
-    pill("PRECISION–RECALL CURVE")
-
-    st.markdown(
-        '<div class="content-heading">PR-AUC · 0.2649</div>',
-        unsafe_allow_html=True
-    )
-
-    pr_image = (
-        IMAGE_DIR /
-        "xgb-pr.png"
-    )
-
-    if pr_image.exists():
-
-        st.image(
-            str(pr_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {pr_image.name}"
-        )
-
-    st.markdown(
-        """
-        XGBoost achieved the strongest initial **PR-AUC of 0.2649**
-        on the imbalanced purchase target.
-        """
-    )
-
-
-# ============================================================
-# HYPERPARAMETER TUNING
+# XGBOOST TUNING
 # ============================================================
 
 space()
@@ -2455,59 +1146,10 @@ subsection("Hyperparameter Tuning")
 
 st.markdown(
     """
-    Four XGBoost configurations were evaluated on the **validation set**
-    across tree depth, learning rate, and number of estimators.
-    **PR-AUC** was used as the primary model-selection metric.
-    """
-)
-
-
-# ============================================================
-# SEARCH SPACE
-# ============================================================
-
-tune_col1, tune_col2, tune_col3 = st.columns(
-    3,
-    gap="large"
-)
-
-with tune_col1:
-
-    pill("MAX DEPTH")
-
-    st.markdown(
-        '<div class="content-heading">6 · 8</div>',
-        unsafe_allow_html=True
-    )
-
-
-with tune_col2:
-
-    pill("LEARNING RATE")
-
-    st.markdown(
-        '<div class="content-heading">0.05 · 0.10</div>',
-        unsafe_allow_html=True
-    )
-
-
-with tune_col3:
-
-    pill("ESTIMATORS")
-
-    st.markdown(
-        '<div class="content-heading">200 · 300</div>',
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# TUNING RESULTS
-# ============================================================
-
-st.markdown(
-    '<div class="small-space"></div>',
-    unsafe_allow_html=True
+XGBoost configurations were evaluated on the **validation set** across
+tree depth, learning rate, and number of estimators. **PR-AUC** was used
+as the primary selection metric.
+"""
 )
 
 tuning_results = pd.DataFrame({
@@ -2575,148 +1217,99 @@ st.dataframe(
     hide_index=True
 )
 
+st.markdown(
+    """
+**Selected Configuration:** `max_depth = 8`, `learning_rate = 0.05`,
+`n_estimators = 300` produced the strongest validation
+**PR-AUC of 0.2771**.
+"""
+)
+
 
 # ============================================================
-# SELECTED CONFIGURATION
+# TUNED XGBOOST
 # ============================================================
 
+subsection("Tuned XGBoost — Test Performance")
+
+metric_cards([
+    ("📊", "76.45%", "Accuracy"),
+    ("🎯", "16.74%", "Precision"),
+    ("🔎", "51.68%", "Recall"),
+    ("⚖️", "25.29%", "F1 Score"),
+    ("📈", "0.7100", "ROC-AUC"),
+    ("📉", "0.2568", "PR-AUC")
+])
+
+st.markdown(
+    """
+Tuned XGBoost achieved the **highest test PR-AUC of 0.2568** among all
+evaluated approaches while maintaining **51.68% Recall**.
+"""
+)
+
+
 # ============================================================
-# GLOBAL EXPLAINABILITY — SHAP
+# XGBOOST EXPLAINABILITY
 # ============================================================
 
 space()
 
 subsection("Global Explainability — SHAP")
 
-st.markdown(
-    """
-    SHAP values quantify the average impact of each feature on
-    XGBoost predictions across the evaluation population.
-    """
+centered_image(
+    "xgb-shap.png",
+    width=560,
+    ratio=(1.15, 1.7, 1.15)
 )
-
-shap_global_image = (
-    IMAGE_DIR /
-    "xgb-shap.png"
-)
-
-if shap_global_image.exists():
-
-    left, center, right = st.columns(
-        [1.15, 1.7, 1.15]
-    )
-
-    with center:
-
-        st.image(
-            str(shap_global_image),
-            width=560
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {shap_global_image.name}"
-    )
-
 
 st.markdown(
     """
-`views_so_far` produced the largest average SHAP impact, followed by
-**brand, hour, events_so_far, category information, price, and
-cart-to-view ratio**.
+SHAP analysis identifies the behavioral signals that have the greatest
+influence on model predictions and shows whether each feature pushes the
+prediction toward **Purchase** or **No Purchase**.
 """
 )
 
-
-# ============================================================
-# LOCAL EXPLAINABILITY — SHAP
-# ============================================================
-
-space()
-
 subsection("Local Explainability — SHAP")
-
-st.markdown(
-    """
-    Local SHAP waterfall plots show how individual feature values move
-    predictions away from the model baseline toward either purchase
-    or no purchase.
-    """
-)
 
 example_col1, example_col2 = st.columns(
     2,
     gap="large"
 )
 
-
-# ============================================================
-# EXAMPLE 1
-# ============================================================
-
 with example_col1:
 
     pill("EXAMPLE 1 · NO PURCHASE")
 
-    example_1_image = (
-        IMAGE_DIR /
-        "xgb-example 1.png"
-    )
+    image = IMAGE_DIR / "xgb-example 1.png"
 
-    if example_1_image.exists():
-
+    if image.exists():
         st.image(
-            str(example_1_image),
+            str(image),
             use_container_width=True
         )
-
-    else:
-
-        st.warning(
-            f"Image not found: {example_1_image.name}"
-        )
-
-
-# ============================================================
-# EXAMPLE 2
-# ============================================================
 
 with example_col2:
 
     pill("EXAMPLE 2 · HIGHER PURCHASE INTENT")
 
-    example_2_image = (
-        IMAGE_DIR /
-        "xgb-example 2.png"
-    )
+    image = IMAGE_DIR / "xgb-example 2.png"
 
-    if example_2_image.exists():
-
+    if image.exists():
         st.image(
-            str(example_2_image),
+            str(image),
             use_container_width=True
         )
 
-    else:
-
-        st.warning(
-            f"Image not found: {example_2_image.name}"
-        )
-
-
-# ============================================================
-# SHAP INTERPRETATION
-# ============================================================
-
-st.info(
+st.markdown(
     """
-**Reading SHAP:** Positive SHAP values push the prediction toward
-**Purchase**, while negative SHAP values push the prediction toward
-**No Purchase**. Larger absolute SHAP values indicate stronger influence
-on the individual prediction.
+**Reading SHAP:** Positive SHAP values push predictions toward
+**Purchase**, while negative values push predictions toward
+**No Purchase**. Larger absolute values indicate stronger influence.
 """
 )
+
 
 # ============================================================
 # BUSINESS TARGETING PERFORMANCE
@@ -2728,11 +1321,10 @@ subsection("Business Targeting Performance")
 
 st.markdown(
     """
-    Lift analysis evaluates how effectively predicted probabilities
-    concentrate actual purchasers within the highest-ranked sessions.
-    """
+Instead of relying only on a fixed classification threshold, predicted
+probabilities can be used to rank sessions by purchase intent.
+"""
 )
-
 
 lift_df = pd.DataFrame({
 
@@ -2775,22 +1367,20 @@ st.dataframe(
     hide_index=True
 )
 
-
-st.info(
+st.markdown(
     """
 **Business Interpretation:** The highest-scored **1% of sessions**
-achieved **60.69% precision and 7.87× lift**.
+achieved **60.69% Precision and 7.87× lift**.
 
-Expanding targeting to the **top 10%** captures **35.35% of eventual
-purchases** while maintaining **3.53× lift**, showing how model scores
-can prioritize high-intent sessions.
+Targeting the **top 10%** captures **35.35% of eventual purchases**
+while maintaining **3.53× lift**, demonstrating how model scores can
+prioritize high-intent sessions.
 """
 )
 
-space()
 
 # ============================================================
-# LIGHTGBM — GRADIENT BOOSTING MODEL
+# LIGHTGBM
 # ============================================================
 
 space()
@@ -2799,480 +1389,302 @@ subsection("LightGBM — Gradient Boosting Model")
 
 st.markdown(
     """
-    LightGBM was evaluated as an efficient gradient boosting model
-    for capturing nonlinear purchase-intent patterns while accounting
-    for the highly imbalanced target.
-    """
+LightGBM was evaluated as an efficient gradient boosting alternative
+for large-scale purchase-intent prediction.
+"""
 )
-
-
-# ============================================================
-# MODEL CONFIGURATION
-# ============================================================
-
-config_col1, config_col2, config_col3, config_col4 = st.columns(
-    4,
-    gap="large"
-)
-
-with config_col1:
-
-    pill("TREES")
-
-    st.markdown(
-        '<div class="content-heading">300 Estimators</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col2:
-
-    pill("LEARNING RATE")
-
-    st.markdown(
-        '<div class="content-heading">0.05</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col3:
-
-    pill("LEAVES")
-
-    st.markdown(
-        '<div class="content-heading">31</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col4:
-
-    pill("CLASS WEIGHT")
-
-    st.markdown(
-        '<div class="content-heading">11.94</div>',
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# MODEL SETTINGS
-# ============================================================
-
-lgbm_config = pd.DataFrame({
-
-    "Parameter": [
-        "Estimators",
-        "Learning Rate",
-        "Number of Leaves",
-        "Minimum Child Samples",
-        "Subsample",
-        "Features / Tree",
-        "L1 Regularization",
-        "L2 Regularization",
-        "Class Imbalance",
-        "Evaluation Metric"
-    ],
-
-    "Value": [
-        "300",
-        "0.05",
-        "31",
-        "100",
-        "80%",
-        "80%",
-        "0.1",
-        "1.0",
-        "scale_pos_weight = 11.94",
-        "Average Precision / PR-AUC"
-    ]
-})
-
-st.dataframe(
-    lgbm_config,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# CLASS IMBALANCE
-# ============================================================
-
-space()
-
-subsection("Class Imbalance Handling")
-
-imbalance_col1, imbalance_col2, imbalance_col3 = st.columns(
-    3,
-    gap="large"
-)
-
-with imbalance_col1:
-
-    pill("NO PURCHASE")
-
-    st.markdown(
-        '<div class="content-heading">4,071,663</div>',
-        unsafe_allow_html=True
-    )
-
-
-with imbalance_col2:
-
-    pill("PURCHASE")
-
-    st.markdown(
-        '<div class="content-heading">341,073</div>',
-        unsafe_allow_html=True
-    )
-
-
-with imbalance_col3:
-
-    pill("PURCHASE RATE")
-
-    st.markdown(
-        '<div class="content-heading">7.73%</div>',
-        unsafe_allow_html=True
-    )
-
-
-
-# ============================================================
-# VALIDATION PERFORMANCE
-# ============================================================
-
-space()
-
-subsection("Validation Performance")
-
-st.markdown(
-    """
-    Model performance was monitored on the **validation set** using
-    Average Precision, while the test set remained untouched during
-    model development and threshold selection.
-    """
-)
-
-
-training_summary = pd.DataFrame({
-
-    "Trees": [
-        25,
-        50,
-        100,
-        150,
-        200,
-        250,
-        300
-    ],
-
-    "Validation PR-AUC": [
-        0.2568,
-        0.2685,
-        0.2735,
-        0.2753,
-        0.2762,
-        0.2763,
-        0.2768
-    ]
-})
-
-st.dataframe(
-    training_summary,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# THRESHOLD OPTIMIZATION
-# ============================================================
-
-space()
-
-subsection("Classification Threshold Optimization")
-
-st.markdown(
-    """
-    Classification thresholds from **0.10 to 0.90** were evaluated
-    using the validation set. The threshold maximizing **F1 Score**
-    was selected before final test evaluation.
-    """
-)
-
-
-threshold_col1, threshold_col2, threshold_col3 = st.columns(
-    3,
-    gap="large"
-)
-
-with threshold_col1:
-
-    pill("DEFAULT")
-
-    st.markdown(
-        '<div class="content-heading">0.50</div>',
-        unsafe_allow_html=True
-    )
-
-
-with threshold_col2:
-
-    pill("SELECTED")
-
-    st.markdown(
-        '<div class="content-heading">0.70</div>',
-        unsafe_allow_html=True
-    )
-
-
-with threshold_col3:
-
-    pill("VALIDATION F1")
-
-    st.markdown(
-        '<div class="content-heading">32.04%</div>',
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# THRESHOLD RESULTS
-# ============================================================
-
-threshold_results = pd.DataFrame({
-
-    "Threshold": [
-        0.50,
-        0.55,
-        0.60,
-        0.65,
-        0.70,
-        0.75,
-        0.80
-    ],
-
-    "Precision": [
-        "17.97%",
-        "21.50%",
-        "25.60%",
-        "29.18%",
-        "32.75%",
-        "36.09%",
-        "42.30%"
-    ],
-
-    "Recall": [
-        "55.69%",
-        "47.14%",
-        "40.33%",
-        "35.24%",
-        "31.37%",
-        "28.04%",
-        "23.15%"
-    ],
-
-    "F1 Score": [
-        "27.18%",
-        "29.53%",
-        "31.32%",
-        "31.92%",
-        "32.04%",
-        "31.56%",
-        "29.92%"
-    ]
-})
-
-st.dataframe(
-    threshold_results,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# THRESHOLD SELECTION IMAGE
-# Exact filename: lightgbm-threshold.png
-# ============================================================
-
-threshold_image = (
-    IMAGE_DIR /
-    "lightgbm-threshold.png"
-)
-
-if threshold_image.exists():
-
-    left, center, right = st.columns(
-        [0.65, 2.7, 0.65]
-    )
-
-    with center:
-
-        st.image(
-            str(threshold_image),
-            use_container_width=True
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {threshold_image.name}"
-    )
-
-
-
-# ============================================================
-# FINAL TEST PERFORMANCE
-# ============================================================
-
-space()
-
-subsection("Final Test Performance")
 
 metric_cards([
-    ("📊", "90.08%", "Accuracy"),
-    ("🎯", "33.55%", "Precision"),
-    ("🔎", "29.14%", "Recall"),
-    ("⚖️", "31.19%", "F1 Score"),
-    ("📈", "0.7240", "ROC-AUC"),
-    ("📉", "0.2640", "PR-AUC")
+    ("📊", "89.82%", "Accuracy"),
+    ("🎯", "32.21%", "Precision"),
+    ("🔎", "28.98%", "Recall"),
+    ("⚖️", "30.51%", "F1 Score"),
+    ("📈", "0.7018", "ROC-AUC"),
+    ("📉", "0.2508", "PR-AUC")
 ])
 
+st.markdown(
+    """
+**Model Interpretation:** LightGBM substantially increased Precision and
+Accuracy, but Recall declined to **28.98%**. This means more than 70% of
+actual future purchasers were not identified.
+"""
+)
 
+centered_image("lightgbm-threshold.png")
+centered_image("lightgbm-purchase pro.png")
 
 
 # ============================================================
-# PREDICTED PROBABILITY DISTRIBUTION
-# Exact filename: lightgbm-purchase pro.png
+# XGBOOST + RANDOM FOREST ENSEMBLE
 # ============================================================
 
 space()
 
-subsection("Predicted Probability Distribution")
+subsection("XGBoost + Random Forest Ensemble")
 
 st.markdown(
     """
-    The probability distribution shows how predicted purchase scores
-    differ between actual purchasers and non-purchasers relative to
-    the selected classification threshold.
-    """
+An ensemble was evaluated by combining predictions from XGBoost and
+Random Forest to determine whether complementary tree structures could
+improve overall performance.
+"""
 )
 
-
-probability_image = (
-    IMAGE_DIR /
-    "lightgbm-purchase pro.png"
-)
-
-if probability_image.exists():
-
-    left, center, right = st.columns(
-        [0.65, 2.7, 0.65]
-    )
-
-    with center:
-
-        st.image(
-            str(probability_image),
-            use_container_width=True
-        )
-
-else:
-
-    st.warning(
-        f"Image not found: {probability_image.name}"
-    )
-
+metric_cards([
+    ("📊", "90.14%", "Accuracy"),
+    ("🎯", "33.43%", "Precision"),
+    ("🔎", "28.13%", "Recall"),
+    ("⚖️", "30.55%", "F1 Score"),
+    ("📈", "0.7114", "ROC-AUC"),
+    ("📉", "0.2560", "PR-AUC")
+])
 
 st.markdown(
     """
-Actual purchases are more concentrated in the higher predicted
-probability range, while non-purchases are concentrated primarily
-below the **0.70 classification threshold**.
+**Ensemble Result:** The ensemble achieved the highest Accuracy,
+Precision and F1 Score. However, Recall declined to **28.13%**, and
+PR-AUC remained slightly below Tuned XGBoost.
 """
 )
 
 
 # ============================================================
-# MODEL COMPARISON
+# FINAL MODEL COMPARISON
 # ============================================================
 
 space()
 
-subsection("Model Comparison")
+section_title(
+    "Final Model Comparison",
+    "Performance comparison across all candidate models on the held-out test set."
+)
 
-comparison_df = pd.DataFrame({
+final_comparison = pd.DataFrame({
 
     "Model": [
         "Logistic Regression",
         "Decision Tree",
-        "Random Forest",
-        "XGBoost",
-        "LightGBM"
+        "Random Forest — Base",
+        "Random Forest — Tuned",
+        "XGBoost — Base",
+        "XGBoost — Tuned",
+        "LightGBM",
+        "XGBoost + RF Ensemble"
     ],
 
     "Accuracy": [
-        "71.36%",
-        "77.34%",
-        "79.73%",
-        "79.92%",
-        "90.08%"
+        "39.55%",
+        "74.64%",
+        "72.34%",
+        "72.65%",
+        "75.86%",
+        "76.45%",
+        "89.82%",
+        "90.14%"
     ],
 
     "Precision": [
-        "14.20%",
-        "17.17%",
-        "18.76%",
-        "18.87%",
-        "33.55%"
+        "9.76%",
+        "15.95%",
+        "15.25%",
+        "15.19%",
+        "16.48%",
+        "16.74%",
+        "32.21%",
+        "33.43%"
     ],
 
     "Recall": [
-        "53.80%",
-        "50.68%",
-        "48.85%",
-        "48.59%",
-        "29.14%"
+        "82.92%",
+        "53.55%",
+        "56.72%",
+        "55.55%",
+        "52.35%",
+        "51.68%",
+        "28.98%",
+        "28.13%"
     ],
 
     "F1 Score": [
-        "22.47%",
-        "25.65%",
-        "27.11%",
-        "27.19%",
-        "31.19%"
+        "17.47%",
+        "24.57%",
+        "24.03%",
+        "23.86%",
+        "25.07%",
+        "25.29%",
+        "30.51%",
+        "30.55%"
     ],
 
     "ROC-AUC": [
-        "0.6901",
-        "0.7046",
-        "0.7162",
-        "0.7156",
-        "0.7240"
+        "0.6961",
+        "0.6962",
+        "0.7116",
+        "0.7055",
+        "0.7072",
+        "0.7100",
+        "0.7018",
+        "0.7114"
     ],
 
     "PR-AUC": [
-        "0.2264",
-        "0.2546",
-        "0.2595",
-        "0.2649",
-        "0.2640"
+        "0.2294",
+        "0.2478",
+        "0.2516",
+        "0.2471",
+        "0.2552",
+        "0.2568",
+        "0.2508",
+        "0.2560"
     ]
 })
 
 st.dataframe(
-    comparison_df,
+    final_comparison,
     use_container_width=True,
     hide_index=True
 )
 
 
 # ============================================================
-# MODEL TAKEAWAY
+# MODEL TRADE-OFF
 # ============================================================
 
+space()
 
+subsection("Model Performance Trade-Off")
+
+tradeoff_df = pd.DataFrame({
+
+    "Model": [
+        "Logistic Regression",
+        "Tuned XGBoost",
+        "LightGBM",
+        "XGBoost + RF Ensemble"
+    ],
+
+    "Strength": [
+        "Highest Recall",
+        "Highest PR-AUC",
+        "High Precision & Accuracy",
+        "Highest Precision & F1"
+    ],
+
+    "Limitation": [
+        "Very low Precision",
+        "Moderate Precision",
+        "Low Recall",
+        "Low Recall"
+    ]
+})
+
+st.dataframe(
+    tradeoff_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# FINAL MODEL SELECTION
+# ============================================================
 
 space()
+
+section_title(
+    "Final Model Selection",
+    "Selecting the model that provides the strongest balance for purchase-intent prediction."
+)
+
+subsection("🏆 Tuned XGBoost")
+
+metric_cards([
+    ("📊", "76.45%", "Accuracy"),
+    ("🎯", "16.74%", "Precision"),
+    ("🔎", "51.68%", "Recall"),
+    ("⚖️", "25.29%", "F1 Score"),
+    ("📈", "0.7100", "ROC-AUC"),
+    ("📉", "0.2568", "PR-AUC")
+])
+
+
+# ============================================================
+# WHY XGBOOST
+# ============================================================
+
+subsection("Why Tuned XGBoost?")
+
+st.markdown(
+    """
+**Tuned XGBoost was selected as the final model because it achieved the
+highest PR-AUC (`0.2568`) while retaining `51.68% Recall`.**
+
+- **Logistic Regression** captured **82.92%** of purchasers but Precision
+  was only **9.76%**, resulting in a large number of false positives.
+
+- **LightGBM** increased Precision to **32.21%**, but Recall declined to
+  **28.98%**, meaning more than 70% of purchasers were missed.
+
+- The **XGBoost + Random Forest Ensemble** achieved the highest Accuracy,
+  Precision and F1 Score, but Recall declined further to **28.13%**.
+
+- **Tuned XGBoost** retained more than half of actual future purchasers
+  while producing the **highest PR-AUC across all evaluated models**.
+
+- The ensemble also introduced additional model complexity without
+  improving PR-AUC over Tuned XGBoost.
+
+Therefore, **Tuned XGBoost provides the strongest Precision–Recall
+trade-off for the purchase-intent objective.**
+"""
+)
+
+
+# ============================================================
+# WHY NOT ACCURACY
+# ============================================================
+
+space()
+
+subsection("Why Not Select the Highest-Accuracy Model?")
+
+st.markdown(
+    """
+The target is highly imbalanced, with non-purchase observations representing
+the majority of interactions.
+
+A model can therefore achieve high Accuracy by correctly predicting the
+majority class while still missing a large proportion of actual purchasers.
+
+For this reason, final model selection focused primarily on **PR-AUC,
+Recall, Precision and F1 Score rather than Accuracy alone**.
+"""
+)
+
+
+# ============================================================
+# FINAL TAKEAWAY
+# ============================================================
+
+space()
+
+st.markdown(
+    """
+### Final Takeaway
+
+The experiments reveal a clear trade-off between **capturing more potential
+purchasers** and **increasing the reliability of positive predictions**.
+
+**Tuned XGBoost** was selected because it:
+
+- Achieved the **highest PR-AUC — 0.2568**
+- Retained **51.68% Recall**
+- Improved Precision over the baseline models
+- Captured nonlinear behavioral interactions
+- Outperformed LightGBM and the ensemble on the primary PR-AUC metric
+- Avoided the additional deployment complexity of a multi-model ensemble
+
+### 🏆 Final Model — Tuned XGBoost
+"""
+)
