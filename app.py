@@ -1183,3 +1183,83 @@ associated with stronger predicted purchase intent, while view-heavy behavior
 without corresponding progression toward purchase reduced predicted intent.
 """
 )
+# ============================================================
+# LOGISTIC REGRESSION — LOCAL EXPLAINABILITY
+# ============================================================
+
+space()
+
+subsection("Local Explainability — Single Prediction")
+
+st.markdown(
+    """
+    Feature-level contributions were calculated for an individual prediction
+    to understand which signals pushed the model toward or away from purchase.
+    """
+)
+
+
+# ============================================================
+# PREDICTION SUMMARY
+# ============================================================
+
+metric_cards([
+    ("🎯", "100.0%", "Predicted Probability"),
+    ("🤖", "Purchase", "Model Prediction"),
+    ("📌", "No Purchase", "Actual Outcome")
+])
+
+
+# ============================================================
+# FEATURE CONTRIBUTIONS
+# ============================================================
+
+subsection("Top Feature Contributions")
+
+contribution_table = pd.DataFrame({
+    "Feature": [
+        "events_so_far",
+        "cart_to_view_ratio",
+        "carts_so_far",
+        "category_events_so_far",
+        "product_views_so_far"
+    ],
+    "Contribution": [
+        "+26.88",
+        "-11.07",
+        "-6.93",
+        "+3.89",
+        "+3.54"
+    ],
+    "Impact": [
+        "Toward Purchase",
+        "Away from Purchase",
+        "Away from Purchase",
+        "Toward Purchase",
+        "Toward Purchase"
+    ]
+})
+
+st.dataframe(
+    contribution_table,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# LOCAL INTERPRETATION
+# ============================================================
+
+st.info(
+    """
+**Prediction Interpretation**
+
+Strong session activity, repeated category engagement, and repeated product
+views pushed the prediction toward purchase. However, cart-related signals
+pushed in the opposite direction.
+
+The combined feature contributions produced a very high purchase score,
+although the customer ultimately did not purchase.
+"""
+)
