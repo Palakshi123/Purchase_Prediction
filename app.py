@@ -33,16 +33,11 @@ IMAGE_DIR = BASE_DIR / "images"
 st.markdown("""
 <style>
 
-/* PAGE */
-
 .block-container {
     padding-top: 1.8rem;
     padding-bottom: 2rem;
     max-width: 1450px;
 }
-
-
-/* MAIN HEADER */
 
 .dashboard-title {
     font-size: 30px;
@@ -72,29 +67,21 @@ st.markdown("""
     margin-bottom: 5px;
 }
 
-
-/* SECTION TITLE */
-
 .dataset-heading {
     font-size: 22px;
     font-weight: 700;
     color: #E72F3D;
-    margin-top: 12px;
+    margin-top: 18px;
     margin-bottom: 0;
 }
-
-
-/* SUBSECTION */
 
 .subsection-heading {
     font-size: 15px;
     font-weight: 700;
     color: #E72F3D;
+    margin-top: 8px;
     margin-bottom: 7px;
 }
-
-
-/* KPI */
 
 .metric-card {
     padding: 5px 3px;
@@ -119,25 +106,6 @@ st.markdown("""
     margin-top: 3px;
 }
 
-
-/* BODY TEXT */
-
-.body-text {
-    font-size: 14px;
-    color: #555555;
-    line-height: 1.8;
-}
-
-.cleaning-note {
-    font-size: 13px;
-    color: #666666;
-    line-height: 1.7;
-    margin-top: 8px;
-}
-
-
-/* FEATURE LABEL */
-
 .feature-group-label {
     display: inline-block;
     font-size: 10px;
@@ -147,49 +115,6 @@ st.markdown("""
     border-radius: 12px;
     padding: 3px 8px;
     margin-bottom: 8px;
-}
-
-
-/* RED ACCENT BOX */
-
-.target-box {
-    background-color: rgba(231,47,61,0.04);
-    border-left: 3px solid #E72F3D;
-    border-radius: 5px;
-    padding: 12px 15px;
-    margin-top: 18px;
-}
-
-.target-name {
-    color: #E72F3D;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.target-description {
-    color: #666666;
-    font-size: 13px;
-    line-height: 1.7;
-    margin-top: 4px;
-}
-
-
-/* EXAMPLE BOX */
-
-.example-box {
-    border: 1px solid rgba(231,47,61,0.30);
-    border-left: 4px solid #E72F3D;
-    border-radius: 8px;
-    padding: 18px 22px;
-    margin-top: 7px;
-    background-color: rgba(231,47,61,0.025);
-}
-
-
-/* SPACING */
-
-.section-spacer {
-    height: 28px;
 }
 
 </style>
@@ -208,16 +133,7 @@ def section_title(title, subtitle):
     )
 
     st.markdown(
-        f"""
-        <p style="
-            font-size:14px;
-            color:#777777;
-            margin:3px 0 14px 0;
-            line-height:1.6;
-        ">
-            {subtitle}
-        </p>
-        """,
+        f'<p style="font-size:14px; color:#777777; margin:3px 0 14px 0;">{subtitle}</p>',
         unsafe_allow_html=True
     )
 
@@ -232,10 +148,28 @@ def subsection(title):
 
 def section_space():
 
-    st.markdown(
-        '<div class="section-spacer"></div>',
-        unsafe_allow_html=True
-    )
+    st.write("")
+    st.write("")
+
+
+def metric_cards(cards, columns):
+
+    cols = st.columns(columns)
+
+    for col, (icon, value, label) in zip(cols, cards):
+
+        with col:
+
+            st.markdown(
+                f"""
+<div class="metric-card">
+<span class="metric-icon">{icon}</span>
+<span class="metric-value">{value}</span>
+<div class="metric-label">{label}</div>
+</div>
+""",
+                unsafe_allow_html=True
+            )
 
 
 # ============================================================
@@ -273,10 +207,6 @@ section_title(
 )
 
 
-# ============================================================
-# DATASET KPI — ROW 1
-# ============================================================
-
 cards_row1 = [
     ("📊", "42.45M", "Total Records"),
     ("👥", "3.02M", "Unique Customers"),
@@ -286,27 +216,8 @@ cards_row1 = [
     ("🗂️", "126", "Unique Categories")
 ]
 
-cols = st.columns(6)
+metric_cards(cards_row1, 6)
 
-for col, (icon, value, label) in zip(cols, cards_row1):
-
-    with col:
-
-        st.markdown(
-            f"""
-            <div class="metric-card">
-                <span class="metric-icon">{icon}</span>
-                <span class="metric-value">{value}</span>
-                <div class="metric-label">{label}</div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-
-# ============================================================
-# DATASET KPI — ROW 2
-# ============================================================
 
 cards_row2 = [
     ("🔢", "9", "Initial Features"),
@@ -315,29 +226,13 @@ cards_row2 = [
     ("👆", "3", "Event Types · View · Cart · Purchase")
 ]
 
-cols = st.columns(4)
-
-for col, (icon, value, label) in zip(cols, cards_row2):
-
-    with col:
-
-        st.markdown(
-            f"""
-            <div class="metric-card">
-                <span class="metric-icon">{icon}</span>
-                <span class="metric-value">{value}</span>
-                <div class="metric-label">{label}</div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
+metric_cards(cards_row2, 4)
 
 section_space()
 
 
 # ============================================================
-# MISSING VALUE & DUPLICATE ANALYSIS
+# MISSING VALUE & DUPLICATE RECORD ANALYSIS
 # ============================================================
 
 section_title(
@@ -422,8 +317,6 @@ with left:
         hide_index=True
     )
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
     subsection("Brand Metadata Recovery")
 
     st.dataframe(
@@ -432,16 +325,10 @@ with left:
         hide_index=True
     )
 
-    st.markdown(
-        """
-        <div class="cleaning-note">
-            <b>Recovery Strategy:</b>
-            Missing brand values were recovered where a reliable brand mapping
-            existed for the same Product ID, restoring
-            <b>172,423 records (2.82%)</b>.
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.caption(
+        "Recovery Strategy: Missing brand values were recovered where a "
+        "reliable brand mapping existed for the same Product ID, restoring "
+        "172,423 records (2.82%)."
     )
 
 
@@ -455,18 +342,10 @@ with right:
         hide_index=True
     )
 
-    st.markdown(
-        """
-        <div class="cleaning-note">
-            <b>Duplicate Treatment:</b>
-            30,220 exact duplicate interaction records
-            (<b>0.07%</b>) were removed before downstream analysis.
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.caption(
+        "Duplicate Treatment: 30,220 exact duplicate interaction records "
+        "(0.07%) were removed before downstream analysis."
     )
-
-    st.markdown("<br>", unsafe_allow_html=True)
 
     subsection("Missing Value Treatment")
 
@@ -490,10 +369,6 @@ section_title(
 )
 
 
-# ============================================================
-# FEATURE KPI
-# ============================================================
-
 feature_summary = [
     ("🧩", "24", "Predictor Features"),
     ("🕒", "4", "Temporal Features"),
@@ -502,25 +377,9 @@ feature_summary = [
     ("🎯", "4", "Purchase Intent Features")
 ]
 
-cols = st.columns(5)
+metric_cards(feature_summary, 5)
 
-for col, (icon, value, label) in zip(cols, feature_summary):
-
-    with col:
-
-        st.markdown(
-            f"""
-            <div class="metric-card">
-                <span class="metric-icon">{icon}</span>
-                <span class="metric-value">{value}</span>
-                <div class="metric-label">{label}</div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-
-st.markdown("<br>", unsafe_allow_html=True)
+st.write("")
 
 
 # ============================================================
@@ -563,8 +422,6 @@ with feature_col1:
         hide_index=True
     )
 
-
-    st.markdown("<br>", unsafe_allow_html=True)
 
     subsection("👆 Behavioral Features")
 
@@ -642,8 +499,6 @@ with feature_col2:
     )
 
 
-    st.markdown("<br>", unsafe_allow_html=True)
-
     subsection("🎯 Purchase Intent Features")
 
     st.markdown(
@@ -674,26 +529,17 @@ with feature_col2:
 
 
 # ============================================================
-# TARGET
+# TARGET VARIABLE
 # ============================================================
 
-st.markdown(
+st.info(
     """
-    <div class="target-box">
+**🎯 Target Variable — `purchase_later`**
 
-        <div class="target-name">
-            🎯 Target Variable — purchase_later
-        </div>
-
-        <div class="target-description">
-            Binary target indicating whether a purchase occurs later within
-            the same user session. The model uses customer behavior observed
-            up to the current interaction to predict future purchase intent.
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True
+Binary target indicating whether a purchase occurs later within the same
+user session. The model uses customer behavior observed up to the current
+interaction to predict future purchase intent.
+"""
 )
 
 
@@ -792,8 +638,8 @@ if image_path.exists():
 
     with center:
 
-        subsection(
-            selected_visualization
+        st.markdown(
+            f"#### {selected_visualization}"
         )
 
         st.image(
@@ -808,21 +654,14 @@ else:
     )
 
 
-st.markdown(
-    f"""
-    <div class="target-box">
+# ============================================================
+# BUSINESS INSIGHT
+# ============================================================
 
-        <div class="target-name">
-            💡 Business Insight
-        </div>
+st.markdown("#### 💡 Business Insight")
 
-        <div class="target-description">
-            {business_insights[selected_visualization]}
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True
+st.info(
+    business_insights[selected_visualization]
 )
 
 
@@ -847,32 +686,19 @@ subsection("Why Text Enrichment?")
 
 st.markdown(
     """
-    <div class="body-text">
-
-        • <b>product_id</b> and <b>category_id</b> are high-cardinality
-        identifiers with limited semantic meaning.<br>
-
-        • <b>category_code</b> provides category context, while
-        <b>brand</b> identifies the manufacturer, but neither fully
-        describes the product.<br>
-
-        • Product descriptions combine available metadata into a richer
-        <b>semantic representation</b> of each product.<br>
-
-        • Generated text can then be transformed into numerical features
-        for downstream machine-learning experiments.
-
-    </div>
-    """,
-    unsafe_allow_html=True
+- **product_id** and **category_id** are high-cardinality identifiers with limited semantic meaning.
+- **category_code** provides category context, while **brand** identifies the manufacturer, but neither fully describes the product.
+- Product descriptions combine available metadata into a richer **semantic representation** of each product.
+- Generated descriptions can then be converted into numerical features for downstream machine-learning experiments.
+"""
 )
 
 
 # ============================================================
-# PIPELINE IMAGE
+# TEXT ENRICHMENT PIPELINE
 # ============================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.write("")
 
 subsection("Text Enrichment Pipeline")
 
@@ -903,10 +729,10 @@ else:
 
 
 # ============================================================
-# LLM SELECTION
+# LLM SELECTION STRATEGY
 # ============================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.write("")
 
 subsection("LLM Selection Strategy")
 
@@ -916,91 +742,76 @@ local_col, cloud_col, selected_col = st.columns(
 )
 
 
+# ------------------------------------------------------------
+# LOCAL SMALL LLM
+# ------------------------------------------------------------
+
 with local_col:
 
-    st.markdown(
-        '<div class="feature-group-label">LOCAL SMALL LLM</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("##### Local Small LLM")
 
     st.markdown(
         """
-        <div class="body-text">
-            • No API cost<br>
-            • Full local control<br>
-            • Limited by device RAM / compute<br>
-            • Slower generation at scale<br>
-            • Smaller models may reduce output quality
-        </div>
-        """,
-        unsafe_allow_html=True
+- No API cost
+- Full local control
+- Limited by device RAM / compute
+- Slower generation at scale
+- Smaller models may reduce output quality
+"""
     )
 
+
+# ------------------------------------------------------------
+# LARGE CLOUD LLM
+# ------------------------------------------------------------
 
 with cloud_col:
 
-    st.markdown(
-        '<div class="feature-group-label">LARGE CLOUD LLM</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("##### Large Cloud LLM")
 
     st.markdown(
         """
-        <div class="body-text">
-            • Strong generation quality<br>
-            • Advanced reasoning capability<br>
-            • Higher API / token cost<br>
-            • More capability than required<br>
-            • Lower cost-efficiency at scale
-        </div>
-        """,
-        unsafe_allow_html=True
+- Strong generation quality
+- Advanced reasoning capability
+- Higher API / token cost
+- More capability than required
+- Lower cost-efficiency at scale
+"""
     )
 
+
+# ------------------------------------------------------------
+# SELECTED OPENAI APPROACH
+# ------------------------------------------------------------
 
 with selected_col:
 
-    st.markdown(
-        '<div class="feature-group-label">✓ SELECTED — OPENAI API</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("##### ✓ Selected — OpenAI API")
 
     st.markdown(
         """
-        <div class="body-text">
-            • Lightweight model<br>
-            • Cost-efficient inference<br>
-            • Sufficient generation quality<br>
-            • No local compute dependency<br>
-            • Easy batch automation and scaling
-        </div>
-        """,
-        unsafe_allow_html=True
+- Lightweight model
+- Cost-efficient inference
+- Sufficient generation quality
+- No local compute dependency
+- Easy batch automation and scaling
+"""
     )
 
 
 # ============================================================
-# SELECTION DECISION
+# MODEL SELECTION DECISION
 # ============================================================
 
-st.markdown(
+st.success(
     """
-    <div class="target-box">
+**✓ Model Selection Decision**
 
-        <div class="target-name">
-            ✓ Model Selection Decision
-        </div>
+A lightweight OpenAI API model was selected because product-description
+generation requires reliable text generation rather than complex reasoning.
 
-        <div class="target-description">
-            A lightweight <b>OpenAI API model</b> was selected because
-            product-description generation requires reliable text generation
-            rather than complex reasoning, providing the best balance of
-            <b>cost, quality, speed, and scalability</b>.
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True
+**Best trade-off:** Cost · Quality · Speed · Scalability
+"""
 )
 
 
@@ -1008,125 +819,120 @@ st.markdown(
 # EXAMPLE ENRICHMENT
 # ============================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.write("")
 
 subsection("Example Enrichment")
 
-st.markdown(
-    """
-    <div class="example-box">
 
-        <div style="
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:50px;
-        ">
+with st.container(border=True):
 
-            <div>
-
-                <div class="feature-group-label">
-                    STRUCTURED PRODUCT METADATA
-                </div>
-
-                <div class="body-text">
-                    <b>Product ID:</b> 1004856<br>
-                    <b>Category:</b> electronics.smartphone<br>
-                    <b>Brand:</b> Samsung
-                </div>
-
-            </div>
+    metadata_col, description_col = st.columns(
+        2,
+        gap="large"
+    )
 
 
-            <div>
+    with metadata_col:
 
-                <div class="feature-group-label">
-                    LLM-GENERATED DESCRIPTION
-                </div>
+        st.markdown("##### Structured Product Metadata")
 
-                <div class="body-text">
-                    Samsung smartphone in the consumer electronics category,
-                    designed for mobile communication and everyday digital use.
-                </div>
+        st.markdown(
+            """
+**Product ID:** 1004856  
+**Category:** electronics.smartphone  
+**Brand:** Samsung
+"""
+        )
 
-            </div>
 
-        </div>
+    with description_col:
 
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+        st.markdown("##### LLM-Generated Description")
+
+        st.write(
+            "Samsung smartphone in the consumer electronics category, "
+            "designed for mobile communication and everyday digital use."
+        )
 
 
 # ============================================================
-# TEXT → MODEL FEATURES
+# FROM TEXT TO MODEL FEATURES
 # ============================================================
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.write("")
 
 subsection("From Text to Model Features")
 
-c1, c2, c3 = st.columns(
+description_col, tfidf_col, model_col = st.columns(
     3,
     gap="large"
 )
 
 
-with c1:
+# ------------------------------------------------------------
+# DESCRIPTION
+# ------------------------------------------------------------
 
-    st.markdown(
-        '<div class="feature-group-label">01 · DESCRIPTION</div>',
-        unsafe_allow_html=True
-    )
+with description_col:
 
-    st.markdown(
-        """
-        <div class="body-text">
-            • Semantic product representation<br>
-            • Human-readable product context<br>
-            • Combines multiple metadata fields
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-
-with c2:
-
-    st.markdown(
-        '<div class="feature-group-label">02 · TF-IDF</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("##### 01 · Description")
 
     st.markdown(
         """
-        <div class="body-text">
-            • Converts text into numerical vectors<br>
-            • Captures informative product terms<br>
-            • Produces ML-compatible features
-        </div>
-        """,
-        unsafe_allow_html=True
+- Semantic product representation
+- Human-readable product context
+- Combines multiple metadata fields
+"""
     )
 
 
-with c3:
+# ------------------------------------------------------------
+# TF-IDF
+# ------------------------------------------------------------
 
-    st.markdown(
-        '<div class="feature-group-label">03 · MODEL INPUT</div>',
-        unsafe_allow_html=True
-    )
+with tfidf_col:
+
+    st.markdown("##### 02 · TF-IDF")
 
     st.markdown(
         """
-        <div class="body-text">
-            • Combined with behavioral features<br>
-            • Combined with session features<br>
-            • Evaluated during model experimentation
-        </div>
-        """,
-        unsafe_allow_html=True
+- Converts text into numerical vectors
+- Captures informative product terms
+- Produces ML-compatible features
+"""
     )
+
+
+# ------------------------------------------------------------
+# MODEL INPUT
+# ------------------------------------------------------------
+
+with model_col:
+
+    st.markdown("##### 03 · Model Input")
+
+    st.markdown(
+        """
+- Combined with behavioral features
+- Combined with session features
+- Evaluated during model experimentation
+"""
+    )
+
+
+# ============================================================
+# KEY TAKEAWAY
+# ============================================================
+
+st.info(
+    """
+**💡 Key Takeaway**
+
+LLM enrichment transforms high-cardinality product identifiers into semantic
+product representations, while TF-IDF converts this context into numerical
+features that can be evaluated alongside behavioral and session signals.
+"""
+)
 
 
 section_space()
