@@ -210,3 +210,114 @@ for col, (icon, value, label) in zip(
             """,
             unsafe_allow_html=True
         )
+
+# ============================================================
+# DATA QUALITY & CLEANING
+# ============================================================
+
+st.divider()
+
+st.markdown(
+    '<div class="dataset-heading">Data Quality & Cleaning</div>',
+    unsafe_allow_html=True
+)
+
+st.caption(
+    "Missing-value treatment, metadata recovery, and duplicate record analysis."
+)
+
+
+# ============================================================
+# ROW 1 — MISSING VALUE HANDLING
+# ============================================================
+
+st.markdown(
+    '<div style="font-size:13px; font-weight:600; margin-top:8px; margin-bottom:5px;">Missing Value Handling</div>',
+    unsafe_allow_html=True
+)
+
+c1, c2, c3, c4 = st.columns(4)
+
+missing_cards = [
+    ("🏷️", "Product ID Mode", "Brand Recovery"),
+    ("🗂️", "Product ID Mode", "Category Recovery"),
+    ("♻️", "~85%", "Metadata Coverage"),
+    ("🔍", "Validated", "Remaining Missing Values")
+]
+
+for col, (icon, value, label) in zip(
+    [c1, c2, c3, c4],
+    missing_cards
+):
+    with col:
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <div>
+                    <span class="metric-icon">{icon}</span>
+                    <span class="metric-value">{value}</span>
+                </div>
+                <div class="metric-label">{label}</div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+
+# ============================================================
+# ROW 2 — DUPLICATE RECORD ANALYSIS
+# ============================================================
+
+st.markdown(
+    '<div style="font-size:13px; font-weight:600; margin-top:8px; margin-bottom:5px;">Duplicate Record Analysis</div>',
+    unsafe_allow_html=True
+)
+
+c1, c2, c3 = st.columns(3)
+
+duplicate_cards = [
+    ("⚠️", "30,220", "Duplicate Records"),
+    ("📉", "0.07%", "Duplicate Rate"),
+    ("✅", "Removed", "Duplicate Treatment")
+]
+
+for col, (icon, value, label) in zip(
+    [c1, c2, c3],
+    duplicate_cards
+):
+    with col:
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <div>
+                    <span class="metric-icon">{icon}</span>
+                    <span class="metric-value">{value}</span>
+                </div>
+                <div class="metric-label">{label}</div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+
+# ============================================================
+# CLEANING METHODOLOGY
+# ============================================================
+
+st.markdown(
+    """
+    <div style="
+        font-size:11px;
+        color:#666666;
+        margin-top:8px;
+        line-height:1.6;
+    ">
+    <b>Cleaning Strategy:</b>
+    Missing brand and category metadata were recovered using the most frequent
+    known value for the same Product ID, preserving product-level consistency
+    while minimizing unnecessary row removal. Exact duplicate interaction
+    records were identified and removed before downstream analysis.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
