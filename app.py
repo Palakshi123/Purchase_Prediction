@@ -818,8 +818,8 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 if image_path.exists():
 
-    # Center image and control its size
-    left, center, right = st.columns([1, 3, 1])
+    # Smaller centered image
+    left, center, right = st.columns([1.5, 2, 1.5])
 
     with center:
 
@@ -827,9 +827,9 @@ if image_path.exists():
             f"""
             <div style="
                 text-align:center;
-                font-size:20px;
+                font-size:17px;
                 font-weight:600;
-                margin-bottom:15px;
+                margin-bottom:8px;
             ">
                 {selected_visualization}
             </div>
@@ -839,17 +839,12 @@ if image_path.exists():
 
         st.image(
             str(image_path),
-            use_container_width=True
+            width=450
         )
 
 else:
+    st.warning(f"Visualization not found: {selected_file}")
 
-    st.warning(
-        f"Visualization not found: {selected_file}"
-    )
-
-
-st.markdown("<br><br>", unsafe_allow_html=True)
 
 # ============================================================
 # BUSINESS INSIGHTS
@@ -857,86 +852,96 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 
 business_insights = {
 
-    "Event Distribution": """
-    • Customer activity is dominated by product views, while cart and purchase events occur much less frequently.
+    "Event Distribution": [
+        "Customer activity is dominated by product views, while purchases represent a much smaller share of interactions.",
+        "The large View → Purchase gap highlights a significant conversion opportunity.",
+        "Improving recommendations and cart conversion strategies could help increase purchases."
+    ],
 
-    • This highlights a significant conversion opportunity between product discovery and purchase.
+    "Purchase vs No-Purchase Sessions": [
+        "Most sessions do not result in a purchase, confirming significant class imbalance.",
+        "The prediction problem should focus on identifying the smaller group of high-intent sessions.",
+        "Recall, precision, F1 and PR-AUC are more informative than accuracy alone."
+    ],
 
-    • Improving product recommendations, product detail pages, and cart incentives could help move more users through the funnel.
-    """,
+    "Repeat Customer Conversion": [
+        "Repeat visitors provide an important signal of customer engagement and purchase intent.",
+        "Conversion differences can support segmentation of new versus returning customers.",
+        "High-intent returning customers can be targeted with personalized recommendations."
+    ],
 
-    "Purchase vs No-Purchase Sessions": """
-    • The majority of browsing sessions do not result in a purchase, indicating substantial class imbalance in purchase behavior.
+    "Customer Activity by Day of Week": [
+        "Customer engagement varies across different days of the week.",
+        "High-activity periods can guide campaign and promotion timing.",
+        "Day-of-week behavior provides an additional temporal signal for purchase prediction."
+    ],
 
-    • Purchase prediction should therefore focus on identifying the relatively small group of high-intent sessions.
+    "Weekend vs Weekday Behavior": [
+        "Shopping behavior differs between weekdays and weekends.",
+        "These patterns can help optimize campaign timing and promotional strategies.",
+        "Weekend behavior can also serve as a predictive feature."
+    ],
 
-    • Precision, recall, PR-AUC, and F1-score are more informative than accuracy alone when evaluating predictive models.
-    """,
+    "Price by Event Type": [
+        "Price differences across views, carts and purchases provide insight into customer price sensitivity.",
+        "Certain price ranges may demonstrate stronger conversion behavior.",
+        "These patterns can inform pricing, promotions and recommendations."
+    ],
 
-    "Repeat Customer Conversion": """
-    • Repeat visitors provide an important signal of customer engagement and purchase intent.
+    "Session Behavior": [
+        "Session-level engagement provides strong signals of purchase intent.",
+        "Views, carts, event frequency and session duration help distinguish high-intent customers.",
+        "These signals are valuable features for real-time purchase prediction."
+    ],
 
-    • Differences in conversion between repeat and one-session users can support customer segmentation strategies.
+    "Events Before Purchase": [
+        "Customers often perform multiple interactions before completing a purchase.",
+        "Increasing interaction depth can indicate growing purchase intent.",
+        "Cumulative features such as events-so-far and carts-so-far can capture this behavior."
+    ],
 
-    • Returning high-intent customers could be targeted with personalized recommendations or remarketing campaigns.
-    """,
-
-    "Customer Activity by Day of Week": """
-    • Customer engagement varies across different days of the week.
-
-    • High-traffic periods provide opportunities to optimize campaign timing, promotions, and recommendation exposure.
-
-    • Day-of-week behavior can also provide useful temporal information for purchase prediction.
-    """,
-
-    "Weekend vs Weekday Behavior": """
-    • Comparing weekday and weekend activity helps identify differences in customer shopping behavior.
-
-    • These patterns can guide campaign scheduling and promotional strategies.
-
-    • Weekend behavior can also be incorporated as a predictive feature when modeling purchase intent.
-    """,
-
-    "Price by Event Type": """
-    • Product price patterns across views, carts, and purchases provide insight into customer price sensitivity.
-
-    • Differences between viewed and purchased product prices may reveal price ranges associated with stronger conversion.
-
-    • These patterns can support pricing strategies, promotions, and product recommendation systems.
-    """,
-
-    "Session Behavior": """
-    • Session-level behavior provides stronger purchase-intent signals than isolated customer events.
-
-    • Engagement indicators such as number of events, product views, cart activity, and session duration can help distinguish high-intent sessions.
-
-    • These behavioral signals are therefore important features for real-time purchase prediction.
-    """,
-
-    "Events Before Purchase": """
-    • Customers often interact with multiple products or events before completing a purchase.
-
-    • The number and sequence of interactions can provide an early indication of purchase intent.
-
-    • This supports using cumulative behavioral features such as events-so-far, views-so-far, and carts-so-far in the predictive model.
-    """,
-
-    "Time to First Purchase": """
-    • Time to purchase provides insight into how quickly customer intent develops within a session.
-
-    • Shorter purchase journeys may indicate strong initial intent, while longer journeys may represent comparison shopping or uncertainty.
-
-    • This creates opportunities for real-time interventions when customers show strong intent but have not yet converted.
-    """
+    "Time to First Purchase": [
+        "Time to purchase indicates how quickly customer intent develops.",
+        "Short purchase journeys may represent stronger initial intent.",
+        "Longer journeys may provide opportunities for targeted interventions."
+    ]
 }
 
 
 # ============================================================
-# DISPLAY BUSINESS INSIGHTS
+# DISPLAY COMPACT BUSINESS INSIGHTS
 # ============================================================
 
-st.markdown("### 💡 Business Insights")
+insights = business_insights[selected_visualization]
 
-st.info(
-    business_insights[selected_visualization]
+st.markdown(
+    f"""
+    <div style="
+        background-color: rgba(128,128,128,0.08);
+        border-radius: 10px;
+        padding: 12px 18px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    ">
+
+        <div style="
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        ">
+            💡 Business Insights
+        </div>
+
+        <div style="
+            font-size: 13px;
+            line-height: 1.45;
+        ">
+            • {insights[0]}<br>
+            • {insights[1]}<br>
+            • {insights[2]}
+        </div>
+
+    </div>
+    """,
+    unsafe_allow_html=True
 )
