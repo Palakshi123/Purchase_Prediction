@@ -1292,18 +1292,6 @@ st.dataframe(
 # GLOBAL INTERPRETATION
 # ============================================================
 
-st.info(
-    """
-**Global Interpretation:** Session progression and continued category
-engagement were associated with stronger predicted purchase intent, while
-view-heavy behavior without corresponding progression toward purchase
-reduced predicted intent.
-
-Odds ratios represent **model associations while holding other features
-constant**, rather than causal effects.
-"""
-)
-
 
 # ============================================================
 # LOCAL EXPLAINABILITY
