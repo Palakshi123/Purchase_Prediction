@@ -909,37 +909,32 @@ business_insights = {
 
 
 # ============================================================
-# DISPLAY COMPACT BUSINESS INSIGHTS
+# BUSINESS INSIGHTS
 # ============================================================
 
 insights = business_insights[selected_visualization]
 
 st.markdown(
-    f"""
-    <div style="
-        background-color: rgba(128,128,128,0.08);
-        border-radius: 10px;
-        padding: 10px 15px;
-        margin-top: 5px;
-    ">
-        <div style="
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        ">
-            💡 Business Insights
-        </div>
-
-        <div style="
-            font-size: 13px;
-            line-height: 1.5;
-        ">
-            • {insights[0]}<br>
-            • {insights[1]}<br>
-            • {insights[2]}
-        </div>
-    </div>
+    """
+    <style>
+    .business-insights {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+    </style>
     """,
     unsafe_allow_html=True
 )
 
+st.markdown("#### 💡 Business Insights")
+
+st.markdown(
+    f"""
+<div class="business-insights">
+• {insights[0]}<br><br>
+• {insights[1]}<br><br>
+• {insights[2]}
+</div>
+""",
+    unsafe_allow_html=True
+)
