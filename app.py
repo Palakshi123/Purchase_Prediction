@@ -66,7 +66,7 @@ st.markdown("""
 ------------------------------------------------------------ */
 
 .section-container {
-    margin-top: 14px;
+    margin-top: 12px;
     margin-bottom: 6px;
 }
 
@@ -83,6 +83,15 @@ st.markdown("""
     color: #777777;
     margin-top: 2px;
     margin-bottom: 4px;
+}
+
+
+/* ------------------------------------------------------------
+   SPACE BETWEEN MAJOR SECTIONS
+------------------------------------------------------------ */
+
+.section-spacer {
+    height: 24px;
 }
 
 
@@ -237,6 +246,16 @@ for col, (icon, value, label) in zip(
 
 
 # ============================================================
+# SPACE BETWEEN MAJOR SECTIONS
+# ============================================================
+
+st.markdown(
+    '<div class="section-spacer"></div>',
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
 # MISSING VALUE & DUPLICATE RECORDS ANALYSIS
 # ============================================================
 
@@ -299,7 +318,7 @@ brand_recovery_table = pd.DataFrame({
 
 
 # ============================================================
-# DUPLICATE DATA
+# DUPLICATE RECORD DATA
 # ============================================================
 
 duplicate_table = pd.DataFrame({
