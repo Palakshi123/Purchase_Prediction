@@ -1064,3 +1064,122 @@ with **10.12% precision**, establishing the initial precision–recall benchmark
 for comparison with nonlinear models.
 """
 )
+# ============================================================
+# LOGISTIC REGRESSION — GLOBAL EXPLAINABILITY
+# ============================================================
+
+space()
+
+subsection("Logistic Regression — Global Explainability")
+
+st.markdown(
+    """
+    Model coefficients were analyzed to understand the direction and magnitude
+    of each feature's relationship with predicted purchase intent.
+    """
+)
+
+
+# ============================================================
+# EXPLAINABILITY METHOD
+# ============================================================
+
+exp_col1, exp_col2 = st.columns(2, gap="large")
+
+with exp_col1:
+
+    pill("COEFFICIENT")
+
+    st.markdown(
+        '<div class="content-heading">Direction & Strength</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+- **Positive coefficient** → increases predicted purchase odds
+- **Negative coefficient** → decreases predicted purchase odds
+- Larger absolute values indicate stronger model influence
+"""
+    )
+
+
+with exp_col2:
+
+    pill("ODDS RATIO")
+
+    st.markdown(
+        '<div class="content-heading">Interpretable Effect</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+- **Odds Ratio > 1** → higher purchase odds
+- **Odds Ratio < 1** → lower purchase odds
+- Calculated as `exp(coefficient)`
+"""
+    )
+
+
+# ============================================================
+# SELECTED GLOBAL DRIVERS
+# ============================================================
+
+subsection("Key Global Purchase Drivers")
+
+global_drivers = pd.DataFrame({
+    "Feature": [
+        "events_so_far",
+        "views_so_far",
+        "view_after_cart",
+        "category_events_so_far",
+        "event_type_view",
+        "previous_event_cart"
+    ],
+    "Coefficient": [
+        4.4972,
+        -4.6013,
+        0.5282,
+        0.4583,
+        -1.5663,
+        -0.3913
+    ],
+    "Odds Ratio": [
+        89.7657,
+        0.0100,
+        1.6959,
+        1.5813,
+        0.2088,
+        0.6762
+    ],
+    "Direction": [
+        "Positive",
+        "Negative",
+        "Positive",
+        "Positive",
+        "Negative",
+        "Negative"
+    ]
+})
+
+st.dataframe(
+    global_drivers,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# INTERPRETATION
+# ============================================================
+
+st.info(
+    """
+**Model Interpretation**
+
+Greater overall session activity and continued category engagement were
+associated with stronger predicted purchase intent, while view-heavy behavior
+without corresponding progression toward purchase reduced predicted intent.
+"""
+)
