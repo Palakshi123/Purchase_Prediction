@@ -1,119 +1,47 @@
-import streamlit as st
-
-st.set_page_config(
-    page_title="Will This Session Convert?",
-    page_icon="🛒",
-    layout="wide"
-)
-
 # ============================================================
-# STYLING
-# ============================================================
-
-st.markdown("""
-<style>
-
-.rocket-title {
-    color: #E72F3D;
-    font-size: 46px;
-    font-weight: 700;
-    line-height: 1.1;
-    margin-top: 20px;
-}
-
-.rocket-subtitle {
-    font-size: 24px;
-    font-weight: 500;
-    margin-top: 8px;
-}
-
-.description {
-    font-size: 16px;
-    color: #666666;
-    margin-top: 8px;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-
-# ============================================================
-# HEADER
-# ============================================================
-
-left, right = st.columns([3, 1])
-
-
-# LEFT — TITLE
-with left:
-
-    st.markdown(
-        '<div class="rocket-title">Will The Session Convert into Purchase?</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div class="rocket-subtitle">Predicting Purchase Intent</div>',
-        unsafe_allow_html=True
-    )
-
-
-# RIGHT — ROCKET LOGO
-with right:
-
-    st.image(
-        "images.png",
-        width=250
-    )
-
-
-
-
-# ============================================================
-# DATASET OVERVIEW — COMPACT
+# DATASET INFORMATION — COMPACT
 # ============================================================
 
 st.divider()
 
-st.markdown("## Dataset Overview")
+st.markdown("## Dataset Information")
 
 st.caption(
     "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions."
 )
 
 # ============================================================
-# COMPACT CARD STYLING
+# CLEAN KPI STYLING
 # ============================================================
 
 st.markdown("""
 <style>
 
 .metric-card {
-    background-color: #F8F9FA;
-    border: 1px solid #E8E8E8;
-    border-radius: 8px;
-    padding: 8px 10px;
-    min-height: 72px;
+    background: transparent;
+    border: none;
+    padding: 5px 4px;
+    min-height: 58px;
     text-align: center;
 }
 
 .metric-icon {
-    font-size: 15px;
+    font-size: 13px;
     display: inline;
 }
 
 .metric-value {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 700;
     color: #E72F3D;
     display: inline;
-    margin-left: 4px;
+    margin-left: 3px;
 }
 
 .metric-label {
-    font-size: 11px;
-    color: #666666;
-    margin-top: 3px;
+    font-size: 10px;
+    color: #777777;
+    margin-top: 2px;
 }
 
 </style>
