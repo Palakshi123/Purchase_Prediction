@@ -851,3 +851,92 @@ else:
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
+# ============================================================
+# BUSINESS INSIGHTS
+# ============================================================
+
+business_insights = {
+
+    "Event Distribution": """
+    • Customer activity is dominated by product views, while cart and purchase events occur much less frequently.
+
+    • This highlights a significant conversion opportunity between product discovery and purchase.
+
+    • Improving product recommendations, product detail pages, and cart incentives could help move more users through the funnel.
+    """,
+
+    "Purchase vs No-Purchase Sessions": """
+    • The majority of browsing sessions do not result in a purchase, indicating substantial class imbalance in purchase behavior.
+
+    • Purchase prediction should therefore focus on identifying the relatively small group of high-intent sessions.
+
+    • Precision, recall, PR-AUC, and F1-score are more informative than accuracy alone when evaluating predictive models.
+    """,
+
+    "Repeat Customer Conversion": """
+    • Repeat visitors provide an important signal of customer engagement and purchase intent.
+
+    • Differences in conversion between repeat and one-session users can support customer segmentation strategies.
+
+    • Returning high-intent customers could be targeted with personalized recommendations or remarketing campaigns.
+    """,
+
+    "Customer Activity by Day of Week": """
+    • Customer engagement varies across different days of the week.
+
+    • High-traffic periods provide opportunities to optimize campaign timing, promotions, and recommendation exposure.
+
+    • Day-of-week behavior can also provide useful temporal information for purchase prediction.
+    """,
+
+    "Weekend vs Weekday Behavior": """
+    • Comparing weekday and weekend activity helps identify differences in customer shopping behavior.
+
+    • These patterns can guide campaign scheduling and promotional strategies.
+
+    • Weekend behavior can also be incorporated as a predictive feature when modeling purchase intent.
+    """,
+
+    "Price by Event Type": """
+    • Product price patterns across views, carts, and purchases provide insight into customer price sensitivity.
+
+    • Differences between viewed and purchased product prices may reveal price ranges associated with stronger conversion.
+
+    • These patterns can support pricing strategies, promotions, and product recommendation systems.
+    """,
+
+    "Session Behavior": """
+    • Session-level behavior provides stronger purchase-intent signals than isolated customer events.
+
+    • Engagement indicators such as number of events, product views, cart activity, and session duration can help distinguish high-intent sessions.
+
+    • These behavioral signals are therefore important features for real-time purchase prediction.
+    """,
+
+    "Events Before Purchase": """
+    • Customers often interact with multiple products or events before completing a purchase.
+
+    • The number and sequence of interactions can provide an early indication of purchase intent.
+
+    • This supports using cumulative behavioral features such as events-so-far, views-so-far, and carts-so-far in the predictive model.
+    """,
+
+    "Time to First Purchase": """
+    • Time to purchase provides insight into how quickly customer intent develops within a session.
+
+    • Shorter purchase journeys may indicate strong initial intent, while longer journeys may represent comparison shopping or uncertainty.
+
+    • This creates opportunities for real-time interventions when customers show strong intent but have not yet converted.
+    """
+}
+
+
+# ============================================================
+# DISPLAY BUSINESS INSIGHTS
+# ============================================================
+
+st.markdown("### 💡 Business Insights")
+
+st.info(
+    business_insights[selected_visualization]
+)
