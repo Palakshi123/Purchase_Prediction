@@ -1113,3 +1113,64 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+# ============================================================
+# SPLIT SUMMARY
+# ============================================================
+
+subsection("Split Summary")
+
+split_summary = pd.DataFrame({
+    "Dataset": [
+        "Training",
+        "Validation",
+        "Test"
+    ],
+    "Sessions": [
+        "958,551",
+        "205,405",
+        "205,404"
+    ],
+    "Rows": [
+        "4,412,736",
+        "1,017,454",
+        "999,551"
+    ],
+    "Purchase Rate": [
+        "7.73%",
+        "8.49%",
+        "7.71%"
+    ],
+    "Purpose": [
+        "Model training",
+        "Model tuning & selection",
+        "Final unseen evaluation"
+    ]
+})
+
+st.dataframe(
+    split_summary,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# WHY THIS SPLIT
+# ============================================================
+
+st.markdown(
+    "<div style='height:20px'></div>",
+    unsafe_allow_html=True
+)
+
+subsection("Why This Split?")
+
+st.markdown(
+    """
+- **No session overlap** — all events from the same user session remain in one split.
+- **Prevents data leakage** — session information cannot appear across training and evaluation sets.
+- **Preserves chronology** — models train on earlier sessions and are evaluated on later sessions.
+- **Production-like evaluation** — reflects predicting purchase intent for future customer sessions.
+- **Consistent evaluation** — all models use the same leakage-free validation and test sets.
+"""
+)
