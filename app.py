@@ -27,26 +27,28 @@ IMAGE_DIR = BASE_DIR / "images"
 
 
 # ============================================================
-# GLOBAL STYLE
+# GLOBAL CSS
 # ============================================================
 
 st.markdown("""
 <style>
 
-/* ----------------------------------------------------------
+/* ==========================================================
    PAGE
----------------------------------------------------------- */
+========================================================== */
 
 .block-container {
-    padding-top: 1.8rem;
+    padding-top: 1.6rem;
     padding-bottom: 3rem;
-    max-width: 1450px;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    max-width: 100%;
 }
 
 
-/* ----------------------------------------------------------
+/* ==========================================================
    GLOBAL TYPOGRAPHY
----------------------------------------------------------- */
+========================================================== */
 
 html, body, [class*="css"] {
     font-family: "Source Sans Pro", sans-serif;
@@ -54,79 +56,82 @@ html, body, [class*="css"] {
 
 p, li {
     font-size: 14px !important;
-    line-height: 1.65 !important;
+    line-height: 1.6 !important;
 }
 
 
-/* ----------------------------------------------------------
-   MAIN DASHBOARD HEADER
----------------------------------------------------------- */
+/* ==========================================================
+   DASHBOARD HEADER
+========================================================== */
 
 .dashboard-title {
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 700;
     color: #1F1F1F;
     line-height: 1.2;
+    margin: 0;
 }
 
 .dashboard-subtitle {
-    font-size: 15px;
+    font-size: 14px;
     color: #666666;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .dashboard-description {
-    font-size: 14px;
+    font-size: 13px;
     color: #777777;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .dashboard-accent {
     width: 65px;
     height: 4px;
-    background: #E72F3D;
+    background-color: #E72F3D;
     border-radius: 5px;
-    margin-top: 12px;
+    margin-top: 10px;
+    margin-bottom: 4px;
 }
 
 
-/* ----------------------------------------------------------
-   SECTION TYPOGRAPHY
----------------------------------------------------------- */
+/* ==========================================================
+   SECTION TITLES
+========================================================== */
 
 .section-title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: #E72F3D;
-    margin-top: 26px;
+    margin-top: 24px;
     margin-bottom: 2px;
     line-height: 1.3;
 }
 
 .section-subtitle {
-    font-size: 14px;
+    font-size: 13px;
     color: #777777;
-    line-height: 1.6;
-    margin-bottom: 18px;
+    line-height: 1.5;
+    margin-top: 2px;
+    margin-bottom: 16px;
 }
 
 .subsection-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     color: #E72F3D;
-    margin-top: 16px;
-    margin-bottom: 8px;
+    margin-top: 14px;
+    margin-bottom: 7px;
 }
 
 
-/* ----------------------------------------------------------
+/* ==========================================================
    KPI CARDS
----------------------------------------------------------- */
+========================================================== */
 
 .metric-card {
     text-align: center;
-    padding: 8px 3px;
-    min-height: 65px;
+    padding: 7px 3px;
+    min-height: 62px;
 }
 
 .metric-icon {
@@ -134,77 +139,68 @@ p, li {
 }
 
 .metric-value {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     color: #E72F3D;
     margin-left: 4px;
 }
 
 .metric-label {
-    font-size: 12px;
+    font-size: 11px;
     color: #777777;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 
-/* ----------------------------------------------------------
+/* ==========================================================
    FEATURE PILLS
----------------------------------------------------------- */
+========================================================== */
 
 .feature-pill {
     display: inline-block;
     font-size: 11px;
     font-weight: 700;
     color: #E72F3D;
-    background: rgba(231,47,61,0.07);
-    border-radius: 15px;
+    background-color: rgba(231, 47, 61, 0.07);
+    border-radius: 14px;
     padding: 4px 9px;
     margin-bottom: 8px;
 }
 
 
-/* ----------------------------------------------------------
-   STREAMLIT COMPONENT CONSISTENCY
----------------------------------------------------------- */
+/* ==========================================================
+   STREAMLIT COMPONENTS
+========================================================== */
 
-/* selectbox label */
 div[data-testid="stSelectbox"] label p {
     font-size: 14px !important;
     font-weight: 600 !important;
 }
 
-/* selectbox value */
 div[data-baseweb="select"] {
     font-size: 14px !important;
 }
 
-/* dataframe */
 div[data-testid="stDataFrame"] {
     font-size: 13px !important;
 }
 
-/* bordered containers */
-div[data-testid="stVerticalBlockBorderWrapper"] p {
-    font-size: 14px !important;
-}
-
-/* alerts */
 div[data-testid="stAlert"] p {
     font-size: 14px !important;
     line-height: 1.6 !important;
 }
 
-
-/* ----------------------------------------------------------
-   SPACING
----------------------------------------------------------- */
-
-.section-space {
-    height: 24px;
+div[data-testid="stVerticalBlockBorderWrapper"] p {
+    font-size: 14px !important;
 }
 
-.small-space {
-    height: 10px;
+
+/* ==========================================================
+   SPACING
+========================================================== */
+
+.section-space {
+    height: 22px;
 }
 
 </style>
@@ -216,10 +212,12 @@ div[data-testid="stAlert"] p {
 # ============================================================
 
 def section_title(title, subtitle):
+
     st.markdown(
         f'<div class="section-title">{title}</div>',
         unsafe_allow_html=True
     )
+
     st.markdown(
         f'<div class="section-subtitle">{subtitle}</div>',
         unsafe_allow_html=True
@@ -227,6 +225,7 @@ def section_title(title, subtitle):
 
 
 def subsection(title):
+
     st.markdown(
         f'<div class="subsection-title">{title}</div>',
         unsafe_allow_html=True
@@ -234,6 +233,7 @@ def subsection(title):
 
 
 def pill(text):
+
     st.markdown(
         f'<span class="feature-pill">{text}</span>',
         unsafe_allow_html=True
@@ -241,6 +241,7 @@ def pill(text):
 
 
 def space():
+
     st.markdown(
         '<div class="section-space"></div>',
         unsafe_allow_html=True
@@ -248,10 +249,13 @@ def space():
 
 
 def metric_cards(cards):
+
     cols = st.columns(len(cards))
 
     for col, (icon, value, label) in zip(cols, cards):
+
         with col:
+
             st.markdown(
                 f'<div class="metric-card">'
                 f'<span class="metric-icon">{icon}</span>'
@@ -263,7 +267,7 @@ def metric_cards(cards):
 
 
 # ============================================================
-# HEADER
+# DASHBOARD HEADER
 # ============================================================
 
 st.markdown(
@@ -297,6 +301,10 @@ section_title(
 )
 
 
+# ============================================================
+# DATASET KPI — ROW 1
+# ============================================================
+
 metric_cards([
     ("📊", "42.45M", "Total Records"),
     ("👥", "3.02M", "Unique Customers"),
@@ -306,6 +314,10 @@ metric_cards([
     ("🗂️", "126", "Unique Categories")
 ])
 
+
+# ============================================================
+# DATASET KPI — ROW 2
+# ============================================================
 
 metric_cards([
     ("🔢", "9", "Initial Features"),
@@ -319,7 +331,7 @@ space()
 
 
 # ============================================================
-# DATA QUALITY
+# MISSING VALUE & DUPLICATE RECORD ANALYSIS
 # ============================================================
 
 section_title(
@@ -327,6 +339,10 @@ section_title(
     "Assessment of missing values, recoverable product metadata, and duplicate records."
 )
 
+
+# ============================================================
+# TABLE DATA
+# ============================================================
 
 missing_table = pd.DataFrame({
     "Column": [
@@ -391,7 +407,14 @@ treatment_table = pd.DataFrame({
 })
 
 
-left, right = st.columns(2, gap="large")
+# ============================================================
+# DATA QUALITY COLUMNS
+# ============================================================
+
+left, right = st.columns(
+    2,
+    gap="large"
+)
 
 
 with left:
@@ -404,6 +427,7 @@ with left:
         hide_index=True
     )
 
+
     subsection("Brand Metadata Recovery")
 
     st.dataframe(
@@ -411,6 +435,7 @@ with left:
         use_container_width=True,
         hide_index=True
     )
+
 
     st.markdown(
         "**Recovery Strategy:** Missing brand values were recovered where "
@@ -429,10 +454,12 @@ with right:
         hide_index=True
     )
 
+
     st.markdown(
         "**Duplicate Treatment:** 30,220 exact duplicate interaction "
         "records (**0.07%**) were removed before downstream analysis."
     )
+
 
     subsection("Missing Value Treatment")
 
@@ -456,6 +483,10 @@ section_title(
 )
 
 
+# ============================================================
+# FEATURE KPI
+# ============================================================
+
 metric_cards([
     ("🧩", "24", "Predictor Features"),
     ("🕒", "4", "Temporal Features"),
@@ -465,7 +496,14 @@ metric_cards([
 ])
 
 
-left, right = st.columns(2, gap="large")
+# ============================================================
+# FEATURE TABLES
+# ============================================================
+
+left, right = st.columns(
+    2,
+    gap="large"
+)
 
 
 # ============================================================
@@ -475,7 +513,9 @@ left, right = st.columns(2, gap="large")
 with left:
 
     subsection("🕒 Temporal Features")
+
     pill("4 retained features")
+
 
     temporal_features = pd.DataFrame({
         "Feature": [
@@ -492,6 +532,7 @@ with left:
         ]
     })
 
+
     st.dataframe(
         temporal_features,
         use_container_width=True,
@@ -500,7 +541,9 @@ with left:
 
 
     subsection("👆 Behavioral Features")
+
     pill("7 retained features")
+
 
     behavioral_features = pd.DataFrame({
         "Feature": [
@@ -523,6 +566,7 @@ with left:
         ]
     })
 
+
     st.dataframe(
         behavioral_features,
         use_container_width=True,
@@ -531,13 +575,15 @@ with left:
 
 
 # ============================================================
-# SESSION + PURCHASE INTENT
+# SESSION + INTENT
 # ============================================================
 
 with right:
 
     subsection("⚡ Session & Intensity Features")
+
     pill("9 retained features")
+
 
     session_features = pd.DataFrame({
         "Feature": [
@@ -564,6 +610,7 @@ with right:
         ]
     })
 
+
     st.dataframe(
         session_features,
         use_container_width=True,
@@ -572,7 +619,9 @@ with right:
 
 
     subsection("🎯 Purchase Intent Features")
+
     pill("4 retained features")
+
 
     intent_features = pd.DataFrame({
         "Feature": [
@@ -589,6 +638,7 @@ with right:
         ]
     })
 
+
     st.dataframe(
         intent_features,
         use_container_width=True,
@@ -596,13 +646,15 @@ with right:
     )
 
 
+# ============================================================
+# TARGET VARIABLE
+# ============================================================
+
 st.info(
     """
 **🎯 Target Variable — `purchase_later`**
 
-Binary target indicating whether a purchase occurs later within the same
-user session. Customer behavior observed up to the current interaction is
-used to predict future purchase intent.
+Binary target indicating whether a purchase occurs later within the same user session. Customer behavior observed up to the current interaction is used to predict future purchase intent.
 """
 )
 
@@ -620,20 +672,47 @@ section_title(
 )
 
 
+# ============================================================
+# VISUALIZATION OPTIONS
+# ============================================================
+
 eda_visualizations = {
-    "Event Distribution": "event_distribution.png",
-    "Purchase vs No-Purchase Sessions": "purchase_sessions.png",
-    "Repeat Customer Conversion": "repeat_conversion.png",
-    "Customer Activity by Day of Week": "day_of_week.png",
-    "Weekend vs Weekday Behavior": "weekend_weekday.png",
-    "Price by Event Type": "price_event_type.png",
-    "Session Behavior": "session_behavior.png",
-    "Events Before Purchase": "events_before_purchase.png",
-    "Time to First Purchase": "time_first_purchase.png"
+
+    "Event Distribution":
+        "event_distribution.png",
+
+    "Purchase vs No-Purchase Sessions":
+        "purchase_sessions.png",
+
+    "Repeat Customer Conversion":
+        "repeat_conversion.png",
+
+    "Customer Activity by Day of Week":
+        "day_of_week.png",
+
+    "Weekend vs Weekday Behavior":
+        "weekend_weekday.png",
+
+    "Price by Event Type":
+        "price_event_type.png",
+
+    "Session Behavior":
+        "session_behavior.png",
+
+    "Events Before Purchase":
+        "events_before_purchase.png",
+
+    "Time to First Purchase":
+        "time_first_purchase.png"
 }
 
 
+# ============================================================
+# BUSINESS INSIGHTS
+# ============================================================
+
 business_insights = {
+
     "Event Distribution":
         "Product views dominate customer activity, while purchases represent a much smaller share of interactions.",
 
@@ -663,22 +742,37 @@ business_insights = {
 }
 
 
+# ============================================================
+# SELECT ANALYSIS
+# ============================================================
+
 selected_visualization = st.selectbox(
     "Select an analysis",
     list(eda_visualizations.keys())
 )
 
 
-image_path = IMAGE_DIR / eda_visualizations[selected_visualization]
+image_path = (
+    IMAGE_DIR /
+    eda_visualizations[selected_visualization]
+)
 
+
+# ============================================================
+# DISPLAY IMAGE
+# ============================================================
 
 if image_path.exists():
 
-    left, center, right = st.columns([1, 2, 1])
+    left, center, right = st.columns(
+        [1, 2, 1]
+    )
 
     with center:
 
-        subsection(selected_visualization)
+        subsection(
+            selected_visualization
+        )
 
         st.image(
             str(image_path),
@@ -692,6 +786,10 @@ else:
     )
 
 
+# ============================================================
+# BUSINESS INSIGHT
+# ============================================================
+
 subsection("💡 Business Insight")
 
 st.info(
@@ -703,7 +801,7 @@ space()
 
 
 # ============================================================
-# TEXT ENRICHMENT
+# TEXT ENRICHMENT & LLM INTEGRATION
 # ============================================================
 
 section_title(
@@ -729,17 +827,23 @@ st.markdown(
 
 
 # ============================================================
-# PIPELINE
+# TEXT ENRICHMENT PIPELINE
 # ============================================================
 
 subsection("Text Enrichment Pipeline")
 
-pipeline_image = IMAGE_DIR / "text_enrichment_pipeline.png"
+
+pipeline_image = (
+    IMAGE_DIR /
+    "text_enrichment_pipeline.png"
+)
 
 
 if pipeline_image.exists():
 
-    left, center, right = st.columns([1, 2.5, 1])
+    left, center, right = st.columns(
+        [1, 2.5, 1]
+    )
 
     with center:
 
@@ -756,16 +860,21 @@ else:
 
 
 # ============================================================
-# LLM SELECTION
+# LLM SELECTION STRATEGY
 # ============================================================
 
 subsection("LLM Selection Strategy")
+
 
 local_col, cloud_col, openai_col = st.columns(
     3,
     gap="large"
 )
 
+
+# ============================================================
+# LOCAL LLM
+# ============================================================
 
 with local_col:
 
@@ -782,6 +891,10 @@ with local_col:
     )
 
 
+# ============================================================
+# LARGE CLOUD LLM
+# ============================================================
+
 with cloud_col:
 
     pill("LARGE CLOUD LLM")
@@ -796,6 +909,10 @@ with cloud_col:
 """
     )
 
+
+# ============================================================
+# OPENAI API
+# ============================================================
 
 with openai_col:
 
@@ -813,16 +930,14 @@ with openai_col:
 
 
 # ============================================================
-# MODEL DECISION
+# MODEL SELECTION DECISION
 # ============================================================
 
 st.success(
     """
 **✓ Model Selection Decision**
 
-A lightweight OpenAI API model was selected because product-description
-generation requires reliable text generation rather than complex reasoning,
-providing a practical balance of **cost, quality, speed, and scalability**.
+A lightweight OpenAI API model was selected because product-description generation requires reliable text generation rather than complex reasoning, providing a practical balance of **cost, quality, speed, and scalability**.
 """
 )
 
@@ -842,9 +957,15 @@ with st.container(border=True):
     )
 
 
+    # --------------------------------------------------------
+    # STRUCTURED METADATA
+    # --------------------------------------------------------
+
     with metadata_col:
 
-        pill("STRUCTURED PRODUCT METADATA")
+        pill(
+            "STRUCTURED PRODUCT METADATA"
+        )
 
         st.markdown(
             """
@@ -855,82 +976,21 @@ with st.container(border=True):
         )
 
 
+    # --------------------------------------------------------
+    # GENERATED DESCRIPTION
+    # --------------------------------------------------------
+
     with description_col:
 
-        pill("LLM-GENERATED DESCRIPTION")
+        pill(
+            "LLM-GENERATED DESCRIPTION"
+        )
 
         st.markdown(
             """
-Samsung smartphone in the consumer electronics category,
-designed for mobile communication and everyday digital use.
+Samsung smartphone in the consumer electronics category, designed for mobile communication and everyday digital use.
 """
         )
-
-
-# ============================================================
-# TEXT → MODEL
-# ============================================================
-
-subsection("From Text to Model Features")
-
-description_col, tfidf_col, model_col = st.columns(
-    3,
-    gap="large"
-)
-
-
-with description_col:
-
-    pill("01 · DESCRIPTION")
-
-    st.markdown(
-        """
-- Semantic product representation
-- Human-readable product context
-- Combines multiple metadata fields
-"""
-    )
-
-
-with tfidf_col:
-
-    pill("02 · TF-IDF")
-
-    st.markdown(
-        """
-- Converts text into numerical vectors
-- Captures informative product terms
-- Produces ML-compatible features
-"""
-    )
-
-
-with model_col:
-
-    pill("03 · MODEL INPUT")
-
-    st.markdown(
-        """
-- Combined with behavioral features
-- Combined with session features
-- Evaluated during model experimentation
-"""
-    )
-
-
-# ============================================================
-# KEY TAKEAWAY
-# ============================================================
-
-st.info(
-    """
-**💡 Key Takeaway**
-
-LLM enrichment transforms high-cardinality product identifiers into semantic
-product representations, while TF-IDF converts this context into numerical
-features that can be evaluated alongside behavioral and session signals.
-"""
-)
 
 
 space()
