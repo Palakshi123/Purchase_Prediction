@@ -1870,16 +1870,6 @@ st.dataframe(
 # MODEL-SPECIFIC PREPROCESSING
 # ============================================================
 
-st.info(
-    """
-**No Feature Scaling**
-
-Numerical features were **not standardized** for Random Forest.
-Tree-based models learn threshold-based splits, so feature scaling
-is not required.
-"""
-)
-
 
 # ============================================================
 # TEST PERFORMANCE
@@ -1898,14 +1888,6 @@ metric_cards([
     ("📉", "0.2595", "PR-AUC")
 ])
 
-
-st.info(
-    """
-**Model Performance:** Random Forest improved **Accuracy, Precision,
-F1 Score, ROC-AUC, and PR-AUC** compared with the previous models,
-while Recall decreased slightly.
-"""
-)
 
 
 # ============================================================
@@ -1946,15 +1928,6 @@ else:
     st.warning(
         f"Image not found: {threshold_image.name}"
     )
-
-
-st.info(
-    """
-**Threshold Trade-off:** Lower thresholds prioritize Recall, while
-higher thresholds improve Precision. Validation performance was used
-to evaluate the operating threshold before final test evaluation.
-"""
-)
 
 
 # ============================================================
@@ -2055,59 +2028,6 @@ with pr_col:
         """
     )
 
-
-# ============================================================
-# MODEL COMPARISON
-# ============================================================
-
-space()
-
-subsection("Model Comparison")
-
-comparison_df = pd.DataFrame({
-
-    "Metric": [
-        "Accuracy",
-        "Precision",
-        "Recall",
-        "F1 Score",
-        "ROC-AUC",
-        "PR-AUC"
-    ],
-
-    "Logistic Regression": [
-        "71.36%",
-        "14.20%",
-        "53.80%",
-        "22.47%",
-        "0.6901",
-        "0.2264"
-    ],
-
-    "Decision Tree": [
-        "77.34%",
-        "17.17%",
-        "50.68%",
-        "25.65%",
-        "0.7046",
-        "0.2546"
-    ],
-
-    "Random Forest": [
-        "79.73%",
-        "18.76%",
-        "48.85%",
-        "27.11%",
-        "0.7162",
-        "0.2595"
-    ]
-})
-
-st.dataframe(
-    comparison_df,
-    use_container_width=True,
-    hide_index=True
-)
 
 
 # ============================================================
@@ -2274,15 +2194,15 @@ subsection("XGBoost — Gradient Boosting Model")
 
 st.markdown(
     """
-    XGBoost was evaluated as the advanced boosting model, sequentially
-    learning from previous errors to capture complex nonlinear patterns
-    in customer purchase behavior.
+    XGBoost was evaluated as an advanced boosting model to capture
+    complex nonlinear relationships in customer purchase behavior while
+    explicitly accounting for class imbalance.
     """
 )
 
 
 # ============================================================
-# MODEL CONFIGURATION
+# INITIAL MODEL CONFIGURATION
 # ============================================================
 
 config_col1, config_col2, config_col3, config_col4 = st.columns(
@@ -2299,7 +2219,6 @@ with config_col1:
         unsafe_allow_html=True
     )
 
-
 with config_col2:
 
     pill("MAX DEPTH")
@@ -2309,7 +2228,6 @@ with config_col2:
         unsafe_allow_html=True
     )
 
-
 with config_col3:
 
     pill("LEARNING RATE")
@@ -2318,7 +2236,6 @@ with config_col3:
         '<div class="content-heading">0.10</div>',
         unsafe_allow_html=True
     )
-
 
 with config_col4:
 
@@ -2372,19 +2289,19 @@ Numerical features were **not standardized** for XGBoost because
 tree-based boosting learns threshold-based splits and does not require
 features to share a common numerical scale.
 
-Training performance was monitored using the **validation set**, keeping
-the test set untouched until final model evaluation.
+Training performance was monitored on the **validation set**, keeping
+the test set untouched until final evaluation.
 """
 )
 
 
 # ============================================================
-# TEST PERFORMANCE
+# INITIAL TEST PERFORMANCE
 # ============================================================
 
 space()
 
-subsection("Test Performance")
+subsection("Initial Model Performance")
 
 metric_cards([
     ("📊", "79.92%", "Accuracy"),
@@ -2395,14 +2312,11 @@ metric_cards([
     ("📉", "0.2649", "PR-AUC")
 ])
 
-
 st.info(
     """
-**Model Performance:** XGBoost achieved the **highest PR-AUC (0.2649)**
-and **highest F1 Score (27.19%)** among the evaluated models.
-
-ROC-AUC remained comparable to Random Forest, while the higher PR-AUC
-indicates stronger ranking performance for the minority purchase class.
+**Initial Performance:** XGBoost achieved **0.2649 PR-AUC** and
+**27.19% F1 Score**, providing the strongest PR-AUC among the
+initial model experiments.
 """
 )
 
@@ -2453,7 +2367,7 @@ subsection("Comparison with Tree-Based Models")
 st.markdown(
     """
     XGBoost was compared with Decision Tree and Random Forest using
-    threshold-independent discrimination and minority-class performance.
+    ROC-AUC and Precision–Recall performance.
     """
 )
 
@@ -2535,11 +2449,155 @@ with pr_col:
 
     st.markdown(
         """
-        XGBoost achieved the strongest **PR-AUC of 0.2649**,
-        outperforming Decision Tree and Random Forest on the
-        imbalanced purchase target.
+        XGBoost achieved the strongest initial **PR-AUC of 0.2649**
+        on the imbalanced purchase target.
         """
     )
+
+
+# ============================================================
+# HYPERPARAMETER TUNING
+# ============================================================
+
+space()
+
+subsection("Hyperparameter Tuning")
+
+st.markdown(
+    """
+    Four XGBoost configurations were evaluated on the **validation set**
+    across tree depth, learning rate, and number of estimators.
+    **PR-AUC** was used as the primary model-selection metric.
+    """
+)
+
+
+# ============================================================
+# SEARCH SPACE
+# ============================================================
+
+tune_col1, tune_col2, tune_col3 = st.columns(
+    3,
+    gap="large"
+)
+
+with tune_col1:
+
+    pill("MAX DEPTH")
+
+    st.markdown(
+        '<div class="content-heading">6 · 8</div>',
+        unsafe_allow_html=True
+    )
+
+with tune_col2:
+
+    pill("LEARNING RATE")
+
+    st.markdown(
+        '<div class="content-heading">0.05 · 0.10</div>',
+        unsafe_allow_html=True
+    )
+
+with tune_col3:
+
+    pill("ESTIMATORS")
+
+    st.markdown(
+        '<div class="content-heading">200 · 300</div>',
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# TUNING RESULTS
+# ============================================================
+
+st.markdown(
+    '<div class="small-space"></div>',
+    unsafe_allow_html=True
+)
+
+tuning_results = pd.DataFrame({
+
+    "Depth": [
+        6,
+        8,
+        6,
+        8
+    ],
+
+    "Learning Rate": [
+        0.05,
+        0.05,
+        0.10,
+        0.10
+    ],
+
+    "Trees": [
+        300,
+        300,
+        200,
+        200
+    ],
+
+    "Precision": [
+        "18.21%",
+        "18.23%",
+        "18.31%",
+        "17.93%"
+    ],
+
+    "Recall": [
+        "54.22%",
+        "54.36%",
+        "53.78%",
+        "54.67%"
+    ],
+
+    "F1": [
+        "27.26%",
+        "27.30%",
+        "27.31%",
+        "27.01%"
+    ],
+
+    "PR-AUC": [
+        "0.2757",
+        "0.2771",
+        "0.2756",
+        "0.2755"
+    ],
+
+    "ROC-AUC": [
+        "0.7171",
+        "0.7163",
+        "0.7165",
+        "0.7148"
+    ]
+})
+
+st.dataframe(
+    tuning_results,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# SELECTED CONFIGURATION
+# ============================================================
+
+st.info(
+    """
+**Selected Configuration**
+
+`max_depth = 8` · `learning_rate = 0.05` · `n_estimators = 300`
+
+This configuration achieved the highest **validation PR-AUC of 0.2771**,
+with **54.36% Recall** and **27.30% F1 Score**.
+"""
+)
 
 
 # ============================================================
@@ -2615,8 +2673,8 @@ subsection("Global Explainability — SHAP")
 
 st.markdown(
     """
-    SHAP values were used to quantify the average impact of each feature
-    on XGBoost predictions across the evaluation population.
+    SHAP values quantify the average impact of each feature on
+    XGBoost predictions across the evaluation population.
     """
 )
 
@@ -2628,14 +2686,14 @@ shap_global_image = (
 if shap_global_image.exists():
 
     left, center, right = st.columns(
-        [0.8, 2.4, 0.8]
+        [1.15, 1.7, 1.15]
     )
 
     with center:
 
         st.image(
             str(shap_global_image),
-            use_container_width=True
+            width=560
         )
 
 else:
@@ -2645,20 +2703,17 @@ else:
     )
 
 
-st.info(
+st.markdown(
     """
-**Global SHAP Interpretation:** `views_so_far` has the largest average
-impact on model predictions, followed by **brand, hour, events_so_far,
-category information, price, and cart-to-view ratio**.
-
-This shows that purchase intent is driven by a combination of session
-engagement, product interaction, temporal context, and product attributes.
+`views_so_far` produced the largest average SHAP impact, followed by
+**brand, hour, events_so_far, category information, price, and
+cart-to-view ratio**.
 """
 )
 
 
 # ============================================================
-# LOCAL EXPLAINABILITY — SHAP
+# LOCAL EXPLAINABILITY
 # ============================================================
 
 space()
@@ -2667,86 +2722,80 @@ subsection("Local Explainability — SHAP")
 
 st.markdown(
     """
-    Local SHAP explanations show how individual feature values move a
-    prediction away from the model's baseline toward either purchase
-    or no purchase.
+    Local SHAP waterfall plots show how individual feature values move
+    a prediction away from the baseline toward either purchase or
+    no purchase.
     """
 )
 
-local_col1, local_col2 = st.columns(
-    2,
-    gap="large"
+
+# ============================================================
+# LOCAL SHAP EXAMPLE 1
+# ============================================================
+
+pill("EXAMPLE 1 · NO PURCHASE")
+
+example_1_image = (
+    IMAGE_DIR /
+    "xgb-example 1.png"
 )
 
+if example_1_image.exists():
 
-# ============================================================
-# EXAMPLE 1
-# ============================================================
-
-with local_col1:
-
-    pill("EXAMPLE 1")
-
-    example_1_image = (
-        IMAGE_DIR /
-        "xgb-example 1.png"
+    left, center, right = st.columns(
+        [1, 2, 1]
     )
 
-    if example_1_image.exists():
+    with center:
 
         st.image(
             str(example_1_image),
-            use_container_width=True
+            width=650
         )
 
-    else:
+else:
 
-        st.warning(
-            f"Image not found: {example_1_image.name}"
-        )
-
-
-# ============================================================
-# EXAMPLE 2
-# ============================================================
-
-with local_col2:
-
-    pill("EXAMPLE 2")
-
-    example_2_image = (
-        IMAGE_DIR /
-        "xgb-example 2.png"
+    st.warning(
+        f"Image not found: {example_1_image.name}"
     )
 
-    if example_2_image.exists():
+
+# ============================================================
+# LOCAL SHAP EXAMPLE 2
+# ============================================================
+
+pill("EXAMPLE 2 · HIGHER PURCHASE INTENT")
+
+example_2_image = (
+    IMAGE_DIR /
+    "xgb-example 2.png"
+)
+
+if example_2_image.exists():
+
+    left, center, right = st.columns(
+        [1, 2, 1]
+    )
+
+    with center:
 
         st.image(
             str(example_2_image),
-            use_container_width=True
+            width=650
         )
 
-    else:
+else:
 
-        st.warning(
-            f"Image not found: {example_2_image.name}"
-        )
+    st.warning(
+        f"Image not found: {example_2_image.name}"
+    )
 
-
-# ============================================================
-# SHAP EXPLANATION
-# ============================================================
 
 st.info(
     """
-**Reading the Waterfall Plots**
-
-**Positive SHAP values** push the prediction toward **Purchase**,
-while **negative SHAP values** push the prediction toward
-**No Purchase**.
-
-The magnitude of the SHAP value represents how strongly that feature
-influenced the individual prediction.
+**Reading SHAP:** Positive SHAP values push the prediction toward
+**Purchase**, while negative SHAP values push it toward **No Purchase**.
+Larger absolute SHAP values indicate stronger influence on the prediction.
 """
 )
 
@@ -2822,14 +2871,12 @@ st.dataframe(
 
 st.info(
     """
-**Local Interpretation:** The model's baseline purchase probability was
-**50.75%**, while the final predicted probability for this session was
-only **10.42%**.
+**Local Interpretation:** The baseline purchase probability was
+**50.75%**, while the final predicted probability decreased to
+**10.42%**.
 
-The strongest negative driver was **brand = masei**, followed by the
-interaction hour and product/category behavior. Positive signals such as
-day of week and views were not strong enough to offset the negative
-purchase signals.
+`brand = masei` was the strongest negative contributor, accounting
+for **37.62% of the total absolute SHAP impact** for this prediction.
 """
 )
 
@@ -2844,9 +2891,8 @@ subsection("Business Targeting Performance")
 
 st.markdown(
     """
-    Lift analysis evaluates whether the model can concentrate actual
-    purchasers among the sessions receiving the highest predicted
-    purchase probabilities.
+    Lift analysis evaluates how effectively predicted probabilities
+    concentrate actual purchasers within the highest-ranked sessions.
     """
 )
 
@@ -2898,10 +2944,9 @@ st.info(
 **Business Interpretation:** The highest-scored **1% of sessions**
 achieved **60.69% precision and 7.87× lift**.
 
-Targeting the **top 10%** of sessions captures **35.35% of eventual
-purchases** while maintaining **3.53× lift**, demonstrating how predicted
-probabilities can be used to prioritize high-intent sessions for
-business interventions.
+Expanding targeting to the **top 10%** captures **35.35% of eventual
+purchases** while maintaining **3.53× lift**, showing how model scores
+can prioritize high-intent sessions.
 """
 )
 
