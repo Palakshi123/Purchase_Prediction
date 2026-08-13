@@ -1480,6 +1480,24 @@ the minority purchase class.
 )
 
 
+= st.columns(
+        [0.8, 2.4, 0.8]
+    )
+
+    with center:
+
+        st.image(
+            str(confusion_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {confusion_image.name}"
+    )
+
+
 # ============================================================
 # CONFUSION MATRIX
 # ============================================================
@@ -1500,14 +1518,14 @@ confusion_image = IMAGE_DIR / "dt-confusion-matrix.png"
 if confusion_image.exists():
 
     left, center, right = st.columns(
-        [0.8, 2.4, 0.8]
+        [1.25, 1.5, 1.25]
     )
 
     with center:
 
         st.image(
             str(confusion_image),
-            use_container_width=True
+            width=480
         )
 
 else:
@@ -1523,144 +1541,6 @@ The model correctly classified **73.43% as No Purchase** and
 **3.91% as Purchase**, while **18.86% were false positives**
 and **3.80% were false negatives**.
 """
-)
-
-
-# ============================================================
-# COMPARISON WITH LOGISTIC REGRESSION
-# ============================================================
-
-space()
-
-subsection("Comparison with Logistic Regression")
-
-st.markdown(
-    """
-    ROC and Precision–Recall curves compare the nonlinear Decision Tree
-    against the Logistic Regression baseline across classification thresholds.
-    """
-)
-
-roc_col, pr_col = st.columns(
-    2,
-    gap="large"
-)
-
-
-# ============================================================
-# AUROC
-# ============================================================
-
-with roc_col:
-
-    pill("ROC CURVE")
-
-    st.markdown(
-        '<div class="content-heading">AUROC · 0.7046</div>',
-        unsafe_allow_html=True
-    )
-
-    roc_image = IMAGE_DIR / "dt-auroc.png"
-
-    if roc_image.exists():
-
-        st.image(
-            str(roc_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {roc_image.name}"
-        )
-
-    st.markdown(
-        """
-        AUROC improved from **0.6901 → 0.7046**, indicating stronger
-        overall discrimination than the Logistic Regression baseline.
-        """
-    )
-
-
-# ============================================================
-# PRECISION-RECALL
-# ============================================================
-
-with pr_col:
-
-    pill("PRECISION–RECALL CURVE")
-
-    st.markdown(
-        '<div class="content-heading">PR-AUC · 0.2546</div>',
-        unsafe_allow_html=True
-    )
-
-    pr_image = IMAGE_DIR / "dt-pr.png"
-
-    if pr_image.exists():
-
-        st.image(
-            str(pr_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {pr_image.name}"
-        )
-
-    st.markdown(
-        """
-        PR-AUC improved from **0.2264 → 0.2546**, showing stronger
-        performance on the minority purchase class.
-        """
-    )
-
-
-# ============================================================
-# BASELINE COMPARISON
-# ============================================================
-
-space()
-
-subsection("Model Comparison")
-
-comparison_df = pd.DataFrame({
-
-    "Metric": [
-        "Accuracy",
-        "Precision",
-        "Recall",
-        "F1 Score",
-        "ROC-AUC",
-        "PR-AUC"
-    ],
-
-    "Logistic Regression": [
-        "71.36%",
-        "14.20%",
-        "53.80%",
-        "22.47%",
-        "0.6901",
-        "0.2264"
-    ],
-
-    "Decision Tree": [
-        "77.34%",
-        "17.17%",
-        "50.68%",
-        "25.65%",
-        "0.7046",
-        "0.2546"
-    ]
-})
-
-st.dataframe(
-    comparison_df,
-    use_container_width=True,
-    hide_index=True
 )
 
 
@@ -1689,7 +1569,7 @@ feature_image = IMAGE_DIR / "dt-feature-importance.png"
 if feature_image.exists():
 
     left, center, right = st.columns(
-        [0.6, 2.8, 0.6]
+        [0.8, 2.4, 0.8]
     )
 
     with center:
@@ -1704,22 +1584,6 @@ else:
     st.warning(
         f"Image not found: {feature_image.name}"
     )
-
-
-# ============================================================
-# FEATURE IMPORTANCE INTERPRETATION
-# ============================================================
-
-st.info(
-    """
-**Key Global Drivers:** `cart_to_view_ratio` is the dominant Decision Tree
-feature, followed by `product_views_so_far`, `hour`, and `price`.
-
-The model therefore relies heavily on **cart progression, repeated product
-engagement, temporal behavior, and product price** when distinguishing
-purchase intent.
-"""
-)
 
 
 # ============================================================
