@@ -57,20 +57,38 @@ st.markdown("""
     background-color: #E72F3D;
     border-radius: 4px;
     margin-top: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 
 /* ------------------------------------------------------------
-   SECTION HEADINGS
+   SECTION HEADER
 ------------------------------------------------------------ */
 
+.section-container {
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
 .dataset-heading {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: #E72F3D;
-    margin-top: 14px;
-    margin-bottom: 2px;
+    margin: 0;
+    padding: 0;
+}
+
+.section-caption {
+    font-size: 12px;
+    color: #777777;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.section-divider {
+    margin: 4px 0 6px 0;
+    border: none;
+    border-top: 1px solid #E5E5E5;
 }
 
 
@@ -81,8 +99,8 @@ st.markdown("""
 .metric-card {
     background: transparent;
     border: none;
-    padding: 5px 2px;
-    min-height: 55px;
+    padding: 3px 2px;
+    min-height: 50px;
     text-align: center;
 }
 
@@ -102,7 +120,7 @@ st.markdown("""
 .metric-label {
     font-size: 10px;
     color: #777777;
-    margin-top: 3px;
+    margin-top: 2px;
 }
 
 
@@ -114,7 +132,7 @@ st.markdown("""
     font-size: 15px;
     font-weight: 700;
     color: #E72F3D;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 
@@ -125,7 +143,7 @@ st.markdown("""
 .cleaning-note {
     font-size: 11px;
     color: #666666;
-    margin-top: 10px;
+    margin-top: 8px;
     line-height: 1.6;
 }
 
@@ -162,15 +180,17 @@ st.caption(
 # ============================================================
 
 st.markdown(
-    '<div class="dataset-heading">Dataset Information</div>',
+    """
+    <div class="section-container">
+        <div class="dataset-heading">Dataset Information</div>
+        <div class="section-caption">
+            One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions.
+        </div>
+        <hr class="section-divider">
+    </div>
+    """,
     unsafe_allow_html=True
 )
-
-st.caption(
-    "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions."
-)
-
-st.divider()
 
 
 # ============================================================
@@ -224,19 +244,23 @@ for col, (icon, value, label) in zip(
 
 
 # ============================================================
-# DATA QUALITY & CLEANING
+# MISSING VALUE & DUPLICATE RECORDS ANALYSIS
 # ============================================================
 
 st.markdown(
-    '<div class="dataset-heading">Missing Value % Duplicate Records Analysi</div>',
+    """
+    <div class="section-container">
+        <div class="dataset-heading">
+            Missing Value & Duplicate Records Analysis
+        </div>
+        <div class="section-caption">
+            Assessment of missing values, recoverable product metadata, and duplicate records.
+        </div>
+        <hr class="section-divider">
+    </div>
+    """,
     unsafe_allow_html=True
 )
-
-st.caption(
-    "Assessment of missing values, recoverable product metadata, and duplicate records."
-)
-
-st.divider()
 
 
 # ============================================================
@@ -301,6 +325,24 @@ duplicate_table = pd.DataFrame({
 
 
 # ============================================================
+# STATIC DATA — MISSING VALUE TREATMENT
+# ============================================================
+
+treatment_table = pd.DataFrame({
+    "Data Issue": [
+        "Brand",
+        "Category Code",
+        "User Session"
+    ],
+    "Treatment": [
+        "Recover using Product ID",
+        "Retain / handle downstream",
+        "Remove 2 records"
+    ]
+})
+
+
+# ============================================================
 # SIDE-BY-SIDE DATA QUALITY ANALYSIS
 # ============================================================
 
@@ -330,7 +372,7 @@ with left:
     # ========================================================
 
     st.markdown(
-        '<div class="subsection-heading" style="margin-top:15px;">Brand Metadata Recovery</div>',
+        '<div class="subsection-heading" style="margin-top:12px;">Brand Metadata Recovery</div>',
         unsafe_allow_html=True
     )
 
@@ -374,26 +416,12 @@ with right:
     # ========================================================
 
     st.markdown(
-        '<div class="subsection-heading" style="margin-top:15px;">Missing Value Treatment</div>',
+        '<div class="subsection-heading" style="margin-top:12px;">Missing Value Treatment</div>',
         unsafe_allow_html=True
     )
-
-    treatment_table = pd.DataFrame({
-        "Data Issue": [
-            "Brand",
-            "Category Code",
-            "User Session"
-        ],
-        "Treatment": [
-            "Recover using Product ID",
-            "Retain / handle downstream",
-            "Remove 2 records"
-        ]
-    })
 
     st.dataframe(
         treatment_table,
         use_container_width=True,
         hide_index=True
     )
-
