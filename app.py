@@ -33,9 +33,7 @@ IMAGE_DIR = BASE_DIR / "images"
 st.markdown("""
 <style>
 
-/* ==========================================================
-   PAGE
-========================================================== */
+/* PAGE */
 
 .block-container {
     padding-top: 1.6rem;
@@ -46,23 +44,19 @@ st.markdown("""
 }
 
 
-/* ==========================================================
-   GLOBAL TYPOGRAPHY
-========================================================== */
+/* GLOBAL TYPOGRAPHY */
 
 html, body, [class*="css"] {
     font-family: "Source Sans Pro", sans-serif;
 }
 
 p, li {
-    font-size: 14px !important;
-    line-height: 1.6 !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
 }
 
 
-/* ==========================================================
-   DASHBOARD HEADER
-========================================================== */
+/* DASHBOARD HEADER */
 
 .dashboard-title {
     font-size: 26px;
@@ -74,14 +68,15 @@ p, li {
 
 .dashboard-subtitle {
     font-size: 14px;
-    color: #666666;
+    font-weight: 500;
+    color: #555555;
     margin-top: 4px;
 }
 
 .dashboard-description {
     font-size: 13px;
     color: #777777;
-    margin-top: 8px;
+    margin-top: 7px;
 }
 
 .dashboard-accent {
@@ -90,48 +85,59 @@ p, li {
     background-color: #E72F3D;
     border-radius: 5px;
     margin-top: 10px;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 
 
-/* ==========================================================
-   SECTION TITLES
-========================================================== */
+/* SECTION TITLES */
 
 .section-title {
     font-size: 20px;
     font-weight: 700;
     color: #E72F3D;
-    margin-top: 24px;
-    margin-bottom: 2px;
-    line-height: 1.3;
+    line-height: 1.25;
+    margin-top: 26px;
+    margin-bottom: 3px;
 }
 
 .section-subtitle {
-    font-size: 13px;
+    font-size: 12.5px;
     color: #777777;
     line-height: 1.5;
-    margin-top: 2px;
+    margin-top: 0;
     margin-bottom: 16px;
 }
+
+
+/* SUBSECTION TITLES */
 
 .subsection-title {
     font-size: 15px;
     font-weight: 700;
     color: #E72F3D;
-    margin-top: 14px;
-    margin-bottom: 7px;
+    line-height: 1.3;
+    margin-top: 16px;
+    margin-bottom: 8px;
 }
 
 
-/* ==========================================================
-   KPI CARDS
-========================================================== */
+/* CONTENT HEADINGS */
+
+.content-heading {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333333;
+    margin-top: 5px;
+    margin-bottom: 6px;
+}
+
+
+/* KPI CARDS */
 
 .metric-card {
     text-align: center;
-    padding: 7px 3px;
-    min-height: 62px;
+    padding: 6px 3px;
+    min-height: 58px;
 }
 
 .metric-icon {
@@ -139,7 +145,7 @@ p, li {
 }
 
 .metric-value {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
     color: #E72F3D;
     margin-left: 4px;
@@ -148,59 +154,69 @@ p, li {
 .metric-label {
     font-size: 11px;
     color: #777777;
-    margin-top: 4px;
+    margin-top: 3px;
 }
 
 
-/* ==========================================================
-   FEATURE PILLS
-========================================================== */
+/* FEATURE PILLS */
 
 .feature-pill {
     display: inline-block;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
+    letter-spacing: 0.2px;
     color: #E72F3D;
     background-color: rgba(231, 47, 61, 0.07);
     border-radius: 14px;
     padding: 4px 9px;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 }
 
 
-/* ==========================================================
-   STREAMLIT COMPONENTS
-========================================================== */
+/* DATAFRAMES */
+
+div[data-testid="stDataFrame"] {
+    font-size: 12px !important;
+}
+
+
+/* SELECTBOX */
 
 div[data-testid="stSelectbox"] label p {
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 600 !important;
 }
 
 div[data-baseweb="select"] {
-    font-size: 14px !important;
-}
-
-div[data-testid="stDataFrame"] {
     font-size: 13px !important;
 }
 
-div[data-testid="stAlert"] p {
-    font-size: 14px !important;
-    line-height: 1.6 !important;
+
+/* ALERTS */
+
+div[data-testid="stAlert"] p,
+div[data-testid="stAlert"] li {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
 }
+
+
+/* BORDERED CONTAINERS */
 
 div[data-testid="stVerticalBlockBorderWrapper"] p {
-    font-size: 14px !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
 }
 
 
-/* ==========================================================
-   SPACING
-========================================================== */
+/* SPACING */
 
 .section-space {
     height: 22px;
+}
+
+.small-space {
+    height: 10px;
 }
 
 </style>
@@ -276,7 +292,9 @@ st.markdown(
 )
 
 st.markdown(
-    '<div class="dashboard-subtitle">Customer Behavior Analytics & Machine Learning Dashboard</div>',
+    '<div class="dashboard-subtitle">'
+    'Customer Behavior Analytics & Machine Learning Dashboard'
+    '</div>',
     unsafe_allow_html=True
 )
 
@@ -286,7 +304,10 @@ st.markdown(
 )
 
 st.markdown(
-    '<div class="dashboard-description">Predicting purchase intent from customer browsing, cart, product, and session behavior.</div>',
+    '<div class="dashboard-description">'
+    'Predicting purchase intent from customer browsing, cart, product, '
+    'and session behavior.'
+    '</div>',
     unsafe_allow_html=True
 )
 
@@ -300,11 +321,6 @@ section_title(
     "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions."
 )
 
-
-# ============================================================
-# DATASET KPI — ROW 1
-# ============================================================
-
 metric_cards([
     ("📊", "42.45M", "Total Records"),
     ("👥", "3.02M", "Unique Customers"),
@@ -314,18 +330,12 @@ metric_cards([
     ("🗂️", "126", "Unique Categories")
 ])
 
-
-# ============================================================
-# DATASET KPI — ROW 2
-# ============================================================
-
 metric_cards([
     ("🔢", "9", "Initial Features"),
     ("📅", "1 Month", "Dataset Period"),
     ("🧭", "4", "Category Levels"),
     ("👆", "3", "Event Types · View · Cart · Purchase")
 ])
-
 
 space()
 
@@ -338,11 +348,6 @@ section_title(
     "Missing Value & Duplicate Records Analysis",
     "Assessment of missing values, recoverable product metadata, and duplicate records."
 )
-
-
-# ============================================================
-# TABLE DATA
-# ============================================================
 
 missing_table = pd.DataFrame({
     "Column": [
@@ -407,15 +412,7 @@ treatment_table = pd.DataFrame({
 })
 
 
-# ============================================================
-# DATA QUALITY COLUMNS
-# ============================================================
-
-left, right = st.columns(
-    2,
-    gap="large"
-)
-
+left, right = st.columns(2, gap="large")
 
 with left:
 
@@ -427,7 +424,6 @@ with left:
         hide_index=True
     )
 
-
     subsection("Brand Metadata Recovery")
 
     st.dataframe(
@@ -435,7 +431,6 @@ with left:
         use_container_width=True,
         hide_index=True
     )
-
 
     st.markdown(
         "**Recovery Strategy:** Missing brand values were recovered where "
@@ -454,12 +449,10 @@ with right:
         hide_index=True
     )
 
-
     st.markdown(
         "**Duplicate Treatment:** 30,220 exact duplicate interaction "
         "records (**0.07%**) were removed before downstream analysis."
     )
-
 
     subsection("Missing Value Treatment")
 
@@ -468,7 +461,6 @@ with right:
         use_container_width=True,
         hide_index=True
     )
-
 
 space()
 
@@ -515,12 +507,15 @@ subsection("02 · Feature Encoding — Linear Model")
 
 st.markdown(
     """
-    Categorical features were encoded based on their cardinality to create
+    Categorical features were encoded based on cardinality to create
     efficient numerical inputs for the linear model.
     """
 )
 
-encoding_col1, encoding_col2 = st.columns(2, gap="large")
+encoding_col1, encoding_col2 = st.columns(
+    2,
+    gap="large"
+)
 
 
 with encoding_col1:
@@ -528,13 +523,16 @@ with encoding_col1:
     pill("FREQUENCY ENCODING")
 
     st.markdown(
-        """
-        ### `brand` — 2,618 categories
+        '<div class="content-heading">brand · 2,618 categories</div>',
+        unsafe_allow_html=True
+    )
 
-        - High-cardinality feature
-        - Frequency encoding avoids thousands of sparse columns
-        - Preserves brand prevalence in a single numerical feature
+    st.markdown(
         """
+- High-cardinality categorical feature
+- Avoids creating thousands of sparse columns
+- Represents brand prevalence with one numerical feature
+"""
     )
 
 
@@ -543,17 +541,24 @@ with encoding_col2:
     pill("ONE-HOT ENCODING")
 
     st.markdown(
+        '<div class="content-heading">Lower-Cardinality Features</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
         """
-        ### Lower-Cardinality Features
+- `event_type` — **2**
+- `day_of_week` — **6**
+- `category_level_1` — **14**
+- `category_level_2` — **57**
+- `category_level_3` — **82**
+- `category_level_4` — **2**
+- `previous_event` — **3**
+"""
+    )
 
-        - `event_type` — **2**
-        - `day_of_week` — **6**
-        - `category_level_1` — **14**
-        - `category_level_2` — **57**
-        - `category_level_3` — **82**
-        - `category_level_4` — **2**
-        - `previous_event` — **3**
-
+    st.markdown(
+        """
         One-hot encoding creates independent binary indicators without
         imposing an artificial ordinal relationship.
         """
@@ -565,37 +570,18 @@ with encoding_col2:
 # ============================================================
 
 st.markdown(
-    "<div style='height:18px'></div>",
+    '<div class="small-space"></div>',
     unsafe_allow_html=True
 )
 
 st.info(
     """
-    **`user_session` — 1,369,239 unique values**
+**`user_session` — 1,369,239 unique values**
 
-    Used to construct session-level features and the leakage-free data split,
-    but excluded as a direct model predictor because it is a high-cardinality
-    session identifier.
-    """
-)
-
-
-# ============================================================
-# TARGET
-# ============================================================
-
-st.info(
-    """
-**🎯 Target Variable — `purchase_later`**
-
-Binary target indicating whether a purchase occurs later within the same
-user session.
+Used for session-level feature generation and leakage-free splitting,
+but excluded as a direct model predictor because it is a high-cardinality identifier.
 """
 )
-
-space()
-
-
 
 
 # ============================================================
@@ -606,10 +592,11 @@ st.info(
     """
 **🎯 Target Variable — `purchase_later`**
 
-Binary target indicating whether a purchase occurs later within the same user session. Customer behavior observed up to the current interaction is used to predict future purchase intent.
+Binary target indicating whether a purchase occurs later within the same
+user session. Customer behavior observed up to the current interaction
+is used to predict future purchase intent.
 """
 )
-
 
 space()
 
@@ -623,10 +610,6 @@ section_title(
     "Explore customer behavior, purchase patterns, session activity, and temporal trends."
 )
 
-
-# ============================================================
-# VISUALIZATION OPTIONS
-# ============================================================
 
 eda_visualizations = {
 
@@ -659,10 +642,6 @@ eda_visualizations = {
 }
 
 
-# ============================================================
-# BUSINESS INSIGHTS
-# ============================================================
-
 business_insights = {
 
     "Event Distribution":
@@ -694,15 +673,10 @@ business_insights = {
 }
 
 
-# ============================================================
-# SELECT ANALYSIS
-# ============================================================
-
 selected_visualization = st.selectbox(
     "Select an analysis",
     list(eda_visualizations.keys())
 )
-
 
 image_path = (
     IMAGE_DIR /
@@ -710,21 +684,13 @@ image_path = (
 )
 
 
-# ============================================================
-# DISPLAY IMAGE
-# ============================================================
-
 if image_path.exists():
 
-    left, center, right = st.columns(
-        [1, 2, 1]
-    )
+    left, center, right = st.columns([1, 2, 1])
 
     with center:
 
-        subsection(
-            selected_visualization
-        )
+        subsection(selected_visualization)
 
         st.image(
             str(image_path),
@@ -738,16 +704,11 @@ else:
     )
 
 
-# ============================================================
-# BUSINESS INSIGHT
-# ============================================================
-
 subsection("💡 Business Insight")
 
 st.info(
     business_insights[selected_visualization]
 )
-
 
 space()
 
@@ -757,7 +718,7 @@ space()
 # ============================================================
 
 section_title(
-    "Product Description Generation - Text Generation + Enrichment",
+    "Product Description Generation — Text Generation + Enrichment",
     "Generating semantic product descriptions from structured metadata to introduce richer product context into the modeling pipeline."
 )
 
@@ -771,7 +732,7 @@ subsection("Why Product Description Generation using LLM API?")
 st.markdown(
     """
 - **Product ID** and **Category ID** are internal identifiers and could not be reliably matched with external product databases.
-- **Open-source datasets** provided similar metadata (ID, category, and brand) but lacked product-level descriptions.
+- **Open-source datasets** provided similar metadata such as ID, category, and brand but lacked product-level descriptions.
 - Therefore, an **LLM API** was used to generate standardized product descriptions from the available metadata.
 """
 )
@@ -787,18 +748,23 @@ pipeline_image = IMAGE_DIR / "text_enrichment_pipeline.png"
 
 if pipeline_image.exists():
 
-    left, center, right = st.columns([0.5, 3, 0.5])
+    left, center, right = st.columns(
+        [0.5, 3, 0.5]
+    )
 
     with center:
+
         st.image(
             str(pipeline_image),
             width=900
         )
 
 else:
+
     st.warning(
         f"Pipeline image not found: {pipeline_image.name}"
     )
+
 
 # ============================================================
 # LLM SELECTION STRATEGY
@@ -806,16 +772,11 @@ else:
 
 subsection("LLM API Selection Strategy")
 
-
 local_col, cloud_col, openai_col = st.columns(
     3,
     gap="large"
 )
 
-
-# ============================================================
-# LOCAL LLM
-# ============================================================
 
 with local_col:
 
@@ -831,10 +792,6 @@ with local_col:
     )
 
 
-# ============================================================
-# LARGE CLOUD LLM
-# ============================================================
-
 with cloud_col:
 
     pill("LARGE CLOUD LLM")
@@ -848,34 +805,27 @@ with cloud_col:
     )
 
 
-# ============================================================
-# OPENAI API
-# ============================================================
-
 with openai_col:
 
-    pill("OPENAI API (Model gpt-5.6-luna)")
+    pill("OPENAI API")
 
     st.markdown(
         """
 - Lightweight model
-- Cost-efficient inference (Output: $1.20 per 1M tokens)
+- Cost-efficient inference
 - Sufficient generation quality
 - No local compute dependency
-- Fast Text Generation
+- Fast text generation
 """
     )
 
-
-# ============================================================
-# MODEL SELECTION DECISION
-# ============================================================
 
 st.success(
     """
 **✓ Model Selection Decision**
 
-An OpenAI API model was selected because it's providing a practical balance of **cost, quality, speed, and scalability**.
+An OpenAI API model was selected because it provided a practical balance
+of **cost, quality, speed, and scalability**.
 """
 )
 
@@ -886,7 +836,6 @@ An OpenAI API model was selected because it's providing a practical balance of *
 
 subsection("Example Enrichment")
 
-
 with st.container(border=True):
 
     metadata_col, description_col = st.columns(
@@ -894,16 +843,9 @@ with st.container(border=True):
         gap="large"
     )
 
-
-    # --------------------------------------------------------
-    # STRUCTURED METADATA
-    # --------------------------------------------------------
-
     with metadata_col:
 
-        pill(
-            "STRUCTURED PRODUCT METADATA"
-        )
+        pill("STRUCTURED PRODUCT METADATA")
 
         st.markdown(
             """
@@ -913,39 +855,27 @@ with st.container(border=True):
 """
         )
 
-
-    # --------------------------------------------------------
-    # GENERATED DESCRIPTION
-    # --------------------------------------------------------
-
     with description_col:
 
-        pill(
-            "LLM-GENERATED DESCRIPTION"
-        )
+        pill("LLM-GENERATED DESCRIPTION")
 
         st.markdown(
             """
-Samsung smartphone in the consumer electronics category, designed for mobile communication and everyday digital use.
+Samsung smartphone in the consumer electronics category,
+designed for mobile communication and everyday digital use.
 """
         )
 
-
 space()
 
+
 # ============================================================
-# MACHINE LEARNING MODELING
+# PREDICTIVE MODELING
 # ============================================================
 
-st.markdown("## Machine Learning Modeling")
-
-st.markdown(
-    """
-    <div class="section-caption">
-        Leakage-aware model development for predicting future purchase intent.
-    </div>
-    """,
-    unsafe_allow_html=True
+section_title(
+    "Predictive Modeling",
+    "Leakage-aware model development for predicting future purchase intent."
 )
 
 
@@ -958,57 +888,27 @@ subsection("Train / Validation / Test Split")
 st.markdown(
     """
     Data was split **chronologically at the user-session level** using each
-    session's start time, ensuring that an entire session belongs to only one dataset.
+    session's start time, ensuring that an entire session belongs to only
+    one dataset.
     """
 )
 
 st.markdown(
-    "<div style='height:20px'></div>",
+    '<div class="small-space"></div>',
     unsafe_allow_html=True
 )
 
-c1, c2, c3 = st.columns(3)
 
-with c1:
-    st.markdown(
-        """
-        <div style="text-align:center;">
-            <div style="font-size:20px;">🧠</div>
-            <div style="font-size:22px;font-weight:700;color:#E72F3D;">70%</div>
-            <div style="font-size:14px;color:#777;">Training Sessions</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+# ============================================================
+# SPLIT KPI
+# ============================================================
 
-with c2:
-    st.markdown(
-        """
-        <div style="text-align:center;">
-            <div style="font-size:20px;">⚙️</div>
-            <div style="font-size:22px;font-weight:700;color:#E72F3D;">15%</div>
-            <div style="font-size:14px;color:#777;">Validation Sessions</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+metric_cards([
+    ("🧠", "70%", "Training Sessions"),
+    ("⚙️", "15%", "Validation Sessions"),
+    ("🧪", "15%", "Test Sessions")
+])
 
-with c3:
-    st.markdown(
-        """
-        <div style="text-align:center;">
-            <div style="font-size:20px;">🧪</div>
-            <div style="font-size:22px;font-weight:700;color:#E72F3D;">15%</div>
-            <div style="font-size:14px;color:#777;">Test Sessions</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-st.markdown(
-    "<div style='height:28px'></div>",
-    unsafe_allow_html=True
-)
 
 # ============================================================
 # SPLIT SUMMARY
@@ -1054,11 +954,6 @@ st.dataframe(
 # ============================================================
 # WHY THIS SPLIT
 # ============================================================
-
-st.markdown(
-    "<div style='height:20px'></div>",
-    unsafe_allow_html=True
-)
 
 subsection("Why This Split?")
 
