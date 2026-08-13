@@ -1767,3 +1767,492 @@ relationships between behavioral, temporal, and product-level signals.
 )
 
 space()
+# ============================================================
+# RANDOM FOREST — ENSEMBLE MODEL
+# ============================================================
+
+space()
+
+subsection("Random Forest — Ensemble Model")
+
+st.markdown(
+    """
+    Random Forest extends the Decision Tree approach by combining multiple
+    trees to capture nonlinear behavioral patterns while improving prediction
+    stability and generalization.
+    """
+)
+
+
+# ============================================================
+# MODEL CONFIGURATION
+# ============================================================
+
+config_col1, config_col2, config_col3, config_col4 = st.columns(
+    4,
+    gap="large"
+)
+
+with config_col1:
+
+    pill("TREES")
+
+    st.markdown(
+        '<div class="content-heading">200 Estimators</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col2:
+
+    pill("MAX DEPTH")
+
+    st.markdown(
+        '<div class="content-heading">20</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col3:
+
+    pill("CLASS BALANCE")
+
+    st.markdown(
+        '<div class="content-heading">Balanced Subsample</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col4:
+
+    pill("CRITERION")
+
+    st.markdown(
+        '<div class="content-heading">Entropy</div>',
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# ADDITIONAL MODEL SETTINGS
+# ============================================================
+
+st.markdown(
+    '<div class="small-space"></div>',
+    unsafe_allow_html=True
+)
+
+rf_config = pd.DataFrame({
+    "Parameter": [
+        "Min Samples Split",
+        "Min Samples Leaf",
+        "Max Features",
+        "Bootstrap",
+        "Training Sample / Tree",
+        "Parallel Processing"
+    ],
+    "Value": [
+        "500",
+        "200",
+        "sqrt",
+        "True",
+        "80%",
+        "All Available Cores"
+    ]
+})
+
+st.dataframe(
+    rf_config,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# MODEL-SPECIFIC PREPROCESSING
+# ============================================================
+
+st.info(
+    """
+**No Feature Scaling**
+
+Numerical features were **not standardized** for Random Forest.
+Tree-based models learn threshold-based splits, so feature scaling
+is not required.
+"""
+)
+
+
+# ============================================================
+# TEST PERFORMANCE
+# ============================================================
+
+space()
+
+subsection("Test Performance")
+
+metric_cards([
+    ("📊", "79.73%", "Accuracy"),
+    ("🎯", "18.76%", "Precision"),
+    ("🔎", "48.85%", "Recall"),
+    ("⚖️", "27.11%", "F1 Score"),
+    ("📈", "0.7162", "ROC-AUC"),
+    ("📉", "0.2595", "PR-AUC")
+])
+
+
+st.info(
+    """
+**Model Performance:** Random Forest improved **Accuracy, Precision,
+F1 Score, ROC-AUC, and PR-AUC** compared with the previous models,
+while Recall decreased slightly.
+
+The improvement in PR-AUC indicates stronger ranking performance
+for the minority purchase class.
+"""
+)
+
+
+# ============================================================
+# THRESHOLD SELECTION
+# ============================================================
+
+space()
+
+subsection("Classification Threshold Selection")
+
+st.markdown(
+    """
+    Classification thresholds were evaluated on the **validation set**
+    to examine the trade-off between Precision, Recall, and F1 Score
+    before final test evaluation.
+    """
+)
+
+threshold_image = IMAGE_DIR / "rf-threshold.png"
+
+if threshold_image.exists():
+
+    left, center, right = st.columns(
+        [0.7, 2.6, 0.7]
+    )
+
+    with center:
+
+        st.image(
+            str(threshold_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {threshold_image.name}"
+    )
+
+
+st.info(
+    """
+**Threshold Trade-off:** Lower thresholds prioritize Recall, while higher
+thresholds improve Precision. The validation analysis helps identify an
+operating threshold based on the desired balance between capturing future
+purchases and limiting false positives.
+"""
+)
+
+
+# ============================================================
+# MODEL COMPARISON — ROC + PR
+# ============================================================
+
+space()
+
+subsection("Comparison with Previous Models")
+
+st.markdown(
+    """
+    Random Forest was compared with Logistic Regression and Decision Tree
+    using ROC-AUC and Precision–Recall performance.
+    """
+)
+
+roc_col, pr_col = st.columns(
+    2,
+    gap="large"
+)
+
+
+# ============================================================
+# AUROC COMPARISON
+# ============================================================
+
+with roc_col:
+
+    pill("ROC CURVE")
+
+    st.markdown(
+        '<div class="content-heading">AUROC · 0.7162</div>',
+        unsafe_allow_html=True
+    )
+
+    roc_image = IMAGE_DIR / "rf-auroc.png"
+
+    if roc_image.exists():
+
+        st.image(
+            str(roc_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {roc_image.name}"
+        )
+
+    st.markdown(
+        """
+        AUROC improved from **0.6901 → 0.7046 → 0.7162** across
+        Logistic Regression, Decision Tree, and Random Forest.
+        """
+    )
+
+
+# ============================================================
+# PRECISION-RECALL COMPARISON
+# ============================================================
+
+with pr_col:
+
+    pill("PRECISION–RECALL CURVE")
+
+    st.markdown(
+        '<div class="content-heading">PR-AUC · 0.2595</div>',
+        unsafe_allow_html=True
+    )
+
+    pr_image = IMAGE_DIR / "rf-pr.png"
+
+    if pr_image.exists():
+
+        st.image(
+            str(pr_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {pr_image.name}"
+        )
+
+    st.markdown(
+        """
+        PR-AUC improved from **0.2264 → 0.2546 → 0.2595**,
+        indicating progressively stronger performance on the
+        imbalanced purchase target.
+        """
+    )
+
+
+# ============================================================
+# MODEL COMPARISON
+# ============================================================
+
+space()
+
+subsection("Model Comparison")
+
+comparison_df = pd.DataFrame({
+
+    "Metric": [
+        "Accuracy",
+        "Precision",
+        "Recall",
+        "F1 Score",
+        "ROC-AUC",
+        "PR-AUC"
+    ],
+
+    "Logistic Regression": [
+        "71.36%",
+        "14.20%",
+        "53.80%",
+        "22.47%",
+        "0.6901",
+        "0.2264"
+    ],
+
+    "Decision Tree": [
+        "77.34%",
+        "17.17%",
+        "50.68%",
+        "25.65%",
+        "0.7046",
+        "0.2546"
+    ],
+
+    "Random Forest": [
+        "79.73%",
+        "18.76%",
+        "48.85%",
+        "27.11%",
+        "0.7162",
+        "0.2595"
+    ]
+})
+
+st.dataframe(
+    comparison_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# GLOBAL EXPLAINABILITY
+# ============================================================
+
+space()
+
+subsection("Global Explainability")
+
+st.markdown(
+    """
+    Random Forest feature importance aggregates information across
+    the ensemble to identify the behavioral and contextual signals
+    most influential in purchase prediction.
+    """
+)
+
+
+# ============================================================
+# FEATURE IMPORTANCE
+# ============================================================
+
+feature_image = IMAGE_DIR / "rf-feature-importance.png"
+
+if feature_image.exists():
+
+    left, center, right = st.columns(
+        [0.7, 2.6, 0.7]
+    )
+
+    with center:
+
+        st.image(
+            str(feature_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {feature_image.name}"
+    )
+
+
+st.markdown(
+    """
+`cart_to_view_ratio` emerged as the strongest global feature, followed by
+`carts_so_far`, `cart_intensity`, and `product_views_so_far`, highlighting
+the importance of **cart progression and repeated product engagement**.
+"""
+)
+
+
+# ============================================================
+# FEATURE IMPORTANCE STABILITY
+# ============================================================
+
+space()
+
+subsection("Feature Importance Stability Across Trees")
+
+st.markdown(
+    """
+    Feature importance was evaluated across individual trees to determine
+    whether the strongest predictive signals remained consistent throughout
+    the ensemble.
+    """
+)
+
+stability_image = IMAGE_DIR / "rf-feature-stability.png"
+
+if stability_image.exists():
+
+    left, center, right = st.columns(
+        [0.7, 2.6, 0.7]
+    )
+
+    with center:
+
+        st.image(
+            str(stability_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {stability_image.name}"
+    )
+
+
+st.info(
+    """
+**Ensemble Interpretation:** Leading behavioral features remain influential
+across multiple trees, while variation in importance reflects the diversity
+introduced through bootstrap sampling and random feature selection.
+"""
+)
+
+
+# ============================================================
+# PROBABILITY DISTRIBUTION
+# ============================================================
+
+space()
+
+subsection("Predicted Probability Distribution")
+
+st.markdown(
+    """
+    Predicted probabilities were compared across actual purchase and
+    non-purchase observations to examine how effectively the model
+    separates the two outcome classes.
+    """
+)
+
+probability_image = IMAGE_DIR / "rf-probability-distribution.png"
+
+if probability_image.exists():
+
+    left, center, right = st.columns(
+        [0.7, 2.6, 0.7]
+    )
+
+    with center:
+
+        st.image(
+            str(probability_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {probability_image.name}"
+    )
+
+
+st.info(
+    """
+**Probability Interpretation:** Purchase observations shift toward higher
+predicted probabilities, while non-purchase observations are concentrated
+at lower probabilities. The remaining overlap represents observations
+that are more difficult for the model to distinguish.
+"""
+)
+
+space()
