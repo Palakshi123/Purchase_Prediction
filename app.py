@@ -547,7 +547,7 @@ with encoding_col2:
 
     st.markdown(
         """
-- `event_type` — **2**
+- `event_type` — **3**
 - `day_of_week` — **6**
 - `category_level_1` — **14**
 - `category_level_2` — **57**
@@ -874,8 +874,8 @@ space()
 # ============================================================
 
 section_title(
-    "Predictive Modeling",
-    "Leakage-aware model development for predicting future purchase intent."
+    "Machine Learning Modeling",
+    "Robust machine learning models to predict purchase intent while preventing data leakage and ensuring reliable evaluation on unseen customer sessions"
 )
 
 
