@@ -909,32 +909,46 @@ business_insights = {
 
 
 # ============================================================
-# BUSINESS INSIGHTS
+# BUSINESS INSIGHTS — ONE-LINE TAKEAWAYS
 # ============================================================
 
-insights = business_insights[selected_visualization]
+business_insights = {
 
-st.markdown(
-    """
-    <style>
-    .business-insights {
-        font-size: 13px;
-        line-height: 1.5;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+    "Event Distribution":
+        "Product views dominate customer activity, while only a small proportion of interactions convert into purchases.",
 
-st.markdown("#### 💡 Business Insights")
+    "Purchase vs No-Purchase Sessions":
+        "Most customer sessions do not result in a purchase, highlighting a large opportunity for conversion improvement.",
 
-st.markdown(
-    f"""
-<div class="business-insights">
-• {insights[0]}<br><br>
-• {insights[1]}<br><br>
-• {insights[2]}
-</div>
-""",
-    unsafe_allow_html=True
+    "Repeat Customer Conversion":
+        "Repeat customers show stronger purchase intent than one-session customers.",
+
+    "Customer Activity by Day of Week":
+        "Tuesday records the highest purchase activity, making it a key day for targeted promotions.",
+
+    "Weekend vs Weekday Behavior":
+        "Weekday shopping activity is higher than weekend activity, suggesting stronger purchase engagement during the workweek.",
+
+    "Price by Event Type":
+        "Purchased products tend to fall within a more concentrated price range than products customers only view.",
+
+    "Session Behavior":
+        "Customers who purchase show higher session engagement than customers who leave without purchasing.",
+
+    "Events Before Purchase":
+        "Purchase likelihood increases as customers interact with more products and events within a session.",
+
+    "Time to First Purchase":
+        "Most conversions occur relatively early in the customer session, indicating that purchase intent develops quickly."
+}
+
+
+# ============================================================
+# DISPLAY BUSINESS INSIGHT
+# ============================================================
+
+st.markdown("#### 💡 Business Insight")
+
+st.caption(
+    business_insights[selected_visualization]
 )
