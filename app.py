@@ -730,398 +730,129 @@ st.markdown(
 
 
 # ============================================================
-# EXPLORATORY DATA ANALYSIS
+# UNIVARIATE / BIVARIATE / MULTIVARIATE ANALYSIS
 # ============================================================
 
-st.markdown(
-    """
-    <div class="section-container">
-        <div class="dataset-heading">
-            Exploratory Data Analysis
-        </div>
-        <div class="section-caption">
-            Univariate, bivariate, and multivariate exploration of customer activity, session behavior, and purchase patterns.
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True
+from pathlib import Path
+
+st.divider()
+
+st.markdown("## 📊 Univariate, Bivariate & Multivariate Analysis")
+
+st.caption(
+    "Exploratory visualizations uncovering customer behavior, purchase patterns, "
+    "session dynamics, product engagement, and relationships between key features."
+)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+
+# ============================================================
+# IMAGE DIRECTORY
+# ============================================================
+
+BASE_DIR = Path(__file__).resolve().parent
+IMAGE_DIR = BASE_DIR / "images"
+
+
+# ============================================================
+# IMAGE DISPLAY FUNCTION
+# ============================================================
+
+def show_eda_image(filename, caption=None):
+
+    image_path = IMAGE_DIR / filename
+
+    if image_path.exists():
+
+        st.image(
+            str(image_path),
+            use_container_width=True
+        )
+
+        if caption:
+            st.caption(caption)
+
+    else:
+        st.warning(f"Visualization not found: {filename}")
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+
+# ============================================================
+# UNIVARIATE ANALYSIS
+# ============================================================
+
+st.markdown("### 🔹 Univariate Analysis")
+
+st.caption(
+    "Understanding the distribution and individual behavior of key variables."
+)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+show_eda_image(
+    "event_distribution.png",
+    "Distribution of customer interaction events across the dataset."
+)
+
+show_eda_image(
+    "price_distribution.png",
+    "Distribution of product prices across customer interactions."
 )
 
 
 # ============================================================
-# SMALL SPACE BEFORE TABS
+# BIVARIATE ANALYSIS
 # ============================================================
 
-st.markdown(
-    '<div style="height:12px;"></div>',
-    unsafe_allow_html=True
+st.markdown("### 🔹 Bivariate Analysis")
+
+st.caption(
+    "Examining relationships between customer behavior and purchase outcomes."
+)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+show_eda_image(
+    "session_distribution.png",
+    "Comparison of purchase and non-purchase sessions."
+)
+
+show_eda_image(
+    "conversion_funnel.png",
+    "Customer progression through the View → Cart → Purchase funnel."
+)
+
+show_eda_image(
+    "session_duration.png",
+    "Comparison of session duration between purchase and non-purchase sessions."
+)
+
+show_eda_image(
+    "repeat_customer_conversion.png",
+    "Purchase conversion behavior for repeat and one-session customers."
 )
 
 
 # ============================================================
-# EDA TABS
+# MULTIVARIATE ANALYSIS
 # ============================================================
 
-tab1, tab2, tab3 = st.tabs([
-    "📊 Univariate Analysis",
-    "🔗 Bivariate Analysis",
-    "🧠 Multivariate Analysis"
-])
-
-
-# ============================================================
-# TAB 1 — UNIVARIATE ANALYSIS
-# ============================================================
-
-with tab1:
-
-    st.markdown(
-        '<div style="height:15px;"></div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div class="subsection-heading">Customer Activity Distribution</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div class="cleaning-note">Analysis of individual customer interaction variables and their underlying distributions.</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div style="height:18px;"></div>',
-        unsafe_allow_html=True
-    )
-
-
-    # ========================================================
-    # ROW 1 — EVENT DISTRIBUTION + DAY OF WEEK
-    # ========================================================
-
-    uni1, uni2 = st.columns(2, gap="large")
-
-    with uni1:
-
-        st.markdown(
-            '<div class="subsection-heading">Event Type Distribution</div>',
-            unsafe_allow_html=True
-        )
-
-        st.image(
-            "event_distribution.png",
-            use_container_width=True
-        )
-
-        st.markdown(
-            '<div class="cleaning-note"><b>Insight:</b> Views dominate customer interactions, while cart and purchase events represent only a small proportion of total activity.</div>',
-            unsafe_allow_html=True
-        )
-
-
-    with uni2:
-
-        st.markdown(
-            '<div class="subsection-heading">Activity by Day of Week</div>',
-            unsafe_allow_html=True
-        )
-
-        st.image(
-            "day_of_week.png",
-            use_container_width=True
-        )
-
-        st.markdown(
-            '<div class="cleaning-note"><b>Insight:</b> Customer activity is strongest during the middle of the week, with Tuesday recording the highest interaction volume.</div>',
-            unsafe_allow_html=True
-        )
-
-
-    # ========================================================
-    # SPACE BETWEEN ROWS
-    # ========================================================
-
-    st.markdown(
-        '<div style="height:25px;"></div>',
-        unsafe_allow_html=True
-    )
-
-
-    # ========================================================
-    # ROW 2 — WEEKEND + TIME TO PURCHASE
-    # ========================================================
-
-    uni3, uni4 = st.columns(2, gap="large")
-
-    with uni3:
-
-        st.markdown(
-            '<div class="subsection-heading">Weekend vs Weekday Activity</div>',
-            unsafe_allow_html=True
-        )
-
-        st.image(
-            "weekend_weekday.png",
-            use_container_width=True
-        )
-
-        st.markdown(
-            '<div class="cleaning-note"><b>Insight:</b> Most customer interactions occur on weekdays, indicating stronger shopping activity during the working week.</div>',
-            unsafe_allow_html=True
-        )
-
-
-    with uni4:
-
-        st.markdown(
-            '<div class="subsection-heading">Time to First Purchase</div>',
-            unsafe_allow_html=True
-        )
-
-        st.image(
-            "time_first_purchase.png",
-            use_container_width=True
-        )
-
-        st.markdown(
-            '<div class="cleaning-note"><b>Insight:</b> First purchases are heavily concentrated near the beginning of a session, with frequency declining rapidly as session time increases.</div>',
-            unsafe_allow_html=True
-        )
-
-
-    # ========================================================
-    # SPACE BETWEEN ROWS
-    # ========================================================
-
-    st.markdown(
-        '<div style="height:25px;"></div>',
-        unsafe_allow_html=True
-    )
-
-
-    # ========================================================
-    # ROW 3 — EVENTS BEFORE PURCHASE
-    # ========================================================
-
-    uni5, uni6 = st.columns(2, gap="large")
-
-    with uni5:
-
-        st.markdown(
-            '<div class="subsection-heading">Events Before First Purchase</div>',
-            unsafe_allow_html=True
-        )
-
-        st.image(
-            "events_before_purchase.png",
-            use_container_width=True
-        )
-
-        st.markdown(
-            '<div class="cleaning-note"><b>Insight:</b> Purchasing sessions typically require only a small number of interactions before conversion, while long pre-purchase journeys are less common.</div>',
-            unsafe_allow_html=True
-        )
-
-
-    with uni6:
-
-        st.markdown(
-            '<div style="height:45px;"></div>',
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            '<div class="target-box"><div class="target-name">📊 Univariate Summary</div><div class="target-description">Customer behavior is strongly view-dominated, activity is higher during weekdays, and purchasing behavior is concentrated early in the customer session. These distributions indicate substantial behavioral differences across the shopping journey.</div></div>',
-            unsafe_allow_html=True
-        )
-
-
-# ============================================================
-# TAB 2 — BIVARIATE ANALYSIS
-# ============================================================
-
-with tab2:
-
-    st.markdown(
-        '<div style="height:15px;"></div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div class="subsection-heading">Purchase Relationship Analysis</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div class="cleaning-note">Analysis of relationships between customer characteristics, interaction behavior, and purchase outcomes.</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div style="height:18px;"></div>',
-        unsafe_allow_html=True
-    )
-
-
-    # ========================================================
-    # ROW 1 — PURCHASE SESSIONS + PRICE
-    # ========================================================
-
-    bi1, bi2 = st.columns(2, gap="large")
-
-    with bi1:
-
-        st.markdown(
-            '<div class="subsection-heading">Purchase vs No-Purchase Sessions</div>',
-            unsafe_allow_html=True
-        )
-
-        st.image(
-            "purchase_sessions.png",
-            use_container_width=True
-        )
-
-        st.markdown(
-            '<div class="cleaning-note"><b>Insight:</b> Only 6.78% of sessions result in a purchase, confirming a strongly imbalanced prediction problem.</div>',
-            unsafe_allow_html=True
-        )
-
-
-    with bi2:
-
-        st.markdown(
-            '<div class="subsection-heading">Price Distribution by Event Type</div>',
-            unsafe_allow_html=True
-        )
-
-        st.image(
-            "price_event_type.png",
-            use_container_width=True
-        )
-
-        st.markdown(
-            '<div class="cleaning-note"><b>Insight:</b> Cart interactions tend to involve somewhat higher-priced products, while substantial price variability exists across all event types.</div>',
-            unsafe_allow_html=True
-        )
-
-
-    # ========================================================
-    # SPACE BETWEEN ROWS
-    # ========================================================
-
-    st.markdown(
-        '<div style="height:25px;"></div>',
-        unsafe_allow_html=True
-    )
-
-
-    # ========================================================
-    # ROW 2 — REPEAT CUSTOMER CONVERSION
-    # ========================================================
-
-    bi3, bi4 = st.columns(2, gap="large")
-
-    with bi3:
-
-        st.markdown(
-            '<div class="subsection-heading">Repeat vs One-Session User Conversion</div>',
-            unsafe_allow_html=True
-        )
-
-        st.image(
-            "repeat_conversion.png",
-            use_container_width=True
-        )
-
-        st.markdown(
-            '<div class="cleaning-note"><b>Insight:</b> Repeat users convert at 16.72% compared with 4.79% for one-session users, demonstrating a strong relationship between repeat engagement and purchase behavior.</div>',
-            unsafe_allow_html=True
-        )
-
-
-    with bi4:
-
-        st.markdown(
-            '<div style="height:45px;"></div>',
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            '<div class="target-box"><div class="target-name">🔗 Bivariate Summary</div><div class="target-description">Purchase behavior is highly imbalanced, while repeat customer engagement shows a substantially stronger relationship with conversion. Product price also varies across interaction stages, suggesting that customer behavior and product characteristics jointly influence purchase outcomes.</div></div>',
-            unsafe_allow_html=True
-        )
-
-
-# ============================================================
-# TAB 3 — MULTIVARIATE ANALYSIS
-# ============================================================
-
-with tab3:
-
-    st.markdown(
-        '<div style="height:15px;"></div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div class="subsection-heading">Combined Behavioral Analysis</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div class="cleaning-note">Analysis of multiple behavioral signals simultaneously to understand how combinations of customer actions differentiate purchasing and non-purchasing sessions.</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div style="height:18px;"></div>',
-        unsafe_allow_html=True
-    )
-
-
-    # ========================================================
-    # SESSION BEHAVIOR
-    # ========================================================
-
-    multi1, multi2 = st.columns([1.5, 1], gap="large")
-
-    with multi1:
-
-        st.markdown(
-            '<div class="subsection-heading">Average Session Behavior: Purchase vs No Purchase</div>',
-            unsafe_allow_html=True
-        )
-
-        st.image(
-            "session_behavior.png",
-            use_container_width=True
-        )
-
-
-    with multi2:
-
-        st.markdown(
-            '<div style="height:45px;"></div>',
-            unsafe_allow_html=True
-        )
-
-        st.markdown(
-            '<div class="target-box"><div class="target-name">🧠 Multivariate Insight</div><div class="target-description">Purchasing sessions demonstrate stronger combined engagement. Average views increase from 4.44 to 5.61, while average cart activity rises dramatically from 0.05 to 0.78. The interaction between browsing depth and cart behavior therefore provides a much stronger purchase-intent signal than either behavior considered independently.</div></div>',
-            unsafe_allow_html=True
-        )
-
-
-    # ========================================================
-    # FINAL EDA TAKEAWAY
-    # ========================================================
-
-    st.markdown(
-        '<div style="height:20px;"></div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div class="target-box"><div class="target-name">🎯 Modeling Takeaway</div><div class="target-description">EDA indicates that purchase prediction should emphasize behavioral progression rather than isolated events. Cart activity, repeated engagement, interaction depth, session timing, and customer history provide meaningful signals for distinguishing high-intent sessions from the majority of non-purchasing sessions.</div></div>',
-        unsafe_allow_html=True
-    )
+st.markdown("### 🔹 Multivariate Analysis")
+
+st.caption(
+    "Exploring interactions among multiple behavioral and session-level features."
+)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+show_eda_image(
+    "correlation_heatmap.png",
+    "Correlation structure across engineered behavioral features."
+)
+
+show_eda_image(
+    "purchase_behavior.png",
+    "Combined behavioral patterns associated with future purchase intent."
+)
