@@ -1058,61 +1058,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# ============================================================
-# SPLIT BAR
-# ============================================================
-
-st.markdown(
-    """
-    <div style="
-        display:flex;
-        width:100%;
-        height:42px;
-        border-radius:8px;
-        overflow:hidden;
-        margin-bottom:30px;
-        font-size:13px;
-        font-weight:600;
-    ">
-
-        <div style="
-            width:70%;
-            background:#E72F3D;
-            color:white;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        ">
-            TRAIN · 70%
-        </div>
-
-        <div style="
-            width:15%;
-            background:#F27A84;
-            color:white;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        ">
-            VAL · 15%
-        </div>
-
-        <div style="
-            width:15%;
-            background:#F7B9BE;
-            color:#333;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        ">
-            TEST · 15%
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True
-)
 # ============================================================
 # SPLIT SUMMARY
 # ============================================================
