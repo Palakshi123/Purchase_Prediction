@@ -57,13 +57,6 @@ with left:
         unsafe_allow_html=True
     )
 
-    st.markdown(
-        '<div class="description">'
-        'Will a purchase happen before the current user session ends?'
-        '</div>',
-        unsafe_allow_html=True
-    )
-
 
 # RIGHT — ROCKET LOGO
 with right:
