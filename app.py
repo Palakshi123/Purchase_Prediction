@@ -17,30 +17,71 @@ st.set_page_config(
 
 
 # ============================================================
-# DATASET INFORMATION — COMPACT
-# ============================================================
-
-st.divider()
-
-st.markdown("## Dataset Information")
-
-st.caption(
-    "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions."
-)
-
-
-# ============================================================
-# CLEAN KPI STYLING
+# GLOBAL STYLING
 # ============================================================
 
 st.markdown("""
 <style>
 
+/* ------------------------------------------------------------
+   MAIN PAGE
+------------------------------------------------------------ */
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+
+/* ------------------------------------------------------------
+   DASHBOARD HEADER
+------------------------------------------------------------ */
+
+.dashboard-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #1F1F1F;
+    margin-bottom: 2px;
+}
+
+.dashboard-subtitle {
+    font-size: 14px;
+    color: #6B6B6B;
+    margin-bottom: 4px;
+}
+
+.dashboard-accent {
+    width: 65px;
+    height: 4px;
+    background-color: #E72F3D;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+}
+
+
+/* ------------------------------------------------------------
+   DATASET INFORMATION HEADING
+------------------------------------------------------------ */
+
+.dataset-heading {
+    font-size: 24px;
+    font-weight: 700;
+    color: #E72F3D;
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+
+
+/* ------------------------------------------------------------
+   DATASET KPI INFORMATION
+------------------------------------------------------------ */
+
 .metric-card {
     background: transparent;
     border: none;
-    padding: 5px 4px;
-    min-height: 58px;
+    padding: 4px 2px;
+    min-height: 55px;
     text-align: center;
 }
 
@@ -68,7 +109,44 @@ st.markdown("""
 
 
 # ============================================================
-# ROW 1
+# DASHBOARD HEADER
+# ============================================================
+
+st.markdown("""
+<div class="dashboard-title">
+    🛒 E-Commerce Purchase Prediction
+</div>
+
+<div class="dashboard-subtitle">
+    Customer Behavior Analytics & Machine Learning Dashboard
+</div>
+
+<div class="dashboard-accent"></div>
+""", unsafe_allow_html=True)
+
+st.caption(
+    "Predicting purchase intent from customer browsing, cart, product, and session behavior."
+)
+
+
+# ============================================================
+# DATASET INFORMATION
+# ============================================================
+
+st.divider()
+
+st.markdown(
+    '<div class="dataset-heading">Dataset Information</div>',
+    unsafe_allow_html=True
+)
+
+st.caption(
+    "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions."
+)
+
+
+# ============================================================
+# ROW 1 — DATASET INFORMATION
 # ============================================================
 
 c1, c2, c3, c4, c5, c6 = st.columns(6)
@@ -102,7 +180,7 @@ for col, (icon, value, label) in zip(
 
 
 # ============================================================
-# ROW 2
+# ROW 2 — DATASET INFORMATION
 # ============================================================
 
 c1, c2, c3, c4, c5 = st.columns(5)
