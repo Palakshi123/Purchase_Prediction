@@ -29,8 +29,9 @@ st.markdown("""
 ------------------------------------------------------------ */
 
 .block-container {
-    padding-top: 2rem;
+    padding-top: 1.8rem;
     padding-bottom: 2rem;
+    max-width: 1450px;
 }
 
 
@@ -42,32 +43,38 @@ st.markdown("""
     font-size: 30px;
     font-weight: 700;
     color: #1F1F1F;
-    margin-bottom: 2px;
+    margin: 0;
 }
 
 .dashboard-subtitle {
     font-size: 14px;
     color: #6B6B6B;
-    margin-bottom: 4px;
+    margin-top: 2px;
+}
+
+.dashboard-description {
+    font-size: 12px;
+    color: #777777;
+    margin-top: 5px;
 }
 
 .dashboard-accent {
     width: 65px;
     height: 4px;
     background-color: #E72F3D;
-    border-radius: 4px;
-    margin-top: 10px;
-    margin-bottom: 8px;
+    border-radius: 5px;
+    margin-top: 9px;
+    margin-bottom: 5px;
 }
 
 
 /* ------------------------------------------------------------
-   SECTION HEADER
+   MAJOR SECTION
 ------------------------------------------------------------ */
 
 .section-container {
     margin-top: 12px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .dataset-heading {
@@ -75,23 +82,25 @@ st.markdown("""
     font-weight: 700;
     color: #E72F3D;
     margin: 0;
-    padding: 0;
 }
 
 .section-caption {
     font-size: 12px;
     color: #777777;
     margin-top: 2px;
-    margin-bottom: 4px;
 }
 
 
 /* ------------------------------------------------------------
-   SPACE BETWEEN MAJOR SECTIONS
+   MAJOR SECTION SPACING
 ------------------------------------------------------------ */
 
 .section-spacer {
-    height: 24px;
+    height: 26px;
+}
+
+.kpi-table-spacer {
+    height: 18px;
 }
 
 
@@ -102,8 +111,8 @@ st.markdown("""
 .metric-card {
     background: transparent;
     border: none;
-    padding: 3px 2px;
-    min-height: 50px;
+    padding: 5px 3px;
+    min-height: 52px;
     text-align: center;
 }
 
@@ -123,7 +132,7 @@ st.markdown("""
 .metric-label {
     font-size: 10px;
     color: #777777;
-    margin-top: 2px;
+    margin-top: 3px;
 }
 
 
@@ -135,7 +144,14 @@ st.markdown("""
     font-size: 15px;
     font-weight: 700;
     color: #E72F3D;
-    margin-bottom: 6px;
+    margin-bottom: 7px;
+}
+
+.subsection-description {
+    font-size: 10px;
+    color: #888888;
+    margin-top: -4px;
+    margin-bottom: 8px;
 }
 
 
@@ -148,6 +164,48 @@ st.markdown("""
     color: #666666;
     margin-top: 8px;
     line-height: 1.6;
+}
+
+
+/* ------------------------------------------------------------
+   FEATURE GROUP LABEL
+------------------------------------------------------------ */
+
+.feature-group-label {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    color: #E72F3D;
+    background-color: rgba(231, 47, 61, 0.07);
+    border-radius: 12px;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+}
+
+
+/* ------------------------------------------------------------
+   TARGET VARIABLE CALLOUT
+------------------------------------------------------------ */
+
+.target-box {
+    background-color: rgba(231, 47, 61, 0.04);
+    border-left: 3px solid #E72F3D;
+    border-radius: 5px;
+    padding: 10px 14px;
+    margin-top: 16px;
+}
+
+.target-name {
+    color: #E72F3D;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.target-description {
+    color: #666666;
+    font-size: 11px;
+    margin-top: 3px;
+    line-height: 1.5;
 }
 
 </style>
@@ -173,8 +231,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.caption(
-    "Predicting purchase intent from customer browsing, cart, product, and session behavior."
+st.markdown(
+    '<div class="dashboard-description">Predicting purchase intent from customer browsing, cart, product, and session behavior.</div>',
+    unsafe_allow_html=True
 )
 
 
@@ -196,7 +255,7 @@ st.markdown(
 
 
 # ============================================================
-# ROW 1 — DATASET INFORMATION
+# DATASET KPI — ROW 1
 # ============================================================
 
 c1, c2, c3, c4, c5, c6 = st.columns(6)
@@ -222,7 +281,7 @@ for col, (icon, value, label) in zip(
 
 
 # ============================================================
-# ROW 2 — DATASET INFORMATION
+# DATASET KPI — ROW 2
 # ============================================================
 
 c1, c2, c3, c4 = st.columns(4)
@@ -246,7 +305,7 @@ for col, (icon, value, label) in zip(
 
 
 # ============================================================
-# SPACE BETWEEN MAJOR SECTIONS
+# SPACE BETWEEN SECTIONS
 # ============================================================
 
 st.markdown(
@@ -275,7 +334,7 @@ st.markdown(
 
 
 # ============================================================
-# MISSING VALUE DATA
+# DATA QUALITY TABLES
 # ============================================================
 
 missing_table = pd.DataFrame({
@@ -297,10 +356,6 @@ missing_table = pd.DataFrame({
 })
 
 
-# ============================================================
-# BRAND RECOVERY DATA
-# ============================================================
-
 brand_recovery_table = pd.DataFrame({
     "Metric": [
         "Missing Before Recovery",
@@ -317,10 +372,6 @@ brand_recovery_table = pd.DataFrame({
 })
 
 
-# ============================================================
-# DUPLICATE RECORD DATA
-# ============================================================
-
 duplicate_table = pd.DataFrame({
     "Metric": [
         "Duplicate Records",
@@ -334,10 +385,6 @@ duplicate_table = pd.DataFrame({
     ]
 })
 
-
-# ============================================================
-# MISSING VALUE TREATMENT DATA
-# ============================================================
 
 treatment_table = pd.DataFrame({
     "Data Issue": [
@@ -357,7 +404,7 @@ treatment_table = pd.DataFrame({
 # SIDE-BY-SIDE DATA QUALITY ANALYSIS
 # ============================================================
 
-left, right = st.columns(2)
+left, right = st.columns(2, gap="large")
 
 
 # ============================================================
@@ -377,13 +424,8 @@ with left:
         hide_index=True
     )
 
-
-    # ========================================================
-    # BRAND METADATA RECOVERY
-    # ========================================================
-
     st.markdown(
-        '<div class="subsection-heading" style="margin-top:12px;">Brand Metadata Recovery</div>',
+        '<div class="subsection-heading" style="margin-top:14px;">Brand Metadata Recovery</div>',
         unsafe_allow_html=True
     )
 
@@ -394,7 +436,7 @@ with left:
     )
 
     st.markdown(
-        '<div class="cleaning-note"><b>Recovery Strategy:</b> Missing brand values were recovered where a reliable brand mapping existed for the same Product ID. This restored <b>172,423 records (2.82%)</b> without assigning synthetic brand information.</div>',
+        '<div class="cleaning-note"><b>Recovery Strategy:</b> Missing brand values were recovered where a reliable brand mapping existed for the same Product ID. This restored <b>172,423 records (2.82%)</b> without introducing synthetic brand information.</div>',
         unsafe_allow_html=True
     )
 
@@ -417,17 +459,12 @@ with right:
     )
 
     st.markdown(
-        '<div class="cleaning-note"><b>Duplicate Treatment:</b> 30,220 exact duplicate interaction records were identified, representing only <b>0.07%</b> of the dataset. These records were removed before downstream analysis.</div>',
+        '<div class="cleaning-note"><b>Duplicate Treatment:</b> 30,220 exact duplicate interaction records were identified, representing <b>0.07%</b> of the dataset, and removed before downstream analysis.</div>',
         unsafe_allow_html=True
     )
 
-
-    # ========================================================
-    # MISSING VALUE TREATMENT
-    # ========================================================
-
     st.markdown(
-        '<div class="subsection-heading" style="margin-top:12px;">Missing Value Treatment</div>',
+        '<div class="subsection-heading" style="margin-top:14px;">Missing Value Treatment</div>',
         unsafe_allow_html=True
     )
 
@@ -437,18 +474,9 @@ with right:
         hide_index=True
     )
 
-# ============================================================
-# SPACE BETWEEN MAJOR SECTIONS
-# ============================================================
-
-st.markdown(
-    '<div class="section-spacer"></div>',
-    unsafe_allow_html=True
-)
-
 
 # ============================================================
-# SPACE BETWEEN MAJOR SECTIONS
+# SPACE BETWEEN SECTIONS
 # ============================================================
 
 st.markdown(
@@ -468,7 +496,7 @@ st.markdown(
             Feature Engineering
         </div>
         <div class="section-caption">
-            Derived temporal, behavioral, session, and purchase-intent features from raw customer interaction data.
+            Created temporal, behavioral, session, and purchase-intent signals from raw customer interactions.
         </div>
     </div>
     """,
@@ -477,17 +505,17 @@ st.markdown(
 
 
 # ============================================================
-# FEATURE ENGINEERING SUMMARY
+# FEATURE ENGINEERING KPI SUMMARY
 # ============================================================
 
 c1, c2, c3, c4, c5 = st.columns(5)
 
 feature_summary = [
-    ("🧩", "33", "Total Features Created"),
+    ("🧩", "32", "Predictor Features Created"),
     ("🕒", "12", "Temporal Features"),
     ("👆", "7", "Behavioral Features"),
     ("⚡", "9", "Session Features"),
-    ("🎯", "5", "Purchase Intent Features")
+    ("🎯", "4", "Purchase Intent Features")
 ]
 
 for col, (icon, value, label) in zip(
@@ -502,14 +530,24 @@ for col, (icon, value, label) in zip(
 
 
 # ============================================================
-# FEATURE ENGINEERING TABLES
+# SPACE BETWEEN KPI AND FEATURE TABLES
 # ============================================================
 
-feature_col1, feature_col2 = st.columns(2)
+st.markdown(
+    '<div class="kpi-table-spacer"></div>',
+    unsafe_allow_html=True
+)
 
 
 # ============================================================
-# LEFT — TEMPORAL & BEHAVIORAL FEATURES
+# FEATURE TABLES
+# ============================================================
+
+feature_col1, feature_col2 = st.columns(2, gap="large")
+
+
+# ============================================================
+# LEFT — TEMPORAL & BEHAVIORAL
 # ============================================================
 
 with feature_col1:
@@ -520,6 +558,11 @@ with feature_col1:
 
     st.markdown(
         '<div class="subsection-heading">🕒 Temporal Features</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="feature-group-label">12 engineered features</div>',
         unsafe_allow_html=True
     )
 
@@ -566,7 +609,12 @@ with feature_col1:
     # --------------------------------------------------------
 
     st.markdown(
-        '<div class="subsection-heading" style="margin-top:12px;">👆 Behavioral Features</div>',
+        '<div class="subsection-heading" style="margin-top:16px;">👆 Behavioral Features</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="feature-group-label">7 engineered features</div>',
         unsafe_allow_html=True
     )
 
@@ -599,7 +647,7 @@ with feature_col1:
 
 
 # ============================================================
-# RIGHT — SESSION & PURCHASE INTENT FEATURES
+# RIGHT — SESSION & PURCHASE INTENT
 # ============================================================
 
 with feature_col2:
@@ -609,7 +657,12 @@ with feature_col2:
     # --------------------------------------------------------
 
     st.markdown(
-        '<div class="subsection-heading">⚡ Session Features</div>',
+        '<div class="subsection-heading">⚡ Session & Intensity Features</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="feature-group-label">9 engineered features</div>',
         unsafe_allow_html=True
     )
 
@@ -633,8 +686,8 @@ with feature_col2:
             "Time between interactions",
             "Interaction speed",
             "Cart activity concentration",
-            "Weighted engagement level",
-            "Short-session indicator"
+            "Weighted engagement intensity",
+            "Fast-session indicator"
         ]
     })
 
@@ -650,7 +703,12 @@ with feature_col2:
     # --------------------------------------------------------
 
     st.markdown(
-        '<div class="subsection-heading" style="margin-top:12px;">🎯 Purchase Intent Features</div>',
+        '<div class="subsection-heading" style="margin-top:16px;">🎯 Purchase Intent Features</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="feature-group-label">4 engineered features</div>',
         unsafe_allow_html=True
     )
 
@@ -659,15 +717,13 @@ with feature_col2:
             "repeat_product_view",
             "previous_event_cart",
             "view_after_cart",
-            "high_intent_no_cart",
-            "purchase_later"
+            "high_intent_no_cart"
         ],
         "Purpose": [
             "Repeated product consideration",
             "Recent cart intent",
             "Post-cart browsing behavior",
-            "High views without cart action",
-            "Future purchase target"
+            "High views without cart action"
         ]
     })
 
@@ -676,3 +732,24 @@ with feature_col2:
         use_container_width=True,
         hide_index=True
     )
+
+
+# ============================================================
+# TARGET VARIABLE
+# ============================================================
+
+st.markdown(
+    """
+    <div class="target-box">
+        <div class="target-name">
+            🎯 Target Variable — purchase_later
+        </div>
+        <div class="target-description">
+            Binary target indicating whether a purchase occurs later within the same user session.
+            The target enables prediction of future purchase intent using only customer behavior
+            observed up to the current interaction.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
