@@ -947,3 +947,120 @@ st.markdown(
 - **Consistent evaluation** — all models use the same leakage-free validation and test sets.
 """
 )
+
+# ============================================================
+# LOGISTIC REGRESSION — BASELINE
+# ============================================================
+
+space()
+
+subsection("Logistic Regression — Baseline Model")
+
+st.markdown(
+    """
+    Logistic Regression was implemented as the baseline linear classifier
+    using mini-batch training and class-balanced learning.
+    """
+)
+
+
+# ============================================================
+# MODEL CONFIGURATION
+# ============================================================
+
+config_col1, config_col2, config_col3, config_col4 = st.columns(
+    4,
+    gap="large"
+)
+
+with config_col1:
+    pill("MODEL")
+    st.markdown(
+        '<div class="content-heading">SGD Logistic Regression</div>',
+        unsafe_allow_html=True
+    )
+
+with config_col2:
+    pill("REGULARIZATION")
+    st.markdown(
+        '<div class="content-heading">L2</div>',
+        unsafe_allow_html=True
+    )
+
+with config_col3:
+    pill("CLASS BALANCE")
+    st.markdown(
+        '<div class="content-heading">Balanced Weights</div>',
+        unsafe_allow_html=True
+    )
+
+with config_col4:
+    pill("TRAINING")
+    st.markdown(
+        '<div class="content-heading">100K Mini-Batches</div>',
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# MODEL DETAILS
+# ============================================================
+
+st.markdown(
+    '<div class="small-space"></div>',
+    unsafe_allow_html=True
+)
+
+model_details = pd.DataFrame({
+    "Parameter": [
+        "Loss",
+        "Penalty",
+        "Alpha",
+        "Class Weight — No Purchase",
+        "Class Weight — Purchase",
+        "Batch Size"
+    ],
+    "Value": [
+        "Log Loss",
+        "L2",
+        "0.0001",
+        "0.5411",
+        "6.5884",
+        "100,000"
+    ]
+})
+
+st.dataframe(
+    model_details,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# TEST PERFORMANCE
+# ============================================================
+
+subsection("Test Performance")
+
+metric_cards([
+    ("📊", "46.82%", "Accuracy"),
+    ("🎯", "10.12%", "Precision"),
+    ("🔎", "76.31%", "Recall"),
+    ("⚖️", "17.87%", "F1 Score"),
+    ("📈", "0.6874", "ROC-AUC"),
+    ("📉", "0.2232", "PR-AUC")
+])
+
+
+# ============================================================
+# BASELINE RESULT
+# ============================================================
+
+st.info(
+    """
+**Baseline Result:** The model captured **76.31% of future purchases**, but
+with **10.12% precision**, establishing the initial precision–recall benchmark
+for comparison with nonlinear models.
+"""
+)
