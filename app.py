@@ -885,17 +885,6 @@ else:
 
 
 # ============================================================
-# BUSINESS INSIGHT
-# ============================================================
-
-st.markdown("#### 💡 Business Insight")
-
-st.caption(
-    business_insights[selected_visualization]
-)
-
-
-# ============================================================
 # TEXT ENRICHMENT & LLM INTEGRATION
 # ============================================================
 
@@ -904,90 +893,75 @@ st.divider()
 st.markdown("### 🤖 Text Enrichment & LLM Integration")
 
 st.caption(
-    "Transforming sparse product identifiers into meaningful semantic features "
-    "using generative AI and NLP."
-)
-
-st.markdown(
-    """
-    The original dataset primarily represented products through structured identifiers
-    such as **product_id**, **category_id**, **category_code**, and **brand**. While useful
-    for identifying products, these fields provide limited semantic information about
-    what the product actually represents.
-
-    To introduce richer product context, I created a **product description enrichment
-    pipeline** using an **OpenAI LLM API**.
-    """
+    "Enriching structured product metadata with semantic product descriptions "
+    "to introduce meaningful text features into the modeling pipeline."
 )
 
 
 # ============================================================
-# WHY PRODUCT DESCRIPTION GENERATION
+# WHY TEXT ENRICHMENT?
 # ============================================================
 
-st.markdown("#### Why Generate Product Descriptions?")
+st.markdown("#### Why Text Enrichment?")
+
+st.caption(
+    "The original dataset primarily identifies products using product_id, category_id, "
+    "category_code, and brand. Product ID and category ID are high-cardinality identifiers "
+    "and provide limited semantic information about what a product actually represents."
+)
+
+
+# ============================================================
+# APPROACH
+# ============================================================
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown(
-        """
-        **🏷️ Sparse Product Metadata**
-
-        Product and category IDs are identifiers rather than meaningful textual
-        representations of the products.
-        """
+    st.markdown("**① Product Metadata**")
+    st.caption(
+        "Combined available product, brand, and category information to create "
+        "a structured representation of each product."
     )
 
 with col2:
-    st.markdown(
-        """
-        **🧠 Semantic Context**
-
-        Generated descriptions capture product meaning using available category,
-        brand, and product metadata.
-        """
+    st.markdown("**② LLM Enrichment**")
+    st.caption(
+        "Used the OpenAI API to generate concise product descriptions that capture "
+        "semantic meaning beyond numerical identifiers."
     )
 
 with col3:
-    st.markdown(
-        """
-        **📈 ML-Ready Features**
-
-        Product descriptions enable NLP techniques such as TF-IDF to transform
-        semantic information into numerical model features.
-        """
+    st.markdown("**③ Text Features**")
+    st.caption(
+        "Converted generated descriptions into numerical features using TF-IDF "
+        "for downstream machine-learning experiments."
     )
 
 
 # ============================================================
-# LLM APPROACH
+# PIPELINE
 # ============================================================
 
-st.markdown("#### LLM Enrichment Pipeline")
+st.markdown("#### Enrichment Pipeline")
 
-st.markdown(
-    """
-    **Product Metadata** → **OpenAI LLM API** → **Generated Product Description**
-    → **TF-IDF Vectorization** → **Numerical Text Features**
-    """
+st.code(
+    "Product ID + Brand + Category Metadata  →  OpenAI LLM  →  Product Description  →  TF-IDF  →  ML Features",
+    language=None
 )
 
 
 # ============================================================
-# MODEL SELECTION
+# WHY LLM?
 # ============================================================
 
-st.markdown("#### Why OpenAI API?")
+st.markdown("#### Why an LLM?")
 
-st.markdown(
-    """
-    A cost-efficient OpenAI model was selected because product enrichment required
-    generating descriptions across a large number of products. For this task,
-    **cost and inference efficiency were prioritized over using a larger reasoning
-    model**, since the objective was short, structured product-description generation
-    rather than complex reasoning.
-    """
+st.caption(
+    "A lightweight, cost-efficient OpenAI model was selected because the task required "
+    "large-scale generation of short and structured product descriptions rather than "
+    "complex reasoning. This reduced enrichment cost while still providing sufficient "
+    "semantic context for NLP feature engineering."
 )
 
 
@@ -995,24 +969,24 @@ st.markdown(
 # EXAMPLE
 # ============================================================
 
-st.markdown("#### Example Enrichment")
+st.markdown("#### Example")
 
-example_col1, example_col2 = st.columns(2)
+example_left, example_right = st.columns(2)
 
-with example_col1:
+with example_left:
 
-    st.markdown("**Original Structured Data**")
+    st.markdown("**Original Product Metadata**")
 
     st.code(
-        """product_id: 1004856
-category_id: 2053013555631882655
-category_code: electronics.smartphone
-brand: samsung"""
+        """Product ID: 1004856
+Category: electronics.smartphone
+Brand: Samsung""",
+        language=None
     )
 
-with example_col2:
+with example_right:
 
-    st.markdown("**LLM-Enriched Representation**")
+    st.markdown("**LLM-Generated Description**")
 
     st.info(
         "Samsung smartphone in the consumer electronics category, "
@@ -1021,13 +995,13 @@ with example_col2:
 
 
 # ============================================================
-# BUSINESS / MODELING VALUE
+# KEY TAKEAWAY
 # ============================================================
 
-st.markdown("#### 💡 Modeling Value")
+st.markdown("#### 💡 Key Takeaway")
 
 st.caption(
-    "LLM enrichment converts opaque product identifiers into semantic information, "
-    "allowing downstream models to learn product context rather than relying only "
-    "on high-cardinality categorical IDs."
+    "Text enrichment transforms opaque product identifiers into semantic product "
+    "representations, enabling the modeling pipeline to capture product context "
+    "that product_id and category_id alone cannot provide."
 )
