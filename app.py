@@ -710,24 +710,11 @@ with feature_col2:
         hide_index=True
     )
 
-
 # ============================================================
 # TARGET VARIABLE
 # ============================================================
 
 st.markdown(
-    """
-    <div class="target-box">
-        <div class="target-name">
-            🎯 Target Variable — purchase_later
-        </div>
-
-        <div class="target-description">
-            Binary target indicating whether a purchase occurs later within
-            the same user session. The model uses customer behavior observed
-            up to the current interaction to predict future purchase intent.
-        </div>
-    </div>
-    """,
+    '<div class="target-box"><div class="target-name">🎯 Target Variable — purchase_later</div><div class="target-description">Binary target indicating whether a purchase occurs later within the same user session. The model uses customer behavior observed up to the current interaction to predict future purchase intent.</div></div>',
     unsafe_allow_html=True
 )
