@@ -741,8 +741,8 @@ st.divider()
 st.markdown("## 📊 Exploratory Data Analysis — Visualizations")
 
 st.caption(
-    "Visual exploration of customer behavior, session activity, "
-    "conversion patterns, and purchase behavior."
+    "Visual exploration of customer behavior, purchase patterns, "
+    "session activity, and temporal trends."
 )
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -753,83 +753,130 @@ st.markdown("<br>", unsafe_allow_html=True)
 # ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent
+
+# Change "images" only if your folder has a different name
 IMAGE_DIR = BASE_DIR / "images"
 
 
 # ============================================================
-# IMAGE DISPLAY FUNCTION
+# VISUALIZATION LIST
 # ============================================================
 
-def show_eda_image(filename, title, caption=None):
+eda_images = [
 
-    image_path = IMAGE_DIR / filename
+    (
+        "event_distribution.png",
+        "Event Distribution"
+    ),
 
-    st.markdown(f"### {title}")
+    (
+        "purchase_sessions.png",
+        "Purchase vs No-Purchase Sessions"
+    ),
 
-    if image_path.exists():
+    (
+        "repeat_conversion.png",
+        "Repeat Customer Conversion"
+    ),
 
-        # Center the visualization
-        left, center, right = st.columns([1, 4, 1])
+    (
+        "day_of_week.png",
+        "Customer Activity by Day of Week"
+    ),
 
-        with center:
+    (
+        "weekend_weekday.png",
+        "Weekend vs Weekday Behavior"
+    ),
 
-            st.image(
-                str(image_path),
-                width=650
-            )
+    (
+        "price_event_type.png",
+        "Price by Event Type"
+    ),
 
-            if caption:
-                st.caption(caption)
+    (
+        "session_behavior.png",
+        "Session Behavior"
+    ),
+
+    (
+        "events_before_purchase.png",
+        "Events Before Purchase"
+    ),
+
+    (
+        "time_first_purchase.png",
+        "Time to First Purchase"
+    ),
+
+    (
+        "images.png",
+        "Customer Purchase Behavior"
+    )
+]
+
+
+# ============================================================
+# DISPLAY 3 VISUALIZATIONS PER ROW
+# ============================================================
+
+for i in range(0, len(eda_images), 3):
+
+    row_images = eda_images[i:i + 3]
+
+    # Center final row when fewer than 3 images remain
+    if len(row_images) == 1:
+
+        spacer_left, col, spacer_right = st.columns([1, 2, 1])
+        columns = [col]
+
+    elif len(row_images) == 2:
+
+        spacer_left, col1, col2, spacer_right = st.columns(
+            [0.3, 1, 1, 0.3]
+        )
+
+        columns = [col1, col2]
 
     else:
-        st.warning(f"Visualization not found: {filename}")
 
-    # Space between visualizations
-    st.markdown("<br><br>", unsafe_allow_html=True)
+        columns = st.columns(3)
 
+    for col, (filename, title) in zip(columns, row_images):
 
-# ============================================================
-# VISUALIZATIONS
-# ============================================================
+        image_path = IMAGE_DIR / filename
 
-show_eda_image(
-    "event_distribution.png",
-    "Event Distribution",
-    "Distribution of customer interactions across View, Cart, and Purchase events."
-)
+        with col:
 
-show_eda_image(
-    "session_distribution.png",
-    "Purchase vs No-Purchase Sessions",
-    "Distribution of sessions based on whether a purchase occurred."
-)
+            st.markdown(
+                f"""
+                <div style="
+                    text-align:center;
+                    font-size:17px;
+                    font-weight:600;
+                    margin-bottom:10px;
+                ">
+                    {title}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
-show_eda_image(
-    "conversion_funnel.png",
-    "Customer Conversion Funnel",
-    "Customer progression across the View → Cart → Purchase journey."
-)
+            if image_path.exists():
 
-show_eda_image(
-    "session_duration.png",
-    "Session Duration by Purchase Outcome",
-    "Comparison of session duration between purchase and non-purchase sessions."
-)
+                st.image(
+                    str(image_path),
+                    use_container_width=True
+                )
 
-show_eda_image(
-    "repeat_customer_conversion.png",
-    "Repeat vs One-Session Customer Conversion",
-    "Comparison of purchase conversion rates between repeat and one-session customers."
-)
+            else:
 
-show_eda_image(
-    "correlation_heatmap.png",
-    "Feature Correlation Heatmap",
-    "Relationships and correlations across behavioral and session-level features."
-)
+                st.warning(
+                    f"Image not found: {filename}"
+                )
 
-show_eda_image(
-    "purchase_behavior.png",
-    "Purchase Behavior Analysis",
-    "Behavioral patterns associated with future purchase intent."
-)
+    # Space between rows
+    st.markdown(
+        "<div style='height:35px;'></div>",
+        unsafe_allow_html=True
+    )
