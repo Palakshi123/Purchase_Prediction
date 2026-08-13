@@ -738,14 +738,16 @@ from pathlib import Path
 
 st.divider()
 
-st.markdown("## 📊 Exploratory Data Analysis — Visualizations")
+# ============================================================
+# SECTION TITLE
+# ============================================================
+
+st.markdown("### 📊 Exploratory Data Analysis — Visualizations")
 
 st.caption(
     "Explore customer behavior, purchase patterns, session activity, "
     "and temporal trends by selecting a visualization below."
 )
-
-st.markdown("<br>", unsafe_allow_html=True)
 
 
 # ============================================================
@@ -792,7 +794,42 @@ eda_visualizations = {
 
 
 # ============================================================
-# DROPDOWN
+# BUSINESS INSIGHTS
+# ============================================================
+
+business_insights = {
+
+    "Event Distribution":
+        "Product views dominate customer activity, while purchases represent a much smaller share of interactions.",
+
+    "Purchase vs No-Purchase Sessions":
+        "Most customer sessions do not result in a purchase, highlighting a significant conversion opportunity.",
+
+    "Repeat Customer Conversion":
+        "Repeat customers demonstrate stronger purchase intent than one-session customers.",
+
+    "Customer Activity by Day of Week":
+        "Tuesday records the highest purchase activity, making it a key day for targeted promotions.",
+
+    "Weekend vs Weekday Behavior":
+        "Weekday activity is higher than weekend activity, indicating stronger customer engagement during the workweek.",
+
+    "Price by Event Type":
+        "Purchased products are concentrated within a narrower price range than products customers only view.",
+
+    "Session Behavior":
+        "Customers who purchase demonstrate higher session engagement than customers who leave without purchasing.",
+
+    "Events Before Purchase":
+        "Purchase likelihood increases as customers interact with more events during a session.",
+
+    "Time to First Purchase":
+        "Most purchases occur relatively early in the session, suggesting that purchase intent develops quickly."
+}
+
+
+# ============================================================
+# VISUALIZATION DROPDOWN
 # ============================================================
 
 selected_visualization = st.selectbox(
@@ -802,7 +839,7 @@ selected_visualization = st.selectbox(
 
 
 # ============================================================
-# SELECTED IMAGE
+# GET SELECTED IMAGE
 # ============================================================
 
 selected_file = eda_visualizations[selected_visualization]
@@ -811,14 +848,12 @@ image_path = IMAGE_DIR / selected_file
 
 
 # ============================================================
-# DISPLAY VISUALIZATION
+# DISPLAY SELECTED VISUALIZATION
 # ============================================================
-
-st.markdown("<br>", unsafe_allow_html=True)
 
 if image_path.exists():
 
-    # Smaller centered image
+    # Smaller centered visualization
     left, center, right = st.columns([1.5, 2, 1.5])
 
     with center:
@@ -826,10 +861,10 @@ if image_path.exists():
         st.markdown(
             f"""
             <div style="
-                text-align:center;
-                font-size:17px;
-                font-weight:600;
-                margin-bottom:8px;
+                text-align: center;
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 5px;
             ">
                 {selected_visualization}
             </div>
@@ -843,108 +878,14 @@ if image_path.exists():
         )
 
 else:
-    st.warning(f"Visualization not found: {selected_file}")
+
+    st.warning(
+        f"Visualization not found: {selected_file}"
+    )
 
 
 # ============================================================
-# BUSINESS INSIGHTS
-# ============================================================
-
-business_insights = {
-
-    "Event Distribution": [
-        "Customer activity is dominated by product views, while purchases represent a much smaller share of interactions.",
-        "The large View → Purchase gap highlights a significant conversion opportunity.",
-        "Improving recommendations and cart conversion strategies could help increase purchases."
-    ],
-
-    "Purchase vs No-Purchase Sessions": [
-        "Most sessions do not result in a purchase, confirming significant class imbalance.",
-        "The prediction problem should focus on identifying the smaller group of high-intent sessions.",
-        "Recall, precision, F1 and PR-AUC are more informative than accuracy alone."
-    ],
-
-    "Repeat Customer Conversion": [
-        "Repeat visitors provide an important signal of customer engagement and purchase intent.",
-        "Conversion differences can support segmentation of new versus returning customers.",
-        "High-intent returning customers can be targeted with personalized recommendations."
-    ],
-
-    "Customer Activity by Day of Week": [
-        "Customer engagement varies across different days of the week.",
-        "High-activity periods can guide campaign and promotion timing.",
-        "Day-of-week behavior provides an additional temporal signal for purchase prediction."
-    ],
-
-    "Weekend vs Weekday Behavior": [
-        "Shopping behavior differs between weekdays and weekends.",
-        "These patterns can help optimize campaign timing and promotional strategies.",
-        "Weekend behavior can also serve as a predictive feature."
-    ],
-
-    "Price by Event Type": [
-        "Price differences across views, carts and purchases provide insight into customer price sensitivity.",
-        "Certain price ranges may demonstrate stronger conversion behavior.",
-        "These patterns can inform pricing, promotions and recommendations."
-    ],
-
-    "Session Behavior": [
-        "Session-level engagement provides strong signals of purchase intent.",
-        "Views, carts, event frequency and session duration help distinguish high-intent customers.",
-        "These signals are valuable features for real-time purchase prediction."
-    ],
-
-    "Events Before Purchase": [
-        "Customers often perform multiple interactions before completing a purchase.",
-        "Increasing interaction depth can indicate growing purchase intent.",
-        "Cumulative features such as events-so-far and carts-so-far can capture this behavior."
-    ],
-
-    "Time to First Purchase": [
-        "Time to purchase indicates how quickly customer intent develops.",
-        "Short purchase journeys may represent stronger initial intent.",
-        "Longer journeys may provide opportunities for targeted interventions."
-    ]
-}
-
-
-# ============================================================
-# BUSINESS INSIGHTS — ONE-LINE TAKEAWAYS
-# ============================================================
-
-business_insights = {
-
-    "Event Distribution":
-        "Product views dominate customer activity, while only a small proportion of interactions convert into purchases.",
-
-    "Purchase vs No-Purchase Sessions":
-        "Most customer sessions do not result in a purchase, highlighting a large opportunity for conversion improvement.",
-
-    "Repeat Customer Conversion":
-        "Repeat customers show stronger purchase intent than one-session customers.",
-
-    "Customer Activity by Day of Week":
-        "Tuesday records the highest purchase activity, making it a key day for targeted promotions.",
-
-    "Weekend vs Weekday Behavior":
-        "Weekday shopping activity is higher than weekend activity, suggesting stronger purchase engagement during the workweek.",
-
-    "Price by Event Type":
-        "Purchased products tend to fall within a more concentrated price range than products customers only view.",
-
-    "Session Behavior":
-        "Customers who purchase show higher session engagement than customers who leave without purchasing.",
-
-    "Events Before Purchase":
-        "Purchase likelihood increases as customers interact with more products and events within a session.",
-
-    "Time to First Purchase":
-        "Most conversions occur relatively early in the customer session, indicating that purchase intent develops quickly."
-}
-
-
-# ============================================================
-# DISPLAY BUSINESS INSIGHT
+# BUSINESS INSIGHT
 # ============================================================
 
 st.markdown("#### 💡 Business Insight")
