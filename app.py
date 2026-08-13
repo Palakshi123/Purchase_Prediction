@@ -893,3 +893,141 @@ st.markdown("#### 💡 Business Insight")
 st.caption(
     business_insights[selected_visualization]
 )
+
+
+# ============================================================
+# TEXT ENRICHMENT & LLM INTEGRATION
+# ============================================================
+
+st.divider()
+
+st.markdown("### 🤖 Text Enrichment & LLM Integration")
+
+st.caption(
+    "Transforming sparse product identifiers into meaningful semantic features "
+    "using generative AI and NLP."
+)
+
+st.markdown(
+    """
+    The original dataset primarily represented products through structured identifiers
+    such as **product_id**, **category_id**, **category_code**, and **brand**. While useful
+    for identifying products, these fields provide limited semantic information about
+    what the product actually represents.
+
+    To introduce richer product context, I created a **product description enrichment
+    pipeline** using an **OpenAI LLM API**.
+    """
+)
+
+
+# ============================================================
+# WHY PRODUCT DESCRIPTION GENERATION
+# ============================================================
+
+st.markdown("#### Why Generate Product Descriptions?")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown(
+        """
+        **🏷️ Sparse Product Metadata**
+
+        Product and category IDs are identifiers rather than meaningful textual
+        representations of the products.
+        """
+    )
+
+with col2:
+    st.markdown(
+        """
+        **🧠 Semantic Context**
+
+        Generated descriptions capture product meaning using available category,
+        brand, and product metadata.
+        """
+    )
+
+with col3:
+    st.markdown(
+        """
+        **📈 ML-Ready Features**
+
+        Product descriptions enable NLP techniques such as TF-IDF to transform
+        semantic information into numerical model features.
+        """
+    )
+
+
+# ============================================================
+# LLM APPROACH
+# ============================================================
+
+st.markdown("#### LLM Enrichment Pipeline")
+
+st.markdown(
+    """
+    **Product Metadata** → **OpenAI LLM API** → **Generated Product Description**
+    → **TF-IDF Vectorization** → **Numerical Text Features**
+    """
+)
+
+
+# ============================================================
+# MODEL SELECTION
+# ============================================================
+
+st.markdown("#### Why OpenAI API?")
+
+st.markdown(
+    """
+    A cost-efficient OpenAI model was selected because product enrichment required
+    generating descriptions across a large number of products. For this task,
+    **cost and inference efficiency were prioritized over using a larger reasoning
+    model**, since the objective was short, structured product-description generation
+    rather than complex reasoning.
+    """
+)
+
+
+# ============================================================
+# EXAMPLE
+# ============================================================
+
+st.markdown("#### Example Enrichment")
+
+example_col1, example_col2 = st.columns(2)
+
+with example_col1:
+
+    st.markdown("**Original Structured Data**")
+
+    st.code(
+        """product_id: 1004856
+category_id: 2053013555631882655
+category_code: electronics.smartphone
+brand: samsung"""
+    )
+
+with example_col2:
+
+    st.markdown("**LLM-Enriched Representation**")
+
+    st.info(
+        "Samsung smartphone in the consumer electronics category, "
+        "designed for mobile communication and everyday digital use."
+    )
+
+
+# ============================================================
+# BUSINESS / MODELING VALUE
+# ============================================================
+
+st.markdown("#### 💡 Modeling Value")
+
+st.caption(
+    "LLM enrichment converts opaque product identifiers into semantic information, "
+    "allowing downstream models to learn product context rather than relying only "
+    "on high-cardinality categorical IDs."
+)
