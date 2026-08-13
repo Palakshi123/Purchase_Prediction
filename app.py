@@ -1,4 +1,22 @@
 # ============================================================
+# IMPORTS
+# ============================================================
+
+import streamlit as st
+
+
+# ============================================================
+# PAGE CONFIGURATION
+# ============================================================
+
+st.set_page_config(
+    page_title="E-Commerce Purchase Prediction",
+    page_icon="🛒",
+    layout="wide"
+)
+
+
+# ============================================================
 # DATASET INFORMATION — COMPACT
 # ============================================================
 
@@ -9,6 +27,7 @@ st.markdown("## Dataset Information")
 st.caption(
     "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions."
 )
+
 
 # ============================================================
 # CLEAN KPI STYLING
