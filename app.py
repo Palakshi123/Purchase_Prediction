@@ -1005,32 +1005,25 @@ subsection("Train / Validation / Test Split")
 
 st.markdown(
     """
-    Data was split <b>chronologically at the user-session level</b> using
-    each session's start time, ensuring that an entire session belongs to
-    only one dataset.
-    """,
-    unsafe_allow_html=True
+    Data was split **chronologically at the user-session level** using each
+    session's start time, ensuring that an entire session belongs to only one dataset.
+    """
 )
 
 st.markdown(
-    "<div style='height:18px'></div>",
+    "<div style='height:20px'></div>",
     unsafe_allow_html=True
 )
-
-
-# ============================================================
-# SPLIT KPI CARDS
-# ============================================================
 
 c1, c2, c3 = st.columns(3)
 
 with c1:
     st.markdown(
         """
-        <div class="metric-card">
-            <div class="metric-icon">🧠</div>
-            <div class="metric-value">70%</div>
-            <div class="metric-label">Training Sessions</div>
+        <div style="text-align:center;">
+            <div style="font-size:20px;">🧠</div>
+            <div style="font-size:22px;font-weight:700;color:#E72F3D;">70%</div>
+            <div style="font-size:14px;color:#777;">Training Sessions</div>
         </div>
         """,
         unsafe_allow_html=True
@@ -1039,10 +1032,10 @@ with c1:
 with c2:
     st.markdown(
         """
-        <div class="metric-card">
-            <div class="metric-icon">⚙️</div>
-            <div class="metric-value">15%</div>
-            <div class="metric-label">Validation Sessions</div>
+        <div style="text-align:center;">
+            <div style="font-size:20px;">⚙️</div>
+            <div style="font-size:22px;font-weight:700;color:#E72F3D;">15%</div>
+            <div style="font-size:14px;color:#777;">Validation Sessions</div>
         </div>
         """,
         unsafe_allow_html=True
@@ -1051,14 +1044,19 @@ with c2:
 with c3:
     st.markdown(
         """
-        <div class="metric-card">
-            <div class="metric-icon">🧪</div>
-            <div class="metric-value">15%</div>
-            <div class="metric-label">Test Sessions</div>
+        <div style="text-align:center;">
+            <div style="font-size:20px;">🧪</div>
+            <div style="font-size:22px;font-weight:700;color:#E72F3D;">15%</div>
+            <div style="font-size:14px;color:#777;">Test Sessions</div>
         </div>
         """,
         unsafe_allow_html=True
     )
+
+st.markdown(
+    "<div style='height:28px'></div>",
+    unsafe_allow_html=True
+)
 
 
 # ============================================================
@@ -1070,11 +1068,10 @@ st.markdown(
     <div style="
         display:flex;
         width:100%;
-        height:46px;
-        margin-top:28px;
-        margin-bottom:32px;
-        border-radius:10px;
+        height:42px;
+        border-radius:8px;
         overflow:hidden;
+        margin-bottom:30px;
         font-size:13px;
         font-weight:600;
     ">
@@ -1104,7 +1101,7 @@ st.markdown(
         <div style="
             width:15%;
             background:#F7B9BE;
-            color:#333333;
+            color:#333;
             display:flex;
             align-items:center;
             justify-content:center;
@@ -1116,117 +1113,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-
-# ============================================================
-# SPLIT SUMMARY TABLE
-# ============================================================
-
-subsection("Split Summary")
-
-split_summary = pd.DataFrame({
-    "Dataset": [
-        "Training",
-        "Validation",
-        "Test"
-    ],
-    "Sessions": [
-        "958,551",
-        "205,405",
-        "205,404"
-    ],
-    "Rows": [
-        "4,412,736",
-        "1,017,454",
-        "999,551"
-    ],
-    "Purchase Rate": [
-        "7.73%",
-        "8.49%",
-        "7.71%"
-    ],
-    "Purpose": [
-        "Model training",
-        "Hyperparameter tuning & model selection",
-        "Final unseen evaluation"
-    ]
-})
-
-st.dataframe(
-    split_summary,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# WHY THIS SPLIT
-# ============================================================
-
-st.markdown(
-    "<div style='height:22px'></div>",
-    unsafe_allow_html=True
-)
-
-subsection("Why Chronological Session-Level Split?")
-
-st.markdown(
-    """
-- **No session overlap** — all events from the same `user_session` remain in one split.
-- **Prevents leakage** — the same session cannot contribute information to both training and evaluation.
-- **Preserves chronology** — training sessions occur before validation and test sessions.
-- **Production-like evaluation** — models learn from historical sessions and predict on future sessions.
-- **Fair model comparison** — every model uses the same train, validation, and test populations.
-"""
-)
-
-
-# ============================================================
-# PRE-PURCHASE MODELING POPULATION
-# ============================================================
-
-st.markdown(
-    "<div style='height:22px'></div>",
-    unsafe_allow_html=True
-)
-
-subsection("Pre-Purchase Modeling Population")
-
-st.markdown(
-    """
-    Current **purchase events were removed** because the prediction opportunity
-    ends once a purchase has already occurred. The model therefore learns only
-    from snapshots where the purchase outcome is still in the future.
-    """
-)
-
-st.markdown(
-    "<div style='height:15px'></div>",
-    unsafe_allow_html=True
-)
-
-p1, p2 = st.columns(2)
-
-with p1:
-    st.markdown(
-        """
-        <div class="metric-card">
-            <div class="metric-icon">📊</div>
-            <div class="metric-value">6,319,533</div>
-            <div class="metric-label">Final Modeling Rows</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-with p2:
-    st.markdown(
-        """
-        <div class="metric-card">
-            <div class="metric-icon">🎯</div>
-            <div class="metric-value">7.71%</div>
-            <div class="metric-label">Purchase-Later Rate</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
