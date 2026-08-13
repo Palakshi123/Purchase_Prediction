@@ -566,25 +566,6 @@ with encoding_col2:
 
 
 # ============================================================
-# IDENTIFIER EXCLUSION
-# ============================================================
-
-st.markdown(
-    '<div class="small-space"></div>',
-    unsafe_allow_html=True
-)
-
-st.info(
-    """
-**`user_session` — 1,369,239 unique values**
-
-Used for session-level feature generation and leakage-free splitting,
-but excluded as a direct model predictor because it is a high-cardinality identifier.
-"""
-)
-
-
-# ============================================================
 # TARGET VARIABLE
 # ============================================================
 
@@ -606,7 +587,7 @@ space()
 # ============================================================
 
 section_title(
-    "Exploratory Data Analysis",
+    "Univariate/Bivariate/Multivariate Data Visualization",
     "Explore customer behavior, purchase patterns, session activity, and temporal trends."
 )
 
