@@ -948,8 +948,9 @@ st.markdown(
 """
 )
 
+
 # ============================================================
-# LOGISTIC REGRESSION — BASELINE
+# LOGISTIC REGRESSION — BASELINE MODEL
 # ============================================================
 
 space()
@@ -959,7 +960,8 @@ subsection("Logistic Regression — Baseline Model")
 st.markdown(
     """
     Logistic Regression was implemented as the baseline linear classifier
-    using mini-batch training and class-balanced learning.
+    using standardized numerical features, class-balanced learning,
+    L2 regularization, and mini-batch training.
     """
 )
 
@@ -968,34 +970,55 @@ st.markdown(
 # MODEL CONFIGURATION
 # ============================================================
 
-config_col1, config_col2, config_col3, config_col4 = st.columns(
-    4,
+config_col1, config_col2, config_col3, config_col4, config_col5 = st.columns(
+    5,
     gap="large"
 )
 
 with config_col1:
+
     pill("MODEL")
+
     st.markdown(
         '<div class="content-heading">SGD Logistic Regression</div>',
         unsafe_allow_html=True
     )
 
+
 with config_col2:
+
+    pill("SCALING")
+
+    st.markdown(
+        '<div class="content-heading">StandardScaler</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col3:
+
     pill("REGULARIZATION")
+
     st.markdown(
         '<div class="content-heading">L2</div>',
         unsafe_allow_html=True
     )
 
-with config_col3:
+
+with config_col4:
+
     pill("CLASS BALANCE")
+
     st.markdown(
         '<div class="content-heading">Balanced Weights</div>',
         unsafe_allow_html=True
     )
 
-with config_col4:
+
+with config_col5:
+
     pill("TRAINING")
+
     st.markdown(
         '<div class="content-heading">100K Mini-Batches</div>',
         unsafe_allow_html=True
@@ -1003,7 +1026,7 @@ with config_col4:
 
 
 # ============================================================
-# MODEL DETAILS
+# STANDARDIZATION
 # ============================================================
 
 st.markdown(
@@ -1011,29 +1034,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-model_details = pd.DataFrame({
-    "Parameter": [
-        "Loss",
-        "Penalty",
-        "Alpha",
-        "Class Weight — No Purchase",
-        "Class Weight — Purchase",
-        "Batch Size"
-    ],
-    "Value": [
-        "Log Loss",
-        "L2",
-        "0.0001",
-        "0.5411",
-        "6.5884",
-        "100,000"
-    ]
-})
+st.info(
+    """
+**Feature Standardization**
 
-st.dataframe(
-    model_details,
-    use_container_width=True,
-    hide_index=True
+Numerical features were standardized using **StandardScaler** before
+Logistic Regression training. The scaler was **fit only on the training
+data** and then applied to validation and test sets to prevent data leakage.
+"""
 )
 
 
@@ -1041,89 +1049,178 @@ st.dataframe(
 # TEST PERFORMANCE
 # ============================================================
 
+space()
+
 subsection("Test Performance")
 
 metric_cards([
-    ("📊", "46.82%", "Accuracy"),
-    ("🎯", "10.12%", "Precision"),
-    ("🔎", "76.31%", "Recall"),
-    ("⚖️", "17.87%", "F1 Score"),
-    ("📈", "0.6874", "ROC-AUC"),
-    ("📉", "0.2232", "PR-AUC")
+    ("📊", "71.36%", "Accuracy"),
+    ("🎯", "14.20%", "Precision"),
+    ("🔎", "53.80%", "Recall"),
+    ("⚖️", "22.47%", "F1 Score"),
+    ("📈", "0.6901", "ROC-AUC"),
+    ("📉", "0.2264", "PR-AUC")
 ])
-
-
-# ============================================================
-# BASELINE RESULT
-# ============================================================
 
 st.info(
     """
-**Baseline Result:** The model captured **76.31% of future purchases**, but
-with **10.12% precision**, establishing the initial precision–recall benchmark
-for comparison with nonlinear models.
+**Baseline Performance:** Logistic Regression achieved **53.80% recall**
+and **14.20% precision**, with a **ROC-AUC of 0.6901** and
+**PR-AUC of 0.2264**, establishing the baseline for comparison with
+more complex models.
 """
 )
+
+
 # ============================================================
-# LOGISTIC REGRESSION — GLOBAL EXPLAINABILITY
+# MODEL PERFORMANCE VISUALS
 # ============================================================
 
 space()
 
-subsection("Logistic Regression — Global Explainability")
+subsection("Model Performance Analysis")
 
-st.markdown(
-    """
-    Model coefficients were analyzed to understand the direction and magnitude
-    of each feature's relationship with predicted purchase intent.
-    """
+performance_col1, performance_col2 = st.columns(
+    2,
+    gap="large"
 )
 
 
 # ============================================================
-# EXPLAINABILITY METHOD
+# ROC CURVE
 # ============================================================
 
-exp_col1, exp_col2 = st.columns(2, gap="large")
+with performance_col1:
 
-with exp_col1:
-
-    pill("COEFFICIENT")
+    pill("ROC CURVE")
 
     st.markdown(
-        '<div class="content-heading">Direction & Strength</div>',
+        '<div class="content-heading">AUROC · 0.6901</div>',
         unsafe_allow_html=True
     )
 
-    st.markdown(
-        """
-- **Positive coefficient** → increases predicted purchase odds
-- **Negative coefficient** → decreases predicted purchase odds
-- Larger absolute values indicate stronger model influence
-"""
-    )
+    roc_image = IMAGE_DIR / "lr-roc-curve.png"
 
+    if roc_image.exists():
 
-with exp_col2:
+        st.image(
+            str(roc_image),
+            use_container_width=True
+        )
 
-    pill("ODDS RATIO")
+    else:
 
-    st.markdown(
-        '<div class="content-heading">Interpretable Effect</div>',
-        unsafe_allow_html=True
-    )
+        st.warning(
+            f"Image not found: {roc_image.name}"
+        )
 
     st.markdown(
         """
-- **Odds Ratio > 1** → higher purchase odds
-- **Odds Ratio < 1** → lower purchase odds
-- Calculated as `exp(coefficient)`
-"""
+        The ROC curve evaluates the model's ability to distinguish
+        purchase from non-purchase outcomes across classification thresholds.
+        """
     )
 
 
 # ============================================================
-# SELECTED GLOBAL DRIVERS
+# CONFUSION MATRIX
+# ============================================================
+
+with performance_col2:
+
+    pill("CONFUSION MATRIX")
+
+    st.markdown(
+        '<div class="content-heading">Classification Performance</div>',
+        unsafe_allow_html=True
+    )
+
+    confusion_image = IMAGE_DIR / "lr-confusion-metrics.png"
+
+    if confusion_image.exists():
+
+        st.image(
+            str(confusion_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {confusion_image.name}"
+        )
+
+    st.markdown(
+        """
+        The confusion matrix highlights the trade-off between identifying
+        future purchases and generating false-positive purchase predictions.
+        """
+    )
+
+
+# ============================================================
+# GLOBAL EXPLAINABILITY
+# ============================================================
+
+space()
+
+subsection("Global Explainability")
+
+st.markdown(
+    """
+    Logistic Regression coefficients provide a global view of how features
+    influence predicted purchase intent across the modeling population.
+    """
+)
+
+explain_col1, explain_col2 = st.columns(
+    [1.7, 1],
+    gap="large"
+)
+
+
+with explain_col1:
+
+    feature_image = IMAGE_DIR / "feature-importance-lr.png"
+
+    if feature_image.exists():
+
+        st.image(
+            str(feature_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {feature_image.name}"
+        )
+
+
+with explain_col2:
+
+    pill("COEFFICIENT DIRECTION")
+
+    st.markdown(
+        """
+**Positive Coefficient**
+
+Pushes the prediction toward purchase.
+
+**Negative Coefficient**
+
+Pushes the prediction away from purchase.
+
+**Magnitude**
+
+Because numerical features were standardized, coefficient magnitudes
+can be compared more meaningfully across standardized numerical predictors.
+"""
+    )
+
+
+# ============================================================
+# KEY GLOBAL DRIVERS
 # ============================================================
 
 subsection("Key Global Purchase Drivers")
@@ -1169,22 +1266,18 @@ st.dataframe(
     hide_index=True
 )
 
-
-# ============================================================
-# INTERPRETATION
-# ============================================================
-
 st.info(
     """
-**Model Interpretation**
-
-Greater overall session activity and continued category engagement were
-associated with stronger predicted purchase intent, while view-heavy behavior
-without corresponding progression toward purchase reduced predicted intent.
+**Global Interpretation:** Greater session activity and continued category
+engagement were associated with stronger predicted purchase intent, while
+view-heavy behavior without corresponding progression toward purchase
+reduced predicted intent.
 """
 )
+
+
 # ============================================================
-# LOGISTIC REGRESSION — LOCAL EXPLAINABILITY
+# LOCAL EXPLAINABILITY
 # ============================================================
 
 space()
@@ -1193,14 +1286,14 @@ subsection("Local Explainability — Single Prediction")
 
 st.markdown(
     """
-    Feature-level contributions were calculated for an individual prediction
+    Feature-level contributions were examined for an individual prediction
     to understand which signals pushed the model toward or away from purchase.
     """
 )
 
 
 # ============================================================
-# PREDICTION SUMMARY
+# LOCAL PREDICTION SUMMARY
 # ============================================================
 
 metric_cards([
@@ -1211,7 +1304,7 @@ metric_cards([
 
 
 # ============================================================
-# FEATURE CONTRIBUTIONS
+# LOCAL FEATURE CONTRIBUTIONS
 # ============================================================
 
 subsection("Top Feature Contributions")
@@ -1246,20 +1339,15 @@ st.dataframe(
     hide_index=True
 )
 
-
-# ============================================================
-# LOCAL INTERPRETATION
-# ============================================================
-
 st.info(
     """
-**Prediction Interpretation**
+**Prediction Interpretation:** Strong session activity, repeated category
+engagement, and repeated product views pushed the prediction toward purchase,
+while cart-related signals pushed in the opposite direction.
 
-Strong session activity, repeated category engagement, and repeated product
-views pushed the prediction toward purchase. However, cart-related signals
-pushed in the opposite direction.
-
-The combined feature contributions produced a very high purchase score,
-although the customer ultimately did not purchase.
+Despite the strong predicted purchase intent, the customer ultimately did
+not purchase, providing an example of a **high-confidence false positive**.
 """
 )
+
+space()
