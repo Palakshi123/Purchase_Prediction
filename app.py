@@ -729,19 +729,20 @@ st.markdown(
 )
 
 
+
 # ============================================================
-# UNIVARIATE / BIVARIATE / MULTIVARIATE ANALYSIS
+# EXPLORATORY DATA ANALYSIS — VISUALIZATIONS
 # ============================================================
 
 from pathlib import Path
 
 st.divider()
 
-st.markdown("## 📊 Univariate, Bivariate & Multivariate Analysis")
+st.markdown("## 📊 Exploratory Data Analysis — Visualizations")
 
 st.caption(
-    "Exploratory visualizations uncovering customer behavior, purchase patterns, "
-    "session dynamics, product engagement, and relationships between key features."
+    "Visual exploration of customer behavior, session activity, "
+    "conversion patterns, and purchase behavior."
 )
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -759,100 +760,76 @@ IMAGE_DIR = BASE_DIR / "images"
 # IMAGE DISPLAY FUNCTION
 # ============================================================
 
-def show_eda_image(filename, caption=None):
+def show_eda_image(filename, title, caption=None):
 
     image_path = IMAGE_DIR / filename
 
+    st.markdown(f"### {title}")
+
     if image_path.exists():
 
-        st.image(
-            str(image_path),
-            use_container_width=True
-        )
+        # Center the visualization
+        left, center, right = st.columns([1, 4, 1])
 
-        if caption:
-            st.caption(caption)
+        with center:
+
+            st.image(
+                str(image_path),
+                width=650
+            )
+
+            if caption:
+                st.caption(caption)
 
     else:
         st.warning(f"Visualization not found: {filename}")
 
+    # Space between visualizations
     st.markdown("<br><br>", unsafe_allow_html=True)
 
 
 # ============================================================
-# UNIVARIATE ANALYSIS
+# VISUALIZATIONS
 # ============================================================
-
-st.markdown("### 🔹 Univariate Analysis")
-
-st.caption(
-    "Understanding the distribution and individual behavior of key variables."
-)
-
-st.markdown("<br>", unsafe_allow_html=True)
 
 show_eda_image(
     "event_distribution.png",
-    "Distribution of customer interaction events across the dataset."
+    "Event Distribution",
+    "Distribution of customer interactions across View, Cart, and Purchase events."
 )
-
-show_eda_image(
-    "price_distribution.png",
-    "Distribution of product prices across customer interactions."
-)
-
-
-# ============================================================
-# BIVARIATE ANALYSIS
-# ============================================================
-
-st.markdown("### 🔹 Bivariate Analysis")
-
-st.caption(
-    "Examining relationships between customer behavior and purchase outcomes."
-)
-
-st.markdown("<br>", unsafe_allow_html=True)
 
 show_eda_image(
     "session_distribution.png",
-    "Comparison of purchase and non-purchase sessions."
+    "Purchase vs No-Purchase Sessions",
+    "Distribution of sessions based on whether a purchase occurred."
 )
 
 show_eda_image(
     "conversion_funnel.png",
-    "Customer progression through the View → Cart → Purchase funnel."
+    "Customer Conversion Funnel",
+    "Customer progression across the View → Cart → Purchase journey."
 )
 
 show_eda_image(
     "session_duration.png",
+    "Session Duration by Purchase Outcome",
     "Comparison of session duration between purchase and non-purchase sessions."
 )
 
 show_eda_image(
     "repeat_customer_conversion.png",
-    "Purchase conversion behavior for repeat and one-session customers."
+    "Repeat vs One-Session Customer Conversion",
+    "Comparison of purchase conversion rates between repeat and one-session customers."
 )
-
-
-# ============================================================
-# MULTIVARIATE ANALYSIS
-# ============================================================
-
-st.markdown("### 🔹 Multivariate Analysis")
-
-st.caption(
-    "Exploring interactions among multiple behavioral and session-level features."
-)
-
-st.markdown("<br>", unsafe_allow_html=True)
 
 show_eda_image(
     "correlation_heatmap.png",
-    "Correlation structure across engineered behavioral features."
+    "Feature Correlation Heatmap",
+    "Relationships and correlations across behavioral and session-level features."
 )
 
 show_eda_image(
     "purchase_behavior.png",
-    "Combined behavioral patterns associated with future purchase intent."
+    "Purchase Behavior Analysis",
+    "Behavioral patterns associated with future purchase intent."
 )
