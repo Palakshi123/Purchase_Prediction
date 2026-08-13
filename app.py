@@ -66,7 +66,7 @@ st.markdown("""
 ------------------------------------------------------------ */
 
 .section-container {
-    margin-top: 12px;
+    margin-top: 14px;
     margin-bottom: 6px;
 }
 
@@ -83,12 +83,6 @@ st.markdown("""
     color: #777777;
     margin-top: 2px;
     margin-bottom: 4px;
-}
-
-.section-divider {
-    margin: 4px 0 6px 0;
-    border: none;
-    border-top: 1px solid #E5E5E5;
 }
 
 
@@ -186,7 +180,6 @@ st.markdown(
         <div class="section-caption">
             One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions.
         </div>
-        <hr class="section-divider">
     </div>
     """,
     unsafe_allow_html=True
@@ -256,7 +249,6 @@ st.markdown(
         <div class="section-caption">
             Assessment of missing values, recoverable product metadata, and duplicate records.
         </div>
-        <hr class="section-divider">
     </div>
     """,
     unsafe_allow_html=True
@@ -264,7 +256,7 @@ st.markdown(
 
 
 # ============================================================
-# STATIC DATA — MISSING VALUE ANALYSIS
+# MISSING VALUE DATA
 # ============================================================
 
 missing_table = pd.DataFrame({
@@ -287,7 +279,7 @@ missing_table = pd.DataFrame({
 
 
 # ============================================================
-# STATIC DATA — BRAND RECOVERY
+# BRAND RECOVERY DATA
 # ============================================================
 
 brand_recovery_table = pd.DataFrame({
@@ -307,7 +299,7 @@ brand_recovery_table = pd.DataFrame({
 
 
 # ============================================================
-# STATIC DATA — DUPLICATE ANALYSIS
+# DUPLICATE DATA
 # ============================================================
 
 duplicate_table = pd.DataFrame({
@@ -325,7 +317,7 @@ duplicate_table = pd.DataFrame({
 
 
 # ============================================================
-# STATIC DATA — MISSING VALUE TREATMENT
+# MISSING VALUE TREATMENT DATA
 # ============================================================
 
 treatment_table = pd.DataFrame({
