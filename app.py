@@ -814,14 +814,13 @@ section_title(
 # WHY TEXT ENRICHMENT
 # ============================================================
 
-subsection("Why Text Enrichment?")
+subsection("Why Product Description Generation using LLM API?")
 
 st.markdown(
     """
-- **product_id** and **category_id** are high-cardinality identifiers with limited semantic meaning.
-- **category_code** provides category context, while **brand** identifies the manufacturer, but neither fully describes the product.
-- Product descriptions combine available metadata into a richer **semantic representation** of each product.
-- Generated descriptions can then be converted into numerical features for downstream machine-learning experiments.
+- **Product ID** and **Category ID** are internal identifiers and could not be reliably matched with external product databases.
+- **Open-source datasets** provided similar metadata (ID, category, and brand) but lacked product-level descriptions.
+- Therefore, an **LLM API** was used to generate standardized product descriptions from the available metadata.
 """
 )
 
@@ -842,7 +841,7 @@ pipeline_image = (
 if pipeline_image.exists():
 
     left, center, right = st.columns(
-        [1, 2.5, 1]
+        [0.5, 3, 0.5]
     )
 
     with center:
