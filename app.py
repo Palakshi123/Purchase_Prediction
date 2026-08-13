@@ -2264,5 +2264,645 @@ at lower probabilities. The overlap between the distributions represents
 observations that remain difficult for the model to distinguish.
 """
 )
+# ============================================================
+# XGBOOST — GRADIENT BOOSTING MODEL
+# ============================================================
+
+space()
+
+subsection("XGBoost — Gradient Boosting Model")
+
+st.markdown(
+    """
+    XGBoost was evaluated as the advanced boosting model, sequentially
+    learning from previous errors to capture complex nonlinear patterns
+    in customer purchase behavior.
+    """
+)
+
+
+# ============================================================
+# MODEL CONFIGURATION
+# ============================================================
+
+config_col1, config_col2, config_col3, config_col4 = st.columns(
+    4,
+    gap="large"
+)
+
+with config_col1:
+
+    pill("TREES")
+
+    st.markdown(
+        '<div class="content-heading">250 Estimators</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col2:
+
+    pill("MAX DEPTH")
+
+    st.markdown(
+        '<div class="content-heading">10</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col3:
+
+    pill("LEARNING RATE")
+
+    st.markdown(
+        '<div class="content-heading">0.10</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col4:
+
+    pill("EVALUATION")
+
+    st.markdown(
+        '<div class="content-heading">PR-AUC</div>',
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# ADDITIONAL MODEL SETTINGS
+# ============================================================
+
+xgb_config = pd.DataFrame({
+    "Parameter": [
+        "Subsample",
+        "Features / Tree",
+        "Class Imbalance",
+        "Tree Method",
+        "Categorical Support",
+        "Validation Metric"
+    ],
+    "Value": [
+        "70%",
+        "70%",
+        "scale_pos_weight",
+        "Histogram",
+        "Enabled",
+        "PR-AUC"
+    ]
+})
+
+st.dataframe(
+    xgb_config,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# MODEL-SPECIFIC PREPROCESSING
+# ============================================================
+
+st.info(
+    """
+**No Feature Scaling**
+
+Numerical features were **not standardized** for XGBoost because
+tree-based boosting learns threshold-based splits and does not require
+features to share a common numerical scale.
+
+Training performance was monitored using the **validation set**, keeping
+the test set untouched until final model evaluation.
+"""
+)
+
+
+# ============================================================
+# TEST PERFORMANCE
+# ============================================================
+
+space()
+
+subsection("Test Performance")
+
+metric_cards([
+    ("📊", "79.92%", "Accuracy"),
+    ("🎯", "18.87%", "Precision"),
+    ("🔎", "48.59%", "Recall"),
+    ("⚖️", "27.19%", "F1 Score"),
+    ("📈", "0.7156", "ROC-AUC"),
+    ("📉", "0.2649", "PR-AUC")
+])
+
+
+st.info(
+    """
+**Model Performance:** XGBoost achieved the **highest PR-AUC (0.2649)**
+and **highest F1 Score (27.19%)** among the evaluated models.
+
+ROC-AUC remained comparable to Random Forest, while the higher PR-AUC
+indicates stronger ranking performance for the minority purchase class.
+"""
+)
+
+
+# ============================================================
+# CLASSIFICATION PERFORMANCE
+# ============================================================
+
+space()
+
+subsection("Classification Performance")
+
+pill("CONFUSION MATRIX")
+
+confusion_image = (
+    IMAGE_DIR /
+    "xgb-confusion.png"
+)
+
+if confusion_image.exists():
+
+    left, center, right = st.columns(
+        [1.25, 1.5, 1.25]
+    )
+
+    with center:
+
+        st.image(
+            str(confusion_image),
+            width=480
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {confusion_image.name}"
+    )
+
+
+# ============================================================
+# ROC + PRECISION RECALL
+# ============================================================
+
+space()
+
+subsection("Comparison with Tree-Based Models")
+
+st.markdown(
+    """
+    XGBoost was compared with Decision Tree and Random Forest using
+    threshold-independent discrimination and minority-class performance.
+    """
+)
+
+roc_col, pr_col = st.columns(
+    2,
+    gap="large"
+)
+
+
+# ============================================================
+# AUROC
+# ============================================================
+
+with roc_col:
+
+    pill("ROC CURVE")
+
+    st.markdown(
+        '<div class="content-heading">AUROC · 0.7156</div>',
+        unsafe_allow_html=True
+    )
+
+    roc_image = (
+        IMAGE_DIR /
+        "xgb-auroc.png"
+    )
+
+    if roc_image.exists():
+
+        st.image(
+            str(roc_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {roc_image.name}"
+        )
+
+    st.markdown(
+        """
+        XGBoost achieved **0.7156 AUROC**, essentially matching
+        Random Forest's **0.7162** overall discrimination.
+        """
+    )
+
+
+# ============================================================
+# PRECISION RECALL
+# ============================================================
+
+with pr_col:
+
+    pill("PRECISION–RECALL CURVE")
+
+    st.markdown(
+        '<div class="content-heading">PR-AUC · 0.2649</div>',
+        unsafe_allow_html=True
+    )
+
+    pr_image = (
+        IMAGE_DIR /
+        "xgb-pr.png"
+    )
+
+    if pr_image.exists():
+
+        st.image(
+            str(pr_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {pr_image.name}"
+        )
+
+    st.markdown(
+        """
+        XGBoost achieved the strongest **PR-AUC of 0.2649**,
+        outperforming Decision Tree and Random Forest on the
+        imbalanced purchase target.
+        """
+    )
+
+
+# ============================================================
+# MODEL COMPARISON
+# ============================================================
+
+space()
+
+subsection("Model Comparison")
+
+comparison_df = pd.DataFrame({
+
+    "Metric": [
+        "Accuracy",
+        "Precision",
+        "Recall",
+        "F1 Score",
+        "ROC-AUC",
+        "PR-AUC"
+    ],
+
+    "Logistic Regression": [
+        "71.36%",
+        "14.20%",
+        "53.80%",
+        "22.47%",
+        "0.6901",
+        "0.2264"
+    ],
+
+    "Decision Tree": [
+        "77.34%",
+        "17.17%",
+        "50.68%",
+        "25.65%",
+        "0.7046",
+        "0.2546"
+    ],
+
+    "Random Forest": [
+        "79.73%",
+        "18.76%",
+        "48.85%",
+        "27.11%",
+        "0.7162",
+        "0.2595"
+    ],
+
+    "XGBoost": [
+        "79.92%",
+        "18.87%",
+        "48.59%",
+        "27.19%",
+        "0.7156",
+        "0.2649"
+    ]
+})
+
+st.dataframe(
+    comparison_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# GLOBAL EXPLAINABILITY — SHAP
+# ============================================================
+
+space()
+
+subsection("Global Explainability — SHAP")
+
+st.markdown(
+    """
+    SHAP values were used to quantify the average impact of each feature
+    on XGBoost predictions across the evaluation population.
+    """
+)
+
+shap_global_image = (
+    IMAGE_DIR /
+    "xgb-shap.png"
+)
+
+if shap_global_image.exists():
+
+    left, center, right = st.columns(
+        [0.8, 2.4, 0.8]
+    )
+
+    with center:
+
+        st.image(
+            str(shap_global_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {shap_global_image.name}"
+    )
+
+
+st.info(
+    """
+**Global SHAP Interpretation:** `views_so_far` has the largest average
+impact on model predictions, followed by **brand, hour, events_so_far,
+category information, price, and cart-to-view ratio**.
+
+This shows that purchase intent is driven by a combination of session
+engagement, product interaction, temporal context, and product attributes.
+"""
+)
+
+
+# ============================================================
+# LOCAL EXPLAINABILITY — SHAP
+# ============================================================
+
+space()
+
+subsection("Local Explainability — SHAP")
+
+st.markdown(
+    """
+    Local SHAP explanations show how individual feature values move a
+    prediction away from the model's baseline toward either purchase
+    or no purchase.
+    """
+)
+
+local_col1, local_col2 = st.columns(
+    2,
+    gap="large"
+)
+
+
+# ============================================================
+# EXAMPLE 1
+# ============================================================
+
+with local_col1:
+
+    pill("EXAMPLE 1")
+
+    example_1_image = (
+        IMAGE_DIR /
+        "xgb-example 1.png"
+    )
+
+    if example_1_image.exists():
+
+        st.image(
+            str(example_1_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {example_1_image.name}"
+        )
+
+
+# ============================================================
+# EXAMPLE 2
+# ============================================================
+
+with local_col2:
+
+    pill("EXAMPLE 2")
+
+    example_2_image = (
+        IMAGE_DIR /
+        "xgb-example 2.png"
+    )
+
+    if example_2_image.exists():
+
+        st.image(
+            str(example_2_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {example_2_image.name}"
+        )
+
+
+# ============================================================
+# SHAP EXPLANATION
+# ============================================================
+
+st.info(
+    """
+**Reading the Waterfall Plots**
+
+**Positive SHAP values** push the prediction toward **Purchase**,
+while **negative SHAP values** push the prediction toward
+**No Purchase**.
+
+The magnitude of the SHAP value represents how strongly that feature
+influenced the individual prediction.
+"""
+)
+
+
+# ============================================================
+# SINGLE PREDICTION BREAKDOWN
+# ============================================================
+
+space()
+
+subsection("Single Prediction Breakdown")
+
+metric_cards([
+    ("📌", "No Purchase", "Actual Outcome"),
+    ("⚪", "50.75%", "Baseline Probability"),
+    ("🎯", "10.42%", "Final Probability")
+])
+
+
+local_shap_df = pd.DataFrame({
+
+    "Feature": [
+        "brand",
+        "hour",
+        "day_of_week",
+        "category_level_2",
+        "previous_event",
+        "views_so_far",
+        "category_events_so_far",
+        "engagement_intensity"
+    ],
+
+    "Value": [
+        "masei",
+        "3",
+        "Sunday",
+        "Unknown",
+        "NaN",
+        "1",
+        "1",
+        "1.0"
+    ],
+
+    "SHAP Contribution": [
+        -1.2196,
+        -0.3664,
+        0.2180,
+        -0.1965,
+        0.1478,
+        0.1392,
+        -0.1294,
+        -0.1209
+    ],
+
+    "Contribution %": [
+        "37.62%",
+        "11.30%",
+        "6.73%",
+        "6.06%",
+        "4.56%",
+        "4.29%",
+        "3.99%",
+        "3.73%"
+    ]
+})
+
+st.dataframe(
+    local_shap_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+st.info(
+    """
+**Local Interpretation:** The model's baseline purchase probability was
+**50.75%**, while the final predicted probability for this session was
+only **10.42%**.
+
+The strongest negative driver was **brand = masei**, followed by the
+interaction hour and product/category behavior. Positive signals such as
+day of week and views were not strong enough to offset the negative
+purchase signals.
+"""
+)
+
+
+# ============================================================
+# BUSINESS TARGETING PERFORMANCE
+# ============================================================
+
+space()
+
+subsection("Business Targeting Performance")
+
+st.markdown(
+    """
+    Lift analysis evaluates whether the model can concentrate actual
+    purchasers among the sessions receiving the highest predicted
+    purchase probabilities.
+    """
+)
+
+
+lift_df = pd.DataFrame({
+
+    "Targeted Population": [
+        "Top 1%",
+        "Top 5%",
+        "Top 10%",
+        "Top 20%",
+        "Top 30%"
+    ],
+
+    "Precision": [
+        "60.69%",
+        "38.21%",
+        "27.27%",
+        "18.80%",
+        "15.18%"
+    ],
+
+    "Recall": [
+        "7.87%",
+        "24.77%",
+        "35.35%",
+        "48.74%",
+        "59.04%"
+    ],
+
+    "Lift": [
+        "7.87×",
+        "4.95×",
+        "3.53×",
+        "2.44×",
+        "1.97×"
+    ]
+})
+
+st.dataframe(
+    lift_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+st.info(
+    """
+**Business Interpretation:** The highest-scored **1% of sessions**
+achieved **60.69% precision and 7.87× lift**.
+
+Targeting the **top 10%** of sessions captures **35.35% of eventual
+purchases** while maintaining **3.53× lift**, demonstrating how predicted
+probabilities can be used to prioritize high-intent sessions for
+business interventions.
+"""
+)
 
 space()
