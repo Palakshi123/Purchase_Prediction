@@ -741,8 +741,8 @@ st.divider()
 st.markdown("## 📊 Exploratory Data Analysis — Visualizations")
 
 st.caption(
-    "Visual exploration of customer behavior, purchase patterns, "
-    "session activity, and temporal trends."
+    "Explore customer behavior, purchase patterns, session activity, "
+    "and temporal trends by selecting a visualization below."
 )
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -753,130 +753,101 @@ st.markdown("<br>", unsafe_allow_html=True)
 # ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent
-
-# Change "images" only if your folder has a different name
 IMAGE_DIR = BASE_DIR / "images"
 
 
 # ============================================================
-# VISUALIZATION LIST
+# VISUALIZATION OPTIONS
 # ============================================================
 
-eda_images = [
+eda_visualizations = {
 
-    (
+    "Event Distribution":
         "event_distribution.png",
-        "Event Distribution"
-    ),
 
-    (
+    "Purchase vs No-Purchase Sessions":
         "purchase_sessions.png",
-        "Purchase vs No-Purchase Sessions"
-    ),
 
-    (
+    "Repeat Customer Conversion":
         "repeat_conversion.png",
-        "Repeat Customer Conversion"
-    ),
 
-    (
+    "Customer Activity by Day of Week":
         "day_of_week.png",
-        "Customer Activity by Day of Week"
-    ),
 
-    (
+    "Weekend vs Weekday Behavior":
         "weekend_weekday.png",
-        "Weekend vs Weekday Behavior"
-    ),
 
-    (
+    "Price by Event Type":
         "price_event_type.png",
-        "Price by Event Type"
-    ),
 
-    (
+    "Session Behavior":
         "session_behavior.png",
-        "Session Behavior"
-    ),
 
-    (
+    "Events Before Purchase":
         "events_before_purchase.png",
-        "Events Before Purchase"
-    ),
 
-    (
-        "time_first_purchase.png",
-        "Time to First Purchase"
-    ),
-
-    (
-        "images.png",
-        "Customer Purchase Behavior"
-    )
-]
+    "Time to First Purchase":
+        "time_first_purchase.png"
+}
 
 
 # ============================================================
-# DISPLAY 3 VISUALIZATIONS PER ROW
+# DROPDOWN
 # ============================================================
 
-for i in range(0, len(eda_images), 3):
+selected_visualization = st.selectbox(
+    "Select an analysis",
+    options=list(eda_visualizations.keys())
+)
 
-    row_images = eda_images[i:i + 3]
 
-    # Center final row when fewer than 3 images remain
-    if len(row_images) == 1:
+# ============================================================
+# SELECTED IMAGE
+# ============================================================
 
-        spacer_left, col, spacer_right = st.columns([1, 2, 1])
-        columns = [col]
+selected_file = eda_visualizations[selected_visualization]
 
-    elif len(row_images) == 2:
+image_path = IMAGE_DIR / selected_file
 
-        spacer_left, col1, col2, spacer_right = st.columns(
-            [0.3, 1, 1, 0.3]
+
+# ============================================================
+# DISPLAY VISUALIZATION
+# ============================================================
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+if image_path.exists():
+
+    # Center image and control its size
+    left, center, right = st.columns([1, 3, 1])
+
+    with center:
+
+        st.markdown(
+            f"""
+            <div style="
+                text-align:center;
+                font-size:20px;
+                font-weight:600;
+                margin-bottom:15px;
+            ">
+                {selected_visualization}
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
-        columns = [col1, col2]
+        st.image(
+            str(image_path),
+            use_container_width=True
+        )
 
-    else:
+else:
 
-        columns = st.columns(3)
-
-    for col, (filename, title) in zip(columns, row_images):
-
-        image_path = IMAGE_DIR / filename
-
-        with col:
-
-            st.markdown(
-                f"""
-                <div style="
-                    text-align:center;
-                    font-size:17px;
-                    font-weight:600;
-                    margin-bottom:10px;
-                ">
-                    {title}
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-            if image_path.exists():
-
-                st.image(
-                    str(image_path),
-                    use_container_width=True
-                )
-
-            else:
-
-                st.warning(
-                    f"Image not found: {filename}"
-                )
-
-    # Space between rows
-    st.markdown(
-        "<div style='height:35px;'></div>",
-        unsafe_allow_html=True
+    st.warning(
+        f"Visualization not found: {selected_file}"
     )
+
+
+st.markdown("<br><br>", unsafe_allow_html=True)
+
