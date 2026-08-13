@@ -919,11 +919,9 @@ st.markdown(
     <div style="
         background-color: rgba(128,128,128,0.08);
         border-radius: 10px;
-        padding: 12px 18px;
+        padding: 10px 15px;
         margin-top: 5px;
-        margin-bottom: 10px;
     ">
-
         <div style="
             font-size: 16px;
             font-weight: 600;
@@ -934,14 +932,14 @@ st.markdown(
 
         <div style="
             font-size: 13px;
-            line-height: 1.45;
+            line-height: 1.5;
         ">
             • {insights[0]}<br>
             • {insights[1]}<br>
             • {insights[2]}
         </div>
-
     </div>
     """,
     unsafe_allow_html=True
 )
+
