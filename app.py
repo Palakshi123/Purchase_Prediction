@@ -1460,3 +1460,410 @@ rules, so their predictions are not dependent on features being measured
 on comparable scales.
 """
 )
+# ============================================================
+# DECISION TREE — NONLINEAR MODEL
+# ============================================================
+
+space()
+
+subsection("Decision Tree — Nonlinear Model")
+
+st.markdown(
+    """
+    Decision Tree was evaluated as a nonlinear model to capture
+    threshold-based relationships and interactions in customer purchase behavior.
+    """
+)
+
+
+# ============================================================
+# MODEL CONFIGURATION
+# ============================================================
+
+config_col1, config_col2, config_col3, config_col4 = st.columns(
+    4,
+    gap="large"
+)
+
+with config_col1:
+
+    pill("MODEL")
+
+    st.markdown(
+        '<div class="content-heading">Decision Tree</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col2:
+
+    pill("MAX DEPTH")
+
+    st.markdown(
+        '<div class="content-heading">10</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col3:
+
+    pill("MIN LEAF SIZE")
+
+    st.markdown(
+        '<div class="content-heading">1,000</div>',
+        unsafe_allow_html=True
+    )
+
+
+with config_col4:
+
+    pill("CLASS BALANCE")
+
+    st.markdown(
+        '<div class="content-heading">Balanced Weights</div>',
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# MODEL-SPECIFIC PREPROCESSING
+# ============================================================
+
+st.markdown(
+    '<div class="small-space"></div>',
+    unsafe_allow_html=True
+)
+
+st.info(
+    """
+**No Feature Scaling**
+
+Unlike Logistic Regression, numerical features were **not standardized**
+for the Decision Tree. Tree-based models learn threshold-based splits,
+so feature scaling is not required.
+"""
+)
+
+
+# ============================================================
+# TEST PERFORMANCE
+# ============================================================
+
+space()
+
+subsection("Test Performance")
+
+metric_cards([
+    ("📊", "77.34%", "Accuracy"),
+    ("🎯", "17.17%", "Precision"),
+    ("🔎", "50.68%", "Recall"),
+    ("⚖️", "25.65%", "F1 Score"),
+    ("📈", "0.7046", "ROC-AUC"),
+    ("📉", "0.2546", "PR-AUC")
+])
+
+
+st.info(
+    """
+**Model Performance:** Decision Tree improved **Precision, F1 Score,
+ROC-AUC, and PR-AUC** over Logistic Regression, while Recall decreased
+slightly. The higher PR-AUC indicates improved ranking performance for
+the minority purchase class.
+"""
+)
+
+
+# ============================================================
+# CONFUSION MATRIX
+# ============================================================
+
+space()
+
+subsection("Classification Performance")
+
+pill("CONFUSION MATRIX")
+
+st.markdown(
+    '<div class="content-heading">Decision Tree Predictions</div>',
+    unsafe_allow_html=True
+)
+
+confusion_image = IMAGE_DIR / "dt-confusion-matrix.png"
+
+if confusion_image.exists():
+
+    left, center, right = st.columns(
+        [0.8, 2.4, 0.8]
+    )
+
+    with center:
+
+        st.image(
+            str(confusion_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {confusion_image.name}"
+    )
+
+
+st.markdown(
+    """
+The model correctly classified **73.43% as No Purchase** and
+**3.91% as Purchase**, while **18.86% were false positives**
+and **3.80% were false negatives**.
+"""
+)
+
+
+# ============================================================
+# COMPARISON WITH LOGISTIC REGRESSION
+# ============================================================
+
+space()
+
+subsection("Comparison with Logistic Regression")
+
+st.markdown(
+    """
+    ROC and Precision–Recall curves compare the nonlinear Decision Tree
+    against the Logistic Regression baseline across classification thresholds.
+    """
+)
+
+roc_col, pr_col = st.columns(
+    2,
+    gap="large"
+)
+
+
+# ============================================================
+# AUROC
+# ============================================================
+
+with roc_col:
+
+    pill("ROC CURVE")
+
+    st.markdown(
+        '<div class="content-heading">AUROC · 0.7046</div>',
+        unsafe_allow_html=True
+    )
+
+    roc_image = IMAGE_DIR / "dt-auroc.png"
+
+    if roc_image.exists():
+
+        st.image(
+            str(roc_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {roc_image.name}"
+        )
+
+    st.markdown(
+        """
+        AUROC improved from **0.6901 → 0.7046**, indicating stronger
+        overall discrimination than the Logistic Regression baseline.
+        """
+    )
+
+
+# ============================================================
+# PRECISION-RECALL
+# ============================================================
+
+with pr_col:
+
+    pill("PRECISION–RECALL CURVE")
+
+    st.markdown(
+        '<div class="content-heading">PR-AUC · 0.2546</div>',
+        unsafe_allow_html=True
+    )
+
+    pr_image = IMAGE_DIR / "dt-pr.png"
+
+    if pr_image.exists():
+
+        st.image(
+            str(pr_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {pr_image.name}"
+        )
+
+    st.markdown(
+        """
+        PR-AUC improved from **0.2264 → 0.2546**, showing stronger
+        performance on the minority purchase class.
+        """
+    )
+
+
+# ============================================================
+# BASELINE COMPARISON
+# ============================================================
+
+space()
+
+subsection("Model Comparison")
+
+comparison_df = pd.DataFrame({
+
+    "Metric": [
+        "Accuracy",
+        "Precision",
+        "Recall",
+        "F1 Score",
+        "ROC-AUC",
+        "PR-AUC"
+    ],
+
+    "Logistic Regression": [
+        "71.36%",
+        "14.20%",
+        "53.80%",
+        "22.47%",
+        "0.6901",
+        "0.2264"
+    ],
+
+    "Decision Tree": [
+        "77.34%",
+        "17.17%",
+        "50.68%",
+        "25.65%",
+        "0.7046",
+        "0.2546"
+    ]
+})
+
+st.dataframe(
+    comparison_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# GLOBAL EXPLAINABILITY
+# ============================================================
+
+space()
+
+subsection("Global Explainability")
+
+st.markdown(
+    """
+    Decision Tree feature importance measures how strongly each feature
+    contributes to reducing classification impurity across the tree.
+    """
+)
+
+
+# ============================================================
+# FEATURE IMPORTANCE
+# ============================================================
+
+feature_image = IMAGE_DIR / "dt-feature-importance.png"
+
+if feature_image.exists():
+
+    left, center, right = st.columns(
+        [0.6, 2.8, 0.6]
+    )
+
+    with center:
+
+        st.image(
+            str(feature_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {feature_image.name}"
+    )
+
+
+# ============================================================
+# FEATURE IMPORTANCE INTERPRETATION
+# ============================================================
+
+st.info(
+    """
+**Key Global Drivers:** `cart_to_view_ratio` is the dominant Decision Tree
+feature, followed by `product_views_so_far`, `hour`, and `price`.
+
+The model therefore relies heavily on **cart progression, repeated product
+engagement, temporal behavior, and product price** when distinguishing
+purchase intent.
+"""
+)
+
+
+# ============================================================
+# DECISION TREE EXPLAINABILITY
+# ============================================================
+
+space()
+
+subsection("Decision Rule Explainability")
+
+st.markdown(
+    """
+    The Decision Tree provides direct explainability through the sequence
+    of threshold-based rules used to generate predictions.
+    """
+)
+
+
+# ============================================================
+# TREE VISUALIZATION
+# ============================================================
+
+tree_image = IMAGE_DIR / "dt-tree.png"
+
+if tree_image.exists():
+
+    st.image(
+        str(tree_image),
+        use_container_width=True
+    )
+
+else:
+
+    st.warning(
+        f"Image not found: {tree_image.name}"
+    )
+
+
+# ============================================================
+# TREE INTERPRETATION
+# ============================================================
+
+st.info(
+    """
+**Decision Path Interpretation:** The tree begins with
+`cart_to_view_ratio`, confirming it as the strongest decision signal.
+
+Subsequent splits incorporate **product views, event type, hour, category,
+price, cart activity, and interaction timing**, demonstrating nonlinear
+relationships between behavioral, temporal, and product-level signals.
+"""
+)
+
+space()
