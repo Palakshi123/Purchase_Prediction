@@ -2938,15 +2938,6 @@ with imbalance_col3:
     )
 
 
-st.info(
-    """
-The training data was highly imbalanced, with purchases representing
-only **7.73%** of observations. A **scale_pos_weight of 11.94** was
-applied to increase the influence of the minority purchase class
-during model training.
-"""
-)
-
 
 # ============================================================
 # VALIDATION PERFORMANCE
@@ -3159,13 +3150,6 @@ metric_cards([
 ])
 
 
-st.info(
-    """
-At the validation-selected **0.70 threshold**, LightGBM achieved
-**33.55% precision**, **29.14% recall**, and **31.19% F1 Score**
-on the untouched test set.
-"""
-)
 
 
 # ============================================================
@@ -3298,18 +3282,6 @@ st.dataframe(
 # MODEL TAKEAWAY
 # ============================================================
 
-st.info(
-    """
-**LightGBM Performance**
 
-LightGBM achieved the highest **ROC-AUC (0.7240)** and
-**F1 Score (31.19%)** among the evaluated models.
-
-XGBoost retained a marginally higher **PR-AUC
-(0.2649 vs. 0.2640)**, while LightGBM's validation-optimized
-**0.70 threshold** produced a stronger precision–recall balance
-for binary classification.
-"""
-)
 
 space()
