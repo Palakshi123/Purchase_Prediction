@@ -4,6 +4,7 @@
 
 import streamlit as st
 import pandas as pd
+from pathlib import Path
 
 
 # ============================================================
@@ -18,15 +19,21 @@ st.set_page_config(
 
 
 # ============================================================
+# PATHS
+# ============================================================
+
+BASE_DIR = Path(__file__).resolve().parent
+IMAGE_DIR = BASE_DIR / "images"
+
+
+# ============================================================
 # GLOBAL STYLING
 # ============================================================
 
 st.markdown("""
 <style>
 
-/* ------------------------------------------------------------
-   MAIN PAGE
------------------------------------------------------------- */
+/* MAIN PAGE */
 
 .block-container {
     padding-top: 1.8rem;
@@ -35,9 +42,7 @@ st.markdown("""
 }
 
 
-/* ------------------------------------------------------------
-   DASHBOARD HEADER
------------------------------------------------------------- */
+/* DASHBOARD HEADER */
 
 .dashboard-title {
     font-size: 30px;
@@ -68,9 +73,7 @@ st.markdown("""
 }
 
 
-/* ------------------------------------------------------------
-   MAJOR SECTION
------------------------------------------------------------- */
+/* MAJOR SECTION */
 
 .section-container {
     margin-top: 12px;
@@ -88,12 +91,11 @@ st.markdown("""
     font-size: 12px;
     color: #777777;
     margin-top: 2px;
+    line-height: 1.6;
 }
 
 
-/* ------------------------------------------------------------
-   SPACING
------------------------------------------------------------- */
+/* SPACING */
 
 .section-spacer {
     height: 26px;
@@ -104,9 +106,7 @@ st.markdown("""
 }
 
 
-/* ------------------------------------------------------------
-   KPI INFORMATION
------------------------------------------------------------- */
+/* KPI INFORMATION */
 
 .metric-card {
     background: transparent;
@@ -136,9 +136,7 @@ st.markdown("""
 }
 
 
-/* ------------------------------------------------------------
-   SUBSECTION HEADINGS
------------------------------------------------------------- */
+/* SUBSECTION HEADINGS */
 
 .subsection-heading {
     font-size: 15px;
@@ -148,21 +146,24 @@ st.markdown("""
 }
 
 
-/* ------------------------------------------------------------
-   CLEANING NOTES
------------------------------------------------------------- */
+/* BODY TEXT */
 
 .cleaning-note {
-    font-size: 11px;
+    font-size: 12px;
     color: #666666;
     margin-top: 8px;
     line-height: 1.6;
 }
 
+.large-body-text {
+    font-size: 14px;
+    color: #555555;
+    line-height: 1.8;
+    margin-top: 6px;
+}
 
-/* ------------------------------------------------------------
-   FEATURE GROUP LABEL
------------------------------------------------------------- */
+
+/* FEATURE LABEL */
 
 .feature-group-label {
     display: inline-block;
@@ -176,9 +177,7 @@ st.markdown("""
 }
 
 
-/* ------------------------------------------------------------
-   TARGET VARIABLE
------------------------------------------------------------- */
+/* TARGET / INSIGHT BOX */
 
 .target-box {
     background-color: rgba(231, 47, 61, 0.04);
@@ -196,9 +195,21 @@ st.markdown("""
 
 .target-description {
     color: #666666;
-    font-size: 11px;
+    font-size: 12px;
     margin-top: 3px;
-    line-height: 1.5;
+    line-height: 1.6;
+}
+
+
+/* EXAMPLE BOX */
+
+.example-box {
+    border: 1px solid rgba(231, 47, 61, 0.30);
+    border-left: 4px solid #E72F3D;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-top: 7px;
+    background-color: rgba(231, 47, 61, 0.025);
 }
 
 </style>
@@ -237,9 +248,13 @@ st.markdown(
 st.markdown(
     """
     <div class="section-container">
-        <div class="dataset-heading">Dataset Information</div>
+        <div class="dataset-heading">
+            Dataset Information
+        </div>
+
         <div class="section-caption">
-            One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions.
+            One month of e-commerce behavioral data capturing
+            View, Cart, and Purchase interactions.
         </div>
     </div>
     """,
@@ -268,7 +283,13 @@ for col, (icon, value, label) in zip(
 ):
     with col:
         st.markdown(
-            f'<div class="metric-card"><span class="metric-icon">{icon}</span><span class="metric-value">{value}</span><div class="metric-label">{label}</div></div>',
+            f"""
+            <div class="metric-card">
+                <span class="metric-icon">{icon}</span>
+                <span class="metric-value">{value}</span>
+                <div class="metric-label">{label}</div>
+            </div>
+            """,
             unsafe_allow_html=True
         )
 
@@ -292,14 +313,16 @@ for col, (icon, value, label) in zip(
 ):
     with col:
         st.markdown(
-            f'<div class="metric-card"><span class="metric-icon">{icon}</span><span class="metric-value">{value}</span><div class="metric-label">{label}</div></div>',
+            f"""
+            <div class="metric-card">
+                <span class="metric-icon">{icon}</span>
+                <span class="metric-value">{value}</span>
+                <div class="metric-label">{label}</div>
+            </div>
+            """,
             unsafe_allow_html=True
         )
 
-
-# ============================================================
-# SPACE BETWEEN SECTIONS
-# ============================================================
 
 st.markdown(
     '<div class="section-spacer"></div>',
@@ -317,8 +340,10 @@ st.markdown(
         <div class="dataset-heading">
             Missing Value & Duplicate Records Analysis
         </div>
+
         <div class="section-caption">
-            Assessment of missing values, recoverable product metadata, and duplicate records.
+            Assessment of missing values, recoverable product metadata,
+            and duplicate records.
         </div>
     </div>
     """,
@@ -394,15 +419,11 @@ treatment_table = pd.DataFrame({
 
 
 # ============================================================
-# SIDE-BY-SIDE DATA QUALITY ANALYSIS
+# DATA QUALITY — TWO COLUMNS
 # ============================================================
 
 left, right = st.columns(2, gap="large")
 
-
-# ============================================================
-# LEFT — MISSING VALUES
-# ============================================================
 
 with left:
 
@@ -429,14 +450,18 @@ with left:
     )
 
     st.markdown(
-        '<div class="cleaning-note"><b>Recovery Strategy:</b> Missing brand values were recovered where a reliable brand mapping existed for the same Product ID. This restored <b>172,423 records (2.82%)</b> without introducing synthetic brand information.</div>',
+        """
+        <div class="cleaning-note">
+            <b>Recovery Strategy:</b>
+            Missing brand values were recovered where a reliable brand
+            mapping existed for the same Product ID. This restored
+            <b>172,423 records (2.82%)</b> without introducing synthetic
+            brand information.
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
-
-# ============================================================
-# RIGHT — DUPLICATES
-# ============================================================
 
 with right:
 
@@ -452,7 +477,14 @@ with right:
     )
 
     st.markdown(
-        '<div class="cleaning-note"><b>Duplicate Treatment:</b> 30,220 exact duplicate interaction records were identified, representing <b>0.07%</b> of the dataset, and removed before downstream analysis.</div>',
+        """
+        <div class="cleaning-note">
+            <b>Duplicate Treatment:</b>
+            30,220 exact duplicate interaction records were identified,
+            representing <b>0.07%</b> of the dataset, and removed before
+            downstream analysis.
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
@@ -467,10 +499,6 @@ with right:
         hide_index=True
     )
 
-
-# ============================================================
-# SPACE BETWEEN SECTIONS
-# ============================================================
 
 st.markdown(
     '<div class="section-spacer"></div>',
@@ -488,8 +516,10 @@ st.markdown(
         <div class="dataset-heading">
             Feature Engineering
         </div>
+
         <div class="section-caption">
-            Created behavioral, temporal, session, and purchase-intent signals from raw customer interactions.
+            Created behavioral, temporal, session, and purchase-intent
+            signals from raw customer interactions.
         </div>
     </div>
     """,
@@ -498,7 +528,7 @@ st.markdown(
 
 
 # ============================================================
-# FEATURE ENGINEERING KPI SUMMARY
+# FEATURE KPI SUMMARY
 # ============================================================
 
 c1, c2, c3, c4, c5 = st.columns(5)
@@ -517,14 +547,16 @@ for col, (icon, value, label) in zip(
 ):
     with col:
         st.markdown(
-            f'<div class="metric-card"><span class="metric-icon">{icon}</span><span class="metric-value">{value}</span><div class="metric-label">{label}</div></div>',
+            f"""
+            <div class="metric-card">
+                <span class="metric-icon">{icon}</span>
+                <span class="metric-value">{value}</span>
+                <div class="metric-label">{label}</div>
+            </div>
+            """,
             unsafe_allow_html=True
         )
 
-
-# ============================================================
-# LARGER SPACE BETWEEN KPI AND TABLES
-# ============================================================
 
 st.markdown(
     '<div class="kpi-table-spacer"></div>',
@@ -536,7 +568,10 @@ st.markdown(
 # FEATURE TABLES
 # ============================================================
 
-feature_col1, feature_col2 = st.columns(2, gap="large")
+feature_col1, feature_col2 = st.columns(
+    2,
+    gap="large"
+)
 
 
 # ============================================================
@@ -544,10 +579,6 @@ feature_col1, feature_col2 = st.columns(2, gap="large")
 # ============================================================
 
 with feature_col1:
-
-    # --------------------------------------------------------
-    # TEMPORAL FEATURES
-    # --------------------------------------------------------
 
     st.markdown(
         '<div class="subsection-heading">🕒 Temporal Features</div>',
@@ -580,10 +611,6 @@ with feature_col1:
         hide_index=True
     )
 
-
-    # --------------------------------------------------------
-    # BEHAVIORAL FEATURES
-    # --------------------------------------------------------
 
     st.markdown(
         '<div class="subsection-heading" style="margin-top:18px;">👆 Behavioral Features</div>',
@@ -629,10 +656,6 @@ with feature_col1:
 
 with feature_col2:
 
-    # --------------------------------------------------------
-    # SESSION FEATURES
-    # --------------------------------------------------------
-
     st.markdown(
         '<div class="subsection-heading">⚡ Session & Intensity Features</div>',
         unsafe_allow_html=True
@@ -675,10 +698,6 @@ with feature_col2:
     )
 
 
-    # --------------------------------------------------------
-    # PURCHASE INTENT FEATURES
-    # --------------------------------------------------------
-
     st.markdown(
         '<div class="subsection-heading" style="margin-top:18px;">🎯 Purchase Intent Features</div>',
         unsafe_allow_html=True
@@ -710,18 +729,30 @@ with feature_col2:
         hide_index=True
     )
 
+
 # ============================================================
 # TARGET VARIABLE
 # ============================================================
 
 st.markdown(
-    '<div class="target-box"><div class="target-name">🎯 Target Variable — purchase_later</div><div class="target-description">Binary target indicating whether a purchase occurs later within the same user session. The model uses customer behavior observed up to the current interaction to predict future purchase intent.</div></div>',
+    """
+    <div class="target-box">
+
+        <div class="target-name">
+            🎯 Target Variable — purchase_later
+        </div>
+
+        <div class="target-description">
+            Binary target indicating whether a purchase occurs later within
+            the same user session. The model uses customer behavior observed
+            up to the current interaction to predict future purchase intent.
+        </div>
+
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
-# ============================================================
-# SPACE BETWEEN SECTIONS
-# ============================================================
 
 st.markdown(
     '<div class="section-spacer"></div>',
@@ -729,23 +760,23 @@ st.markdown(
 )
 
 
-
 # ============================================================
-# EXPLORATORY DATA ANALYSIS — VISUALIZATIONS
+# EXPLORATORY DATA ANALYSIS
 # ============================================================
-
-from pathlib import Path
 
 st.markdown(
     """
     <div class="section-container">
+
         <div class="dataset-heading">
             Exploratory Data Analysis
         </div>
+
         <div class="section-caption">
             Explore customer behavior, purchase patterns, session activity,
             and temporal trends by selecting a visualization below.
         </div>
+
     </div>
     """,
     unsafe_allow_html=True
@@ -753,15 +784,7 @@ st.markdown(
 
 
 # ============================================================
-# IMAGE DIRECTORY
-# ============================================================
-
-BASE_DIR = Path(__file__).resolve().parent
-IMAGE_DIR = BASE_DIR / "images"
-
-
-# ============================================================
-# VISUALIZATION OPTIONS
+# EDA VISUALIZATIONS
 # ============================================================
 
 eda_visualizations = {
@@ -831,7 +854,7 @@ business_insights = {
 
 
 # ============================================================
-# VISUALIZATION DROPDOWN
+# EDA DROPDOWN
 # ============================================================
 
 selected_visualization = st.selectbox(
@@ -839,24 +862,32 @@ selected_visualization = st.selectbox(
     options=list(eda_visualizations.keys())
 )
 
-selected_file = eda_visualizations[selected_visualization]
+selected_file = eda_visualizations[
+    selected_visualization
+]
+
 image_path = IMAGE_DIR / selected_file
 
 
 # ============================================================
-# VISUALIZATION + BUSINESS INSIGHT
+# DISPLAY VISUALIZATION
 # ============================================================
 
 if image_path.exists():
 
-    left, center, right = st.columns([1.5, 2, 1.5])
+    left, center, right = st.columns(
+        [1.5, 2, 1.5]
+    )
 
     with center:
 
         st.markdown(
-            f'<div class="subsection-heading" style="text-align:center;">'
-            f'{selected_visualization}'
-            f'</div>',
+            f"""
+            <div class="subsection-heading"
+                 style="text-align:center;">
+                {selected_visualization}
+            </div>
+            """,
             unsafe_allow_html=True
         )
 
@@ -878,22 +909,23 @@ else:
 
 st.markdown(
     f"""
-    <div class="target-box" style="margin-top:8px;">
+    <div class="target-box"
+         style="margin-top:8px;">
+
         <div class="target-name">
             💡 Business Insight
         </div>
-        <div class="target-description">
+
+        <div class="target-description"
+             style="font-size:13px;">
             {business_insights[selected_visualization]}
         </div>
+
     </div>
     """,
     unsafe_allow_html=True
 )
 
-
-# ============================================================
-# SPACE BETWEEN SECTIONS
-# ============================================================
 
 st.markdown(
     '<div class="section-spacer"></div>',
@@ -905,59 +937,10 @@ st.markdown(
 # TEXT ENRICHMENT & LLM INTEGRATION
 # ============================================================
 
-st.markdown(
-    """
-    <div class="section-container">
-        <div class="dataset-heading">
-            Text Enrichment & LLM Integration
-        </div>
-        <div class="section-caption">
-            Generating semantic product descriptions from structured metadata
-            to introduce richer product context into the modeling pipeline.
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True
+pipeline_image = (
+    IMAGE_DIR /
+    "text_enrichment_pipeline.png"
 )
-
-
-# ============================================================
-# WHY TEXT ENRICHMENT
-# ============================================================
-
-st.markdown(
-    '<div class="subsection-heading" style="margin-top:18px;">Why Text Enrichment?</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    """
-    <div style="
-        font-size:13px;
-        color:#555555;
-        line-height:1.8;
-        margin-top:5px;
-        margin-bottom:20px;
-    ">
-        • <b>product_id</b> and <b>category_id</b> are high-cardinality identifiers with little inherent semantic meaning.<br>
-        • <b>category_code</b> provides product-category context but does not fully describe the individual product.<br>
-        • <b>brand</b> identifies the manufacturer but provides limited information about product characteristics.<br>
-        • Product descriptions combine available structured metadata into a richer natural-language representation.<br>
-        • Generated descriptions can be transformed into numerical semantic features for machine-learning experiments.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-
-# ============================================================
-# TEXT ENRICHMENT & LLM INTEGRATION
-# ============================================================
-
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent
-pipeline_image = BASE_DIR / "images" / "text_enrichment_pipeline.png"
 
 
 # ============================================================
@@ -967,13 +950,21 @@ pipeline_image = BASE_DIR / "images" / "text_enrichment_pipeline.png"
 st.markdown(
     """
     <div class="section-container">
+
         <div class="dataset-heading">
             Text Enrichment & LLM Integration
         </div>
-        <div class="section-caption" style="font-size:13px;">
-            Transforming sparse product metadata into semantic text features
-            for downstream machine-learning experimentation.
+
+        <div class="section-caption"
+             style="
+                font-size:15px;
+                line-height:1.6;
+                margin-top:5px;
+             ">
+            Generating semantic product descriptions from structured metadata
+            to introduce richer product context into the modeling pipeline.
         </div>
+
     </div>
     """,
     unsafe_allow_html=True
@@ -985,23 +976,33 @@ st.markdown(
 # ============================================================
 
 st.markdown(
-    '<div class="subsection-heading" style="margin-top:20px;">Why Text Enrichment?</div>',
+    """
+    <div class="subsection-heading"
+         style="margin-top:20px;">
+        Why Text Enrichment?
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
 st.markdown(
     """
-    <div style="
-        font-size:14px;
-        color:#555555;
-        line-height:1.8;
-        margin-top:6px;
-        margin-bottom:22px;
-    ">
-        • <b>product_id</b> and <b>category_id</b> are high-cardinality identifiers with limited semantic meaning.<br>
-        • <b>category_code</b> provides category context, while <b>brand</b> provides manufacturer information, but neither fully describes the product.<br>
-        • Product descriptions combine these attributes into a richer <b>semantic representation</b> of each product.<br>
-        • Generated text can then be converted into numerical features for machine-learning models.
+    <div class="large-body-text"
+         style="margin-bottom:22px;">
+
+        • <b>product_id</b> and <b>category_id</b> are high-cardinality
+        identifiers with limited semantic meaning.<br>
+
+        • <b>category_code</b> provides category context, while
+        <b>brand</b> identifies the manufacturer, but neither fully
+        describes the product.<br>
+
+        • Product descriptions combine available metadata into a richer
+        <b>semantic representation</b> of each product.<br>
+
+        • Generated text can then be transformed into numerical features
+        for downstream machine-learning experiments.
+
     </div>
     """,
     unsafe_allow_html=True
@@ -1019,35 +1020,47 @@ st.markdown(
 
 if pipeline_image.exists():
 
-    pipe_left, pipe_center, pipe_right = st.columns([0.4, 4.2, 0.4])
+    pipe_left, pipe_center, pipe_right = st.columns(
+        [1, 3, 1]
+    )
 
     with pipe_center:
+
         st.image(
             str(pipeline_image),
-            use_container_width=True
+            width=650
         )
 
 else:
+
     st.warning(
         f"Pipeline image not found: {pipeline_image}"
     )
 
 
 # ============================================================
-# LLM SELECTION
+# LLM SELECTION STRATEGY
 # ============================================================
 
 st.markdown(
-    '<div class="subsection-heading" style="margin-top:22px;">LLM Selection Strategy</div>',
+    """
+    <div class="subsection-heading"
+         style="margin-top:22px;">
+        LLM Selection Strategy
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
-local_col, cloud_col, selected_col = st.columns(3, gap="large")
+local_col, large_col, selected_col = st.columns(
+    3,
+    gap="large"
+)
 
 
-# ------------------------------------------------------------
-# LOCAL LLM
-# ------------------------------------------------------------
+# ============================================================
+# LOCAL SMALL LLM
+# ============================================================
 
 with local_col:
 
@@ -1058,23 +1071,23 @@ with local_col:
 
     st.markdown(
         """
-        <div style="font-size:13px; color:#555555; line-height:1.8;">
+        <div class="large-body-text">
             • No API cost<br>
             • Full local control<br>
             • Limited by device RAM / compute<br>
-            • Slower large-scale generation<br>
-            • Smaller models may reduce output quality
+            • Slower generation at scale<br>
+            • Smaller model may reduce output quality
         </div>
         """,
         unsafe_allow_html=True
     )
 
 
-# ------------------------------------------------------------
-# LARGE CLOUD MODEL
-# ------------------------------------------------------------
+# ============================================================
+# LARGE CLOUD LLM
+# ============================================================
 
-with cloud_col:
+with large_col:
 
     st.markdown(
         '<div class="feature-group-label">LARGE CLOUD LLM</div>',
@@ -1083,10 +1096,10 @@ with cloud_col:
 
     st.markdown(
         """
-        <div style="font-size:13px; color:#555555; line-height:1.8;">
+        <div class="large-body-text">
             • Strong generation quality<br>
-            • Excellent reasoning capability<br>
-            • Higher token and API cost<br>
+            • Advanced reasoning capability<br>
+            • Higher API / token cost<br>
             • More capability than required<br>
             • Lower cost-efficiency at scale
         </div>
@@ -1095,9 +1108,9 @@ with cloud_col:
     )
 
 
-# ------------------------------------------------------------
-# SELECTED APPROACH
-# ------------------------------------------------------------
+# ============================================================
+# SELECTED — OPENAI API
+# ============================================================
 
 with selected_col:
 
@@ -1108,12 +1121,12 @@ with selected_col:
 
     st.markdown(
         """
-        <div style="font-size:13px; color:#555555; line-height:1.8;">
+        <div class="large-body-text">
             • Lightweight model<br>
             • Cost-efficient inference<br>
             • Sufficient generation quality<br>
             • No local compute dependency<br>
-            • Easy batch automation and scaling
+            • Easy batch automation & scaling
         </div>
         """,
         unsafe_allow_html=True
@@ -1121,22 +1134,31 @@ with selected_col:
 
 
 # ============================================================
-# DECISION
+# MODEL SELECTION DECISION
 # ============================================================
 
 st.markdown(
     """
-    <div class="target-box" style="margin-top:20px;">
+    <div class="target-box"
+         style="margin-top:22px;">
+
         <div class="target-name">
             ✓ Model Selection Decision
         </div>
 
         <div class="target-description"
-             style="font-size:13px; line-height:1.7;">
-            A lightweight OpenAI model was selected because product-description
-            generation requires <b>reliable text generation rather than complex reasoning</b>,
-            providing the best balance of <b>cost, quality, speed, and scalability</b>.
+             style="
+                font-size:14px;
+                line-height:1.7;
+             ">
+
+            A lightweight <b>OpenAI API model</b> was selected because
+            product-description generation requires reliable text generation
+            rather than complex reasoning, providing the best balance of
+            <b>cost, quality, speed, and scalability</b>.
+
         </div>
+
     </div>
     """,
     unsafe_allow_html=True
@@ -1148,43 +1170,32 @@ st.markdown(
 # ============================================================
 
 st.markdown(
-    '<div class="subsection-heading" style="margin-top:24px;">Example Enrichment</div>',
+    """
+    <div class="subsection-heading"
+         style="margin-top:25px;">
+        Example Enrichment
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
 st.markdown(
     """
-    <div style="
-        border:1px solid rgba(231,47,61,0.30);
-        border-left:4px solid #E72F3D;
-        border-radius:8px;
-        padding:18px 22px;
-        margin-top:7px;
-        background-color:rgba(231,47,61,0.025);
-    ">
+    <div class="example-box">
 
         <div style="
             display:grid;
             grid-template-columns:1fr 1fr;
-            gap:50px;
+            gap:55px;
         ">
 
             <div>
 
-                <div style="
-                    font-size:12px;
-                    font-weight:700;
-                    color:#E72F3D;
-                    margin-bottom:10px;
-                ">
+                <div class="feature-group-label">
                     STRUCTURED PRODUCT METADATA
                 </div>
 
-                <div style="
-                    font-size:14px;
-                    color:#555555;
-                    line-height:1.8;
-                ">
+                <div class="large-body-text">
                     <b>Product ID:</b> 1004856<br>
                     <b>Category:</b> electronics.smartphone<br>
                     <b>Brand:</b> Samsung
@@ -1195,20 +1206,11 @@ st.markdown(
 
             <div>
 
-                <div style="
-                    font-size:12px;
-                    font-weight:700;
-                    color:#E72F3D;
-                    margin-bottom:10px;
-                ">
+                <div class="feature-group-label">
                     LLM-GENERATED DESCRIPTION
                 </div>
 
-                <div style="
-                    font-size:14px;
-                    color:#555555;
-                    line-height:1.8;
-                ">
+                <div class="large-body-text">
                     Samsung smartphone in the consumer electronics category,
                     designed for mobile communication and everyday digital use.
                 </div>
@@ -1224,18 +1226,30 @@ st.markdown(
 
 
 # ============================================================
-# TEXT TO MODEL FEATURES
+# FROM TEXT TO MODEL FEATURES
 # ============================================================
 
 st.markdown(
-    '<div class="subsection-heading" style="margin-top:24px;">From Text to Model Features</div>',
+    """
+    <div class="subsection-heading"
+         style="margin-top:25px;">
+        From Text to Model Features
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
-tfidf_col1, tfidf_col2, tfidf_col3 = st.columns(3, gap="large")
+description_col, tfidf_col, model_col = st.columns(
+    3,
+    gap="large"
+)
 
 
-with tfidf_col1:
+# ============================================================
+# STEP 1 — DESCRIPTION
+# ============================================================
+
+with description_col:
 
     st.markdown(
         '<div class="feature-group-label">01 · DESCRIPTION</div>',
@@ -1244,7 +1258,7 @@ with tfidf_col1:
 
     st.markdown(
         """
-        <div style="font-size:13px; color:#555555; line-height:1.7;">
+        <div class="large-body-text">
             • Semantic product representation<br>
             • Human-readable product context<br>
             • Combines multiple metadata fields
@@ -1254,7 +1268,11 @@ with tfidf_col1:
     )
 
 
-with tfidf_col2:
+# ============================================================
+# STEP 2 — TF-IDF
+# ============================================================
+
+with tfidf_col:
 
     st.markdown(
         '<div class="feature-group-label">02 · TF-IDF</div>',
@@ -1263,7 +1281,7 @@ with tfidf_col2:
 
     st.markdown(
         """
-        <div style="font-size:13px; color:#555555; line-height:1.7;">
+        <div class="large-body-text">
             • Converts text into numerical vectors<br>
             • Captures informative product terms<br>
             • Produces ML-compatible features
@@ -1273,7 +1291,11 @@ with tfidf_col2:
     )
 
 
-with tfidf_col3:
+# ============================================================
+# STEP 3 — MODEL INPUT
+# ============================================================
+
+with model_col:
 
     st.markdown(
         '<div class="feature-group-label">03 · MODEL INPUT</div>',
@@ -1282,7 +1304,7 @@ with tfidf_col3:
 
     st.markdown(
         """
-        <div style="font-size:13px; color:#555555; line-height:1.7;">
+        <div class="large-body-text">
             • Combined with behavioral features<br>
             • Combined with session features<br>
             • Evaluated during model experimentation
@@ -1298,18 +1320,24 @@ with tfidf_col3:
 
 st.markdown(
     """
-    <div class="target-box" style="margin-top:24px;">
+    <div class="target-box"
+         style="margin-top:24px;">
 
         <div class="target-name">
             💡 Key Takeaway
         </div>
 
         <div class="target-description"
-             style="font-size:13px; line-height:1.7;">
-            LLM enrichment transforms high-cardinality product identifiers into
-            <b>semantic product representations</b>, while TF-IDF converts that
-            information into numerical features that can be evaluated alongside
-            customer behavioral and session signals.
+             style="
+                font-size:14px;
+                line-height:1.7;
+             ">
+
+            LLM enrichment transforms high-cardinality product identifiers
+            into <b>semantic product representations</b>, while TF-IDF converts
+            this context into numerical features that can be evaluated alongside
+            behavioral and session signals.
+
         </div>
 
     </div>
