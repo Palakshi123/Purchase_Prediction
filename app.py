@@ -831,32 +831,22 @@ st.markdown(
 
 subsection("Text Enrichment Pipeline")
 
-
-pipeline_image = (
-    IMAGE_DIR /
-    "text_enrichment_pipeline.png"
-)
-
+pipeline_image = IMAGE_DIR / "text_enrichment_pipeline.png"
 
 if pipeline_image.exists():
 
-    left, center, right = st.columns(
-        [0.5, 3, 0.5]
-    )
+    left, center, right = st.columns([0.5, 3, 0.5])
 
     with center:
-
         st.image(
             str(pipeline_image),
-            width=600
+            width=750
         )
 
 else:
-
     st.warning(
         f"Pipeline image not found: {pipeline_image.name}"
     )
-
 
 # ============================================================
 # LLM SELECTION STRATEGY
