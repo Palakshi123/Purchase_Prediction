@@ -840,7 +840,7 @@ if pipeline_image.exists():
     with center:
         st.image(
             str(pipeline_image),
-            width=750
+            width=800
         )
 
 else:
