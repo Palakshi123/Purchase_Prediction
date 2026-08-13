@@ -92,7 +92,7 @@ st.markdown("""
 
 
 /* ------------------------------------------------------------
-   MAJOR SECTION SPACING
+   SPACING
 ------------------------------------------------------------ */
 
 .section-spacer {
@@ -100,7 +100,7 @@ st.markdown("""
 }
 
 .kpi-table-spacer {
-    height: 18px;
+    height: 35px;
 }
 
 
@@ -147,13 +147,6 @@ st.markdown("""
     margin-bottom: 7px;
 }
 
-.subsection-description {
-    font-size: 10px;
-    color: #888888;
-    margin-top: -4px;
-    margin-bottom: 8px;
-}
-
 
 /* ------------------------------------------------------------
    CLEANING NOTES
@@ -184,7 +177,7 @@ st.markdown("""
 
 
 /* ------------------------------------------------------------
-   TARGET VARIABLE CALLOUT
+   TARGET VARIABLE
 ------------------------------------------------------------ */
 
 .target-box {
@@ -192,7 +185,7 @@ st.markdown("""
     border-left: 3px solid #E72F3D;
     border-radius: 5px;
     padding: 10px 14px;
-    margin-top: 16px;
+    margin-top: 18px;
 }
 
 .target-name {
@@ -408,7 +401,7 @@ left, right = st.columns(2, gap="large")
 
 
 # ============================================================
-# LEFT — MISSING VALUE ANALYSIS
+# LEFT — MISSING VALUES
 # ============================================================
 
 with left:
@@ -442,7 +435,7 @@ with left:
 
 
 # ============================================================
-# RIGHT — DUPLICATE RECORD ANALYSIS
+# RIGHT — DUPLICATES
 # ============================================================
 
 with right:
@@ -496,7 +489,7 @@ st.markdown(
             Feature Engineering
         </div>
         <div class="section-caption">
-            Created temporal, behavioral, session, and purchase-intent signals from raw customer interactions.
+            Created behavioral, temporal, session, and purchase-intent signals from raw customer interactions.
         </div>
     </div>
     """,
@@ -511,8 +504,8 @@ st.markdown(
 c1, c2, c3, c4, c5 = st.columns(5)
 
 feature_summary = [
-    ("🧩", "32", "Predictor Features Created"),
-    ("🕒", "12", "Temporal Features"),
+    ("🧩", "24", "Predictor Features"),
+    ("🕒", "4", "Temporal Features"),
     ("👆", "7", "Behavioral Features"),
     ("⚡", "9", "Session Features"),
     ("🎯", "4", "Purchase Intent Features")
@@ -530,7 +523,7 @@ for col, (icon, value, label) in zip(
 
 
 # ============================================================
-# SPACE BETWEEN KPI AND FEATURE TABLES
+# LARGER SPACE BETWEEN KPI AND TABLES
 # ============================================================
 
 st.markdown(
@@ -562,37 +555,21 @@ with feature_col1:
     )
 
     st.markdown(
-        '<div class="feature-group-label">12 engineered features</div>',
+        '<div class="feature-group-label">4 retained features</div>',
         unsafe_allow_html=True
     )
 
     time_features = pd.DataFrame({
         "Feature": [
-            "year",
-            "month",
-            "day",
             "hour",
-            "minute",
             "day_of_week",
-            "day_of_week_num",
             "is_weekend",
-            "date",
-            "month_name",
-            "week_of_year",
             "is_evening"
         ],
         "Purpose": [
-            "Year-level activity",
-            "Monthly behavior",
-            "Daily behavior",
-            "Hourly shopping patterns",
-            "Minute-level timing",
-            "Day-specific behavior",
-            "Numeric weekday representation",
+            "Hourly shopping behavior",
+            "Day-specific behavioral patterns",
             "Weekend activity indicator",
-            "Date-level trends",
-            "Readable month grouping",
-            "Weekly behavioral trends",
             "Evening shopping indicator"
         ]
     })
@@ -609,12 +586,12 @@ with feature_col1:
     # --------------------------------------------------------
 
     st.markdown(
-        '<div class="subsection-heading" style="margin-top:16px;">👆 Behavioral Features</div>',
+        '<div class="subsection-heading" style="margin-top:18px;">👆 Behavioral Features</div>',
         unsafe_allow_html=True
     )
 
     st.markdown(
-        '<div class="feature-group-label">7 engineered features</div>',
+        '<div class="feature-group-label">7 retained features</div>',
         unsafe_allow_html=True
     )
 
@@ -662,7 +639,7 @@ with feature_col2:
     )
 
     st.markdown(
-        '<div class="feature-group-label">9 engineered features</div>',
+        '<div class="feature-group-label">9 retained features</div>',
         unsafe_allow_html=True
     )
 
@@ -703,12 +680,12 @@ with feature_col2:
     # --------------------------------------------------------
 
     st.markdown(
-        '<div class="subsection-heading" style="margin-top:16px;">🎯 Purchase Intent Features</div>',
+        '<div class="subsection-heading" style="margin-top:18px;">🎯 Purchase Intent Features</div>',
         unsafe_allow_html=True
     )
 
     st.markdown(
-        '<div class="feature-group-label">4 engineered features</div>',
+        '<div class="feature-group-label">4 retained features</div>',
         unsafe_allow_html=True
     )
 
@@ -744,10 +721,11 @@ st.markdown(
         <div class="target-name">
             🎯 Target Variable — purchase_later
         </div>
+
         <div class="target-description">
-            Binary target indicating whether a purchase occurs later within the same user session.
-            The target enables prediction of future purchase intent using only customer behavior
-            observed up to the current interaction.
+            Binary target indicating whether a purchase occurs later within
+            the same user session. The model uses customer behavior observed
+            up to the current interaction to predict future purchase intent.
         </div>
     </div>
     """,
