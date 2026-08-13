@@ -852,7 +852,7 @@ else:
 # LLM SELECTION STRATEGY
 # ============================================================
 
-subsection("LLM Selection Strategy")
+subsection("LLM API Selection Strategy")
 
 
 local_col, cloud_col, openai_col = st.columns(
@@ -872,7 +872,6 @@ with local_col:
     st.markdown(
         """
 - No API cost
-- Full local control
 - Limited by device RAM / compute
 - Slower generation at scale
 - Smaller models may reduce output quality
@@ -891,10 +890,8 @@ with cloud_col:
     st.markdown(
         """
 - Strong generation quality
-- Advanced reasoning capability
 - Higher API / token cost
 - More capability than required
-- Lower cost-efficiency at scale
 """
     )
 
@@ -905,15 +902,15 @@ with cloud_col:
 
 with openai_col:
 
-    pill("✓ SELECTED — OPENAI API")
+    pill("OPENAI API (Model gpt-5.6-luna)")
 
     st.markdown(
         """
 - Lightweight model
-- Cost-efficient inference
+- Cost-efficient inference (Output: $1.20 per 1M tokens)
 - Sufficient generation quality
 - No local compute dependency
-- Easy batch automation and scaling
+- Fast Text Generation
 """
     )
 
@@ -926,7 +923,7 @@ st.success(
     """
 **✓ Model Selection Decision**
 
-A lightweight OpenAI API model was selected because product-description generation requires reliable text generation rather than complex reasoning, providing a practical balance of **cost, quality, speed, and scalability**.
+An OpenAI API model was selected because it's providing a practical balance of **cost, quality, speed, and scalability**.
 """
 )
 
