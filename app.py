@@ -1376,90 +1376,7 @@ not purchase, providing an example of a **high-confidence false positive**.
 
 space()
 
-# ============================================================
-# DECISION TREE — NONLINEAR MODEL
-# ============================================================
 
-space()
-
-subsection("Decision Tree — Nonlinear Model")
-
-st.markdown(
-    """
-    Decision Tree was used to capture nonlinear relationships and interaction
-    patterns in customer purchase behavior while maintaining model interpretability.
-    """
-)
-
-
-# ============================================================
-# MODEL CONFIGURATION
-# ============================================================
-
-config_col1, config_col2, config_col3, config_col4 = st.columns(
-    4,
-    gap="large"
-)
-
-with config_col1:
-
-    pill("MODEL")
-
-    st.markdown(
-        '<div class="content-heading">Decision Tree</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col2:
-
-    pill("MAX DEPTH")
-
-    st.markdown(
-        '<div class="content-heading">10</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col3:
-
-    pill("MIN LEAF SIZE")
-
-    st.markdown(
-        '<div class="content-heading">1,000</div>',
-        unsafe_allow_html=True
-    )
-
-
-with config_col4:
-
-    pill("CLASS BALANCE")
-
-    st.markdown(
-        '<div class="content-heading">Balanced Weights</div>',
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# NO FEATURE SCALING
-# ============================================================
-
-st.markdown(
-    '<div class="small-space"></div>',
-    unsafe_allow_html=True
-)
-
-st.info(
-    """
-**No Feature Scaling**
-
-Unlike Logistic Regression, numerical features were **not standardized**
-for the Decision Tree. Tree-based models split features using threshold
-rules, so their predictions are not dependent on features being measured
-on comparable scales.
-"""
-)
 # ============================================================
 # DECISION TREE — NONLINEAR MODEL
 # ============================================================
@@ -1532,16 +1449,6 @@ with config_col4:
 st.markdown(
     '<div class="small-space"></div>',
     unsafe_allow_html=True
-)
-
-st.info(
-    """
-**No Feature Scaling**
-
-Unlike Logistic Regression, numerical features were **not standardized**
-for the Decision Tree. Tree-based models learn threshold-based splits,
-so feature scaling is not required.
-"""
 )
 
 
