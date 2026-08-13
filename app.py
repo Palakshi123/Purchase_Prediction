@@ -932,13 +932,18 @@ st.markdown(
 
 st.markdown(
     """
-    <div class="cleaning-note">
-        The original dataset identifies products primarily through
-        <b>product_id</b>, <b>category_id</b>, <b>category_code</b>, and
-        <b>brand</b>. Product ID and Category ID are high-cardinality identifiers
-        that identify an item but provide little semantic information about
-        what the product actually represents. Product descriptions were therefore
-        generated to introduce meaningful product-level context.
+    <div style="
+        font-size:13px;
+        color:#555555;
+        line-height:1.8;
+        margin-top:5px;
+        margin-bottom:20px;
+    ">
+        • <b>product_id</b> and <b>category_id</b> are high-cardinality identifiers with little inherent semantic meaning.<br>
+        • <b>category_code</b> provides product-category context but does not fully describe the individual product.<br>
+        • <b>brand</b> identifies the manufacturer but provides limited information about product characteristics.<br>
+        • Product descriptions combine available structured metadata into a richer natural-language representation.<br>
+        • Generated descriptions can be transformed into numerical semantic features for machine-learning experiments.
     </div>
     """,
     unsafe_allow_html=True
@@ -946,120 +951,163 @@ st.markdown(
 
 
 # ============================================================
-# LLM ENRICHMENT APPROACH
+# TEXT ENRICHMENT PIPELINE
 # ============================================================
 
 st.markdown(
-    '<div class="subsection-heading" style="margin-top:18px;">LLM Enrichment Approach</div>',
+    '<div class="subsection-heading" style="margin-top:18px;">Text Enrichment Pipeline</div>',
     unsafe_allow_html=True
 )
 
-col1, col2, col3 = st.columns(3, gap="large")
+pipeline_image = IMAGE_DIR / "text_enrichment_pipeline.png"
 
+if pipeline_image.exists():
 
-with col1:
-
-    st.markdown(
-        '<div class="feature-group-label">01 · PRODUCT METADATA</div>',
-        unsafe_allow_html=True
+    pipeline_left, pipeline_center, pipeline_right = st.columns(
+        [0.3, 4.4, 0.3]
     )
 
-    st.markdown(
-        """
-        <div class="cleaning-note">
-            Combined available Product ID, Brand, Category Code,
-            and category hierarchy information to create a structured
-            representation of each product.
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    with pipeline_center:
 
+        st.image(
+            str(pipeline_image),
+            use_container_width=True
+        )
 
-with col2:
+else:
 
-    st.markdown(
-        '<div class="feature-group-label">02 · LLM ENRICHMENT</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        """
-        <div class="cleaning-note">
-            Used the <b>OpenAI API</b> to transform structured product
-            metadata into concise natural-language product descriptions
-            containing richer semantic information.
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-
-with col3:
-
-    st.markdown(
-        '<div class="feature-group-label">03 · TEXT FEATURES</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        """
-        <div class="cleaning-note">
-            Generated descriptions were transformed using
-            <b>TF-IDF vectorization</b>, converting semantic product
-            information into numerical features for ML experimentation.
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.warning(
+        "Text enrichment pipeline image not found."
     )
 
 
 # ============================================================
-# PIPELINE
+# LLM APPROACH — OPTIONS CONSIDERED
 # ============================================================
 
 st.markdown(
-    '<div class="subsection-heading" style="margin-top:22px;">Enrichment Pipeline</div>',
+    '<div class="subsection-heading" style="margin-top:22px;">LLM Approach — Options Considered</div>',
     unsafe_allow_html=True
 )
+
+llm_col1, llm_col2, llm_col3 = st.columns(
+    3,
+    gap="large"
+)
+
+
+# ============================================================
+# OPTION 1 — LOCAL SMALL LLM
+# ============================================================
+
+with llm_col1:
+
+    st.markdown(
+        '<div class="feature-group-label">LOCAL SMALL LLM</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div style="
+            font-size:12px;
+            color:#555555;
+            line-height:1.8;
+        ">
+            • Download and run an open-source LLM locally<br>
+            • No per-request API cost<br>
+            • Greater control over local inference<br>
+            • Limited by available RAM and compute<br>
+            • Smaller models may reduce description quality<br>
+            • Large-scale generation can be slower
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# OPTION 2 — LARGE CLOUD LLM
+# ============================================================
+
+with llm_col2:
+
+    st.markdown(
+        '<div class="feature-group-label">LARGE CLOUD LLM</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div style="
+            font-size:12px;
+            color:#555555;
+            line-height:1.8;
+        ">
+            • Strong language-generation capability<br>
+            • Better suited for complex reasoning tasks<br>
+            • Higher API cost at large scale<br>
+            • Higher token consumption<br>
+            • More capability than required for this task<br>
+            • Lower cost-efficiency for simple descriptions
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# OPTION 3 — OPENAI API
+# ============================================================
+
+with llm_col3:
+
+    st.markdown(
+        '<div class="feature-group-label">✓ SELECTED — OPENAI API</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div style="
+            font-size:12px;
+            color:#555555;
+            line-height:1.8;
+        ">
+            • Lightweight and cost-efficient model<br>
+            • Sufficient quality for product descriptions<br>
+            • No local compute dependency<br>
+            • Easy API-based integration<br>
+            • Supports automated batch generation<br>
+            • Strong cost–quality–scalability trade-off
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# FINAL SELECTION
+# ============================================================
 
 st.markdown(
     """
-    <div class="target-box" style="margin-top:5px;">
-        <div class="target-description" style="text-align:center;">
-            <b>Product Metadata</b>
-            &nbsp; → &nbsp;
-            <b>OpenAI LLM</b>
-            &nbsp; → &nbsp;
-            <b>Product Description</b>
-            &nbsp; → &nbsp;
-            <b>TF-IDF</b>
-            &nbsp; → &nbsp;
-            <b>ML Features</b>
+    <div class="target-box" style="margin-top:20px;">
+
+        <div class="target-name">
+            ✓ Final Selection
         </div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
 
+        <div class="target-description" style="
+            font-size:12px;
+            line-height:1.8;
+        ">
+            • Product description generation is primarily a structured text-generation task rather than a complex reasoning problem.<br>
+            • A large premium LLM would increase cost without providing proportional value for this use case.<br>
+            • A small local LLM avoids API costs but introduces local compute, memory, and generation-speed constraints.<br>
+            • A lightweight OpenAI API model provided the best balance of <b>cost, quality, scalability, and inference speed</b>.
+        </div>
 
-# ============================================================
-# WHY OPENAI
-# ============================================================
-
-st.markdown(
-    '<div class="subsection-heading" style="margin-top:20px;">Why OpenAI?</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    """
-    <div class="cleaning-note">
-        A <b>cost-efficient OpenAI model</b> was selected because this task
-        required large-scale generation of short, structured product descriptions
-        rather than complex reasoning. A lightweight model provided the semantic
-        quality required for text enrichment while reducing API cost and inference
-        overhead across thousands of unique products.
     </div>
     """,
     unsafe_allow_html=True
@@ -1071,44 +1119,175 @@ st.markdown(
 # ============================================================
 
 st.markdown(
-    '<div class="subsection-heading" style="margin-top:20px;">Example Enrichment</div>',
+    '<div class="subsection-heading" style="margin-top:22px;">Example Enrichment</div>',
     unsafe_allow_html=True
 )
 
-example_left, example_right = st.columns(2, gap="large")
+st.markdown(
+    """
+    <div style="
+        border:1px solid rgba(231,47,61,0.35);
+        border-left:3px solid #E72F3D;
+        border-radius:7px;
+        padding:16px 20px;
+        margin-top:5px;
+        margin-bottom:18px;
+        background-color:rgba(231,47,61,0.025);
+    ">
+
+        <div style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:40px;
+        ">
+
+            <div>
+
+                <div style="
+                    font-size:11px;
+                    font-weight:700;
+                    color:#E72F3D;
+                    margin-bottom:10px;
+                ">
+                    STRUCTURED PRODUCT METADATA
+                </div>
+
+                <div style="
+                    font-size:13px;
+                    color:#555555;
+                    line-height:1.8;
+                ">
+                    • <b>Product ID:</b> 1004856<br>
+                    • <b>Category:</b> electronics.smartphone<br>
+                    • <b>Brand:</b> Samsung
+                </div>
+
+            </div>
 
 
-with example_left:
+            <div>
+
+                <div style="
+                    font-size:11px;
+                    font-weight:700;
+                    color:#E72F3D;
+                    margin-bottom:10px;
+                ">
+                    LLM-GENERATED DESCRIPTION
+                </div>
+
+                <div style="
+                    font-size:13px;
+                    color:#555555;
+                    line-height:1.8;
+                ">
+                    • Samsung smartphone in the consumer electronics category,
+                    designed for mobile communication and everyday digital use.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
+# TEXT FEATURE ENGINEERING
+# ============================================================
+
+st.markdown(
+    '<div class="subsection-heading" style="margin-top:20px;">Text Feature Engineering</div>',
+    unsafe_allow_html=True
+)
+
+text_col1, text_col2, text_col3 = st.columns(
+    3,
+    gap="large"
+)
+
+
+# ============================================================
+# GENERATED DESCRIPTION
+# ============================================================
+
+with text_col1:
 
     st.markdown(
-        '<div class="feature-group-label">STRUCTURED METADATA</div>',
+        '<div class="feature-group-label">GENERATED DESCRIPTION</div>',
         unsafe_allow_html=True
     )
 
     st.markdown(
         """
-        <div class="cleaning-note">
-            <b>Product ID:</b> 1004856<br>
-            <b>Category:</b> electronics.smartphone<br>
-            <b>Brand:</b> Samsung
+        <div style="
+            font-size:12px;
+            color:#555555;
+            line-height:1.8;
+        ">
+            • Introduces semantic product information<br>
+            • Combines multiple metadata attributes<br>
+            • Creates a human-readable product representation<br>
+            • Adds context unavailable from IDs alone
         </div>
         """,
         unsafe_allow_html=True
     )
 
 
-with example_right:
+# ============================================================
+# TF-IDF
+# ============================================================
+
+with text_col2:
 
     st.markdown(
-        '<div class="feature-group-label">LLM-GENERATED DESCRIPTION</div>',
+        '<div class="feature-group-label">TF-IDF VECTORIZATION</div>',
         unsafe_allow_html=True
     )
 
     st.markdown(
         """
-        <div class="cleaning-note">
-            Samsung smartphone in the consumer electronics category,
-            designed for mobile communication and everyday digital use.
+        <div style="
+            font-size:12px;
+            color:#555555;
+            line-height:1.8;
+        ">
+            • Converts descriptions into numerical vectors<br>
+            • Measures informative terms across products<br>
+            • Reduces reliance on raw text<br>
+            • Produces ML-compatible text features
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# MODEL FEATURES
+# ============================================================
+
+with text_col3:
+
+    st.markdown(
+        '<div class="feature-group-label">MODEL FEATURES</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div style="
+            font-size:12px;
+            color:#555555;
+            line-height:1.8;
+        ">
+            • Text features combined with behavioral signals<br>
+            • Evaluated with temporal and session features<br>
+            • Adds product-level semantic context<br>
+            • Supports downstream model experimentation
         </div>
         """,
         unsafe_allow_html=True
@@ -1121,15 +1300,21 @@ with example_right:
 
 st.markdown(
     """
-    <div class="target-box">
+    <div class="target-box" style="margin-top:22px;">
+
         <div class="target-name">
             💡 Key Takeaway
         </div>
-        <div class="target-description">
-            Text enrichment converts opaque product identifiers into semantic
-            product representations, allowing downstream models to capture
-            product context that Product ID and Category ID alone cannot provide.
+
+        <div class="target-description" style="
+            font-size:12px;
+            line-height:1.8;
+        ">
+            • Raw Product ID and Category ID identify products but contain limited semantic information.<br>
+            • LLM-generated descriptions convert structured metadata into meaningful product context.<br>
+            • TF-IDF transforms this context into numerical features that can be evaluated alongside behavioral and session signals.
         </div>
+
     </div>
     """,
     unsafe_allow_html=True
