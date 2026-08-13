@@ -68,8 +68,9 @@ with right:
 
 
 
+
 # ============================================================
-# DATASET OVERVIEW
+# DATASET OVERVIEW — COMPACT
 # ============================================================
 
 st.divider()
@@ -77,12 +78,11 @@ st.divider()
 st.markdown("## Dataset Overview")
 
 st.caption(
-    "One month of e-commerce behavioral data capturing customer interactions "
-    "across the complete shopping journey."
+    "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions."
 )
 
 # ============================================================
-# CARD STYLING
+# COMPACT CARD STYLING
 # ============================================================
 
 st.markdown("""
@@ -91,26 +91,29 @@ st.markdown("""
 .metric-card {
     background-color: #F8F9FA;
     border: 1px solid #E8E8E8;
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-    min-height: 95px;
+    border-radius: 8px;
+    padding: 8px 10px;
+    min-height: 72px;
+    text-align: center;
 }
 
 .metric-icon {
-    font-size: 20px;
-    margin-bottom: 5px;
+    font-size: 15px;
+    display: inline;
 }
 
 .metric-value {
-    font-size: 22px;
+    font-size: 17px;
     font-weight: 700;
     color: #E72F3D;
+    display: inline;
+    margin-left: 4px;
 }
 
 .metric-label {
-    font-size: 13px;
+    font-size: 11px;
     color: #666666;
+    margin-top: 3px;
 }
 
 </style>
@@ -121,117 +124,64 @@ st.markdown("""
 # ROW 1
 # ============================================================
 
-c1, c2, c3, c4 = st.columns(4)
+c1, c2, c3, c4, c5, c6 = st.columns(6)
 
-with c1:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">📊</div>
-        <div class="metric-value">42.45M</div>
-        <div class="metric-label">Total Records</div>
-    </div>
-    """, unsafe_allow_html=True)
+cards_row1 = [
+    ("📊", "42.45M", "Total Records"),
+    ("👥", "3.02M", "Unique Customers"),
+    ("🛒", "9.24M", "Unique Sessions"),
+    ("📦", "166,794", "Unique Products"),
+    ("🏷️", "3,444", "Unique Brands"),
+    ("🗂️", "126", "Unique Categories")
+]
 
-with c2:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">👥</div>
-        <div class="metric-value">3.02M</div>
-        <div class="metric-label">Unique Customers</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with c3:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">🛒</div>
-        <div class="metric-value">9.24M</div>
-        <div class="metric-label">Unique Sessions</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with c4:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">📦</div>
-        <div class="metric-value">166,794</div>
-        <div class="metric-label">Unique Products</div>
-    </div>
-    """, unsafe_allow_html=True)
+for col, (icon, value, label) in zip(
+    [c1, c2, c3, c4, c5, c6],
+    cards_row1
+):
+    with col:
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <div>
+                    <span class="metric-icon">{icon}</span>
+                    <span class="metric-value">{value}</span>
+                </div>
+                <div class="metric-label">{label}</div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
 
 # ============================================================
 # ROW 2
 # ============================================================
 
-c1, c2, c3, c4 = st.columns(4)
+c1, c2, c3, c4, c5 = st.columns(5)
 
-with c1:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">🏷️</div>
-        <div class="metric-value">3,444</div>
-        <div class="metric-label">Unique Brands</div>
-    </div>
-    """, unsafe_allow_html=True)
+cards_row2 = [
+    ("🔢", "9", "Initial Features"),
+    ("📅", "1 Month", "Dataset Period"),
+    ("🧭", "4", "Category Levels"),
+    ("⚠️", "30,220", "Duplicates · 0.07%"),
+    ("👆", "3", "Event Types · View · Cart · Purchase")
+]
 
-with c2:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">🗂️</div>
-        <div class="metric-value">126</div>
-        <div class="metric-label">Unique Categories</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with c3:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">🔢</div>
-        <div class="metric-value">9</div>
-        <div class="metric-label">Initial Features</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with c4:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">📅</div>
-        <div class="metric-value">1 Month</div>
-        <div class="metric-label">Dataset Period</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-# ============================================================
-# ROW 3
-# ============================================================
-
-c1, c2, c3 = st.columns(3)
-
-with c1:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">🧭</div>
-        <div class="metric-value">4</div>
-        <div class="metric-label">Category Levels</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with c2:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">⚠️</div>
-        <div class="metric-value">30,220</div>
-        <div class="metric-label">Duplicate Records · 0.07%</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with c3:
-    st.markdown("""
-    <div class="metric-card">
-        <div class="metric-icon">👆</div>
-        <div class="metric-value">3 Event Types</div>
-        <div class="metric-label">View · Cart · Purchase</div>
-    </div>
-    """, unsafe_allow_html=True)
+for col, (icon, value, label) in zip(
+    [c1, c2, c3, c4, c5],
+    cards_row2
+):
+    with col:
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <div>
+                    <span class="metric-icon">{icon}</span>
+                    <span class="metric-value">{value}</span>
+                </div>
+                <div class="metric-label">{label}</div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
