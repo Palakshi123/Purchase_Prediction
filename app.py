@@ -1848,16 +1848,14 @@ rf_config = pd.DataFrame({
         "Min Samples Leaf",
         "Max Features",
         "Bootstrap",
-        "Training Sample / Tree",
-        "Parallel Processing"
+        "Training Sample / Tree"
     ],
     "Value": [
         "500",
         "200",
         "sqrt",
         "True",
-        "80%",
-        "All Available Cores"
+        "80%"
     ]
 })
 
@@ -1906,9 +1904,6 @@ st.info(
 **Model Performance:** Random Forest improved **Accuracy, Precision,
 F1 Score, ROC-AUC, and PR-AUC** compared with the previous models,
 while Recall decreased slightly.
-
-The improvement in PR-AUC indicates stronger ranking performance
-for the minority purchase class.
 """
 )
 
@@ -1924,17 +1919,19 @@ subsection("Classification Threshold Selection")
 st.markdown(
     """
     Classification thresholds were evaluated on the **validation set**
-    to examine the trade-off between Precision, Recall, and F1 Score
-    before final test evaluation.
+    to examine the trade-off between Precision, Recall, and F1 Score.
     """
 )
 
-threshold_image = IMAGE_DIR / "rf-threshold.png"
+threshold_image = (
+    IMAGE_DIR /
+    "rf-threshold-selection.png"
+)
 
 if threshold_image.exists():
 
     left, center, right = st.columns(
-        [0.7, 2.6, 0.7]
+        [0.8, 2.4, 0.8]
     )
 
     with center:
@@ -1953,16 +1950,15 @@ else:
 
 st.info(
     """
-**Threshold Trade-off:** Lower thresholds prioritize Recall, while higher
-thresholds improve Precision. The validation analysis helps identify an
-operating threshold based on the desired balance between capturing future
-purchases and limiting false positives.
+**Threshold Trade-off:** Lower thresholds prioritize Recall, while
+higher thresholds improve Precision. Validation performance was used
+to evaluate the operating threshold before final test evaluation.
 """
 )
 
 
 # ============================================================
-# MODEL COMPARISON — ROC + PR
+# ROC + PRECISION RECALL COMPARISON
 # ============================================================
 
 space()
@@ -1972,7 +1968,7 @@ subsection("Comparison with Previous Models")
 st.markdown(
     """
     Random Forest was compared with Logistic Regression and Decision Tree
-    using ROC-AUC and Precision–Recall performance.
+    across classification thresholds.
     """
 )
 
@@ -1983,7 +1979,7 @@ roc_col, pr_col = st.columns(
 
 
 # ============================================================
-# AUROC COMPARISON
+# AUROC
 # ============================================================
 
 with roc_col:
@@ -1995,7 +1991,10 @@ with roc_col:
         unsafe_allow_html=True
     )
 
-    roc_image = IMAGE_DIR / "rf-auroc.png"
+    roc_image = (
+        IMAGE_DIR /
+        "rf-auroc.png"
+    )
 
     if roc_image.exists():
 
@@ -2012,14 +2011,14 @@ with roc_col:
 
     st.markdown(
         """
-        AUROC improved from **0.6901 → 0.7046 → 0.7162** across
-        Logistic Regression, Decision Tree, and Random Forest.
+        AUROC improved from **0.6901 → 0.7046 → 0.7162**
+        across Logistic Regression, Decision Tree, and Random Forest.
         """
     )
 
 
 # ============================================================
-# PRECISION-RECALL COMPARISON
+# PRECISION RECALL
 # ============================================================
 
 with pr_col:
@@ -2031,7 +2030,10 @@ with pr_col:
         unsafe_allow_html=True
     )
 
-    pr_image = IMAGE_DIR / "rf-pr.png"
+    pr_image = (
+        IMAGE_DIR /
+        "rf-pr-rec.png"
+    )
 
     if pr_image.exists():
 
@@ -2049,8 +2051,7 @@ with pr_col:
     st.markdown(
         """
         PR-AUC improved from **0.2264 → 0.2546 → 0.2595**,
-        indicating progressively stronger performance on the
-        imbalanced purchase target.
+        showing stronger performance on the imbalanced purchase target.
         """
     )
 
@@ -2127,10 +2128,13 @@ st.markdown(
 
 
 # ============================================================
-# FEATURE IMPORTANCE
+# GLOBAL FEATURE IMPORTANCE
 # ============================================================
 
-feature_image = IMAGE_DIR / "rf-feature-importance.png"
+feature_image = (
+    IMAGE_DIR /
+    "rf-global.png"
+)
 
 if feature_image.exists():
 
@@ -2177,9 +2181,12 @@ st.markdown(
     """
 )
 
-stability_image = IMAGE_DIR / "rf-feature-stability.png"
+feature_stability_image = (
+    IMAGE_DIR /
+    "rf-feature-expla.png"
+)
 
-if stability_image.exists():
+if feature_stability_image.exists():
 
     left, center, right = st.columns(
         [0.7, 2.6, 0.7]
@@ -2188,14 +2195,14 @@ if stability_image.exists():
     with center:
 
         st.image(
-            str(stability_image),
+            str(feature_stability_image),
             use_container_width=True
         )
 
 else:
 
     st.warning(
-        f"Image not found: {stability_image.name}"
+        f"Image not found: {feature_stability_image.name}"
     )
 
 
@@ -2209,7 +2216,7 @@ introduced through bootstrap sampling and random feature selection.
 
 
 # ============================================================
-# PROBABILITY DISTRIBUTION
+# PREDICTED PROBABILITY DISTRIBUTION
 # ============================================================
 
 space()
@@ -2224,7 +2231,10 @@ st.markdown(
     """
 )
 
-probability_image = IMAGE_DIR / "rf-probability-distribution.png"
+probability_image = (
+    IMAGE_DIR /
+    "rf-predi-prob.png"
+)
 
 if probability_image.exists():
 
@@ -2250,8 +2260,8 @@ st.info(
     """
 **Probability Interpretation:** Purchase observations shift toward higher
 predicted probabilities, while non-purchase observations are concentrated
-at lower probabilities. The remaining overlap represents observations
-that are more difficult for the model to distinguish.
+at lower probabilities. The overlap between the distributions represents
+observations that remain difficult for the model to distinguish.
 """
 )
 
