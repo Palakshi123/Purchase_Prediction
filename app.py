@@ -185,31 +185,38 @@ p, li {
    ========================================================== */
 
 .target-card {
-    background: #FAFAFA;
+    background-color: #FAFAFA;
     border: 1px solid #E8E8E8;
     border-left: 4px solid #E72F3D;
     border-radius: 8px;
     padding: 12px 16px;
-    margin-top: 8px;
-    margin-bottom: 12px;
+    margin-top: 6px;
+    margin-bottom: 10px;
 }
 
 .target-header {
     font-size: 15px;
     font-weight: 700;
     color: #E72F3D;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 
 .target-text {
     font-size: 14px;
     color: #555555;
-    line-height: 1.5;
+    line-height: 1.55;
 }
 
 .target-value {
+    font-size: 13px;
     font-weight: 700;
     color: #333333;
+    margin-left: 10px;
+}
+
+.target-divider {
+    color: #E72F3D;
+    margin-left: 7px;
 }
 
 
@@ -326,12 +333,12 @@ def metric_cards(cards):
 
             st.markdown(
                 f"""
-                <div class="metric-card">
-                    <span class="metric-icon">{icon}</span>
-                    <span class="metric-value">{value}</span>
-                    <div class="metric-label">{label}</div>
-                </div>
-                """,
+<div class="metric-card">
+    <span class="metric-icon">{icon}</span>
+    <span class="metric-value">{value}</span>
+    <div class="metric-label">{label}</div>
+</div>
+""",
                 unsafe_allow_html=True
             )
 
@@ -382,10 +389,10 @@ st.markdown(
 
 st.markdown(
     """
-    <div class="dashboard-subtitle">
-        Customer Behavior Analytics & Machine Learning Dashboard
-    </div>
-    """,
+<div class="dashboard-subtitle">
+    Customer Behavior Analytics & Machine Learning Dashboard
+</div>
+""",
     unsafe_allow_html=True
 )
 
@@ -396,11 +403,11 @@ st.markdown(
 
 st.markdown(
     """
-    <div class="dashboard-description">
-        Predicting purchase intent from customer browsing, cart,
-        product, and session behavior.
-    </div>
-    """,
+<div class="dashboard-description">
+    Predicting purchase intent from customer browsing, cart,
+    product, and session behavior.
+</div>
+""",
     unsafe_allow_html=True
 )
 
@@ -638,25 +645,21 @@ space()
 
 subsection("Target Variable")
 
+# IMPORTANT:
+# HTML begins immediately after """.
+# Do not indent the HTML inside the multiline string because Streamlit
+# can interpret indented HTML as a Markdown code block.
+
 st.markdown(
-    """
-    <div class="target-card">
-
-        <div class="target-header">
-            🎯 purchase_later
-        </div>
-
-        <div class="target-text">
-            Predicts whether a purchase will occur later within the same
-            user session using behavior observed up to the current interaction.
-            &nbsp;&nbsp;
-            <span class="target-value">1 = Purchase Later</span>
-            &nbsp;·&nbsp;
-            <span class="target-value">0 = No Purchase Later</span>
-        </div>
-
-    </div>
-    """,
+"""<div class="target-card">
+<div class="target-header">🎯 purchase_later</div>
+<div class="target-text">
+Predicts whether a purchase will occur later within the same user session using behavior observed up to the current interaction.
+<span class="target-value">1 = Purchase Later</span>
+<span class="target-divider">•</span>
+<span class="target-value">0 = No Purchase Later</span>
+</div>
+</div>""",
     unsafe_allow_html=True
 )
 
@@ -825,6 +828,7 @@ else:
     st.warning(
         f"Visualization not found: {image_path.name}"
     )
+
 
 subsection("💡 Business Insight")
 
@@ -1996,10 +2000,6 @@ purchasers** and **increasing the reliability of positive predictions**.
 )
 
 st.markdown(
-    """
-    <div class="final-model">
-        🏆 Final Model — Tuned XGBoost
-    </div>
-    """,
+"""<div class="final-model">🏆 Final Model — Tuned XGBoost</div>""",
     unsafe_allow_html=True
 )
