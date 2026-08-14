@@ -724,7 +724,8 @@ between categorical values.
 """
     )
 
-# ============================================================
+
+ # ============================================================
 # FUNNEL ANALYSIS & CONVERSION RATE
 # ============================================================
 
@@ -735,212 +736,263 @@ section_title(
     "Event-level customer journey from product discovery to purchase."
 )
 
-st.markdown(
-"""<div style="
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    width:100%;
-    margin-top:18px;
-    margin-bottom:10px;
-">
 
-    <div style="width:25%; text-align:center;">
-        <div style="
-            font-size:13px;
-            font-weight:700;
-            color:#777777;
-            margin-bottom:5px;
-        ">
-            👁️ VIEW
-        </div>
+# ============================================================
+# HORIZONTAL FUNNEL
+# ============================================================
 
-        <div style="
-            font-size:25px;
-            font-weight:700;
-            color:#E72F3D;
-        ">
-            23.31M
-        </div>
-
-        <div style="
-            font-size:13px;
-            color:#777777;
-            margin-top:3px;
-        ">
-            23,306,949 events
-        </div>
-    </div>
-
-
-    <div style="width:12%; text-align:center;">
-
-        <div style="
-            font-size:20px;
-            color:#E72F3D;
-            font-weight:700;
-        ">
-            →
-        </div>
-
-        <div style="
-            font-size:15px;
-            font-weight:700;
-            color:#333333;
-        ">
-            2.14%
-        </div>
-
-        <div style="
-            font-size:11px;
-            color:#888888;
-        ">
-            View → Cart
-        </div>
-
-    </div>
-
-
-    <div style="width:25%; text-align:center;">
-
-        <div style="
-            font-size:13px;
-            font-weight:700;
-            color:#777777;
-            margin-bottom:5px;
-        ">
-            🛒 CART
-        </div>
-
-        <div style="
-            font-size:25px;
-            font-weight:700;
-            color:#E72F3D;
-        ">
-            499.1K
-        </div>
-
-        <div style="
-            font-size:13px;
-            color:#777777;
-            margin-top:3px;
-        ">
-            499,095 events
-        </div>
-
-    </div>
-
-
-    <div style="width:12%; text-align:center;">
-
-        <div style="
-            font-size:20px;
-            color:#E72F3D;
-            font-weight:700;
-        ">
-            →
-        </div>
-
-        <div style="
-            font-size:15px;
-            font-weight:700;
-            color:#333333;
-        ">
-            111.90%
-        </div>
-
-        <div style="
-            font-size:11px;
-            color:#888888;
-        ">
-            Cart → Purchase
-        </div>
-
-    </div>
-
-
-    <div style="width:25%; text-align:center;">
-
-        <div style="
-            font-size:13px;
-            font-weight:700;
-            color:#777777;
-            margin-bottom:5px;
-        ">
-            💳 PURCHASE
-        </div>
-
-        <div style="
-            font-size:25px;
-            font-weight:700;
-            color:#E72F3D;
-        ">
-            558.5K
-        </div>
-
-        <div style="
-            font-size:13px;
-            color:#777777;
-            margin-top:3px;
-        ">
-            558,484 events
-        </div>
-
-    </div>
-
-</div>""",
-    unsafe_allow_html=True
+view_col, view_cart_col, cart_col, cart_purchase_col, purchase_col = st.columns(
+    [2.2, 1.3, 2.2, 1.3, 2.2],
+    gap="small"
 )
 
 
 # ============================================================
-# OVERALL CONVERSION
+# VIEW
 # ============================================================
 
-st.markdown(
-"""<div style="
-    text-align:center;
-    margin-top:12px;
-    margin-bottom:15px;
-">
+with view_col:
 
-    <span style="
-        font-size:13px;
-        color:#777777;
-    ">
-        Overall View → Purchase Conversion
-    </span>
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:14px; "
+        "font-weight:700; "
+        "color:#666666; "
+        "margin-bottom:2px;'>"
+        "👁️ VIEW"
+        "</p>",
+        unsafe_allow_html=True
+    )
 
-    <span style="
-        font-size:17px;
-        font-weight:700;
-        color:#E72F3D;
-        margin-left:8px;
-    ">
-        2.40%
-    </span>
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:26px; "
+        "font-weight:700; "
+        "color:#E72F3D; "
+        "margin:0;'>"
+        "23.31M"
+        "</p>",
+        unsafe_allow_html=True
+    )
 
-</div>""",
-    unsafe_allow_html=True
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:13px; "
+        "color:#888888; "
+        "margin-top:2px;'>"
+        "23,306,949 events"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# VIEW → CART
+# ============================================================
+
+with view_cart_col:
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:22px; "
+        "font-weight:700; "
+        "color:#E72F3D; "
+        "margin-bottom:0;'>"
+        "→"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:17px; "
+        "font-weight:700; "
+        "color:#333333; "
+        "margin:0;'>"
+        "2.14%"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:12px; "
+        "color:#888888; "
+        "margin-top:2px;'>"
+        "View → Cart"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# CART
+# ============================================================
+
+with cart_col:
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:14px; "
+        "font-weight:700; "
+        "color:#666666; "
+        "margin-bottom:2px;'>"
+        "🛒 CART"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:26px; "
+        "font-weight:700; "
+        "color:#E72F3D; "
+        "margin:0;'>"
+        "499.1K"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:13px; "
+        "color:#888888; "
+        "margin-top:2px;'>"
+        "499,095 events"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# CART → PURCHASE
+# ============================================================
+
+with cart_purchase_col:
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:22px; "
+        "font-weight:700; "
+        "color:#E72F3D; "
+        "margin-bottom:0;'>"
+        "→"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:17px; "
+        "font-weight:700; "
+        "color:#333333; "
+        "margin:0;'>"
+        "111.90%"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:12px; "
+        "color:#888888; "
+        "margin-top:2px;'>"
+        "Cart → Purchase"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# PURCHASE
+# ============================================================
+
+with purchase_col:
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:14px; "
+        "font-weight:700; "
+        "color:#666666; "
+        "margin-bottom:2px;'>"
+        "💳 PURCHASE"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:26px; "
+        "font-weight:700; "
+        "color:#E72F3D; "
+        "margin:0;'>"
+        "558.5K"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:13px; "
+        "color:#888888; "
+        "margin-top:2px;'>"
+        "558,484 events"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+
+# ============================================================
+# OVERALL VIEW → PURCHASE CONVERSION
+# ============================================================
+
+small_space()
+
+overall_left, overall_center, overall_right = st.columns(
+    [2, 2, 2]
 )
+
+with overall_center:
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:14px; "
+        "color:#666666; "
+        "margin-bottom:0;'>"
+        "Overall View → Purchase Conversion"
+        "</p>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p style='text-align:center; "
+        "font-size:22px; "
+        "font-weight:700; "
+        "color:#E72F3D; "
+        "margin-top:0;'>"
+        "2.40%"
+        "</p>",
+        unsafe_allow_html=True
+    )
 
 
 # ============================================================
 # FUNNEL INSIGHT
 # ============================================================
 
+subsection("💡 Funnel Insight")
+
 st.markdown(
     """
-**💡 Funnel Insight:** Only **2.14% of view events progress to cart activity**,
-showing that the largest drop-off occurs before the cart stage. Overall,
-purchase events represent **2.40% of view activity**.
+Only **2.14% of view events progress to cart activity**, indicating that
+the largest drop-off occurs before the cart stage. Overall, purchase events
+represent **2.40% of view activity**.
 
-*Cart → Purchase exceeds 100% because this is an aggregate event-level
-funnel rather than a strict sequential session funnel.*
+**Note:** Cart → Purchase is **111.90%** because this is an aggregate
+**event-level funnel**, not a strict sequential session-level funnel.
+Purchase events can therefore exceed cart events.
 """
 )
-
-
 
 
 # ============================================================
