@@ -1520,7 +1520,7 @@ if lr_local_image.exists():
 
         st.image(
             str(lr_local_image),
-            width=420
+            width=520
         )
 
 else:
