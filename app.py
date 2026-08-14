@@ -1508,22 +1508,19 @@ a specific Logistic Regression purchase-intent prediction.
 """
 )
 
-lr_local_image = (
-    IMAGE_DIR /
-    "lr-local.png"
-)
+lr_local_image = IMAGE_DIR / "lr-local.png"
 
 if lr_local_image.exists():
 
-    lr_local_left, lr_local_center, lr_local_right = st.columns(
-        [0.6, 2.8, 0.6]
+    left, center, right = st.columns(
+        [1.3, 1.4, 1.3]
     )
 
-    with lr_local_center:
+    with center:
 
         st.image(
             str(lr_local_image),
-            use_container_width=True
+            width=420
         )
 
 else:
@@ -1532,13 +1529,11 @@ else:
         f"Image not found: {lr_local_image.name}"
     )
 
-
 st.markdown(
     """
-**Interpretation:** Logistic Regression coefficients provide directional
-explainability. Positive contributions increase predicted purchase intent,
-while negative contributions decrease the predicted probability of a
-future purchase.
+**Interpretation:** Positive contributions increase predicted purchase intent,
+while negative contributions decrease the predicted probability of a future
+purchase.
 """
 )
 
