@@ -2128,9 +2128,8 @@ This configuration achieved the strongest validation **PR-AUC of 0.2771**.
 """
 )
 
-
 # ============================================================
-# TUNED XGBOOST
+# TUNED XGBOOST — TEST PERFORMANCE
 # ============================================================
 
 space()
@@ -2139,17 +2138,22 @@ subsection("Tuned XGBoost — Test Performance")
 
 metric_cards([
     ("📊", "76.45%", "Accuracy"),
-    ("🎯", "16.74%", "Precision"),
-    ("🔎", "51.68%", "Recall"),
-    ("⚖️", "25.29%", "F1 Score"),
-    ("📈", "0.7100", "ROC-AUC"),
-    ("📉", "0.2568", "PR-AUC")
+    ("🎯", "18.23%", "Precision"),
+    ("🔎", "54.36%", "Recall"),
+    ("⚖️", "27.30%", "F1 Score"),
+    ("📈", "0.7163", "ROC-AUC"),
+    ("📉", "0.2771", "PR-AUC")
 ])
+
+small_space()
 
 st.markdown(
     """
-Tuned XGBoost achieved the **highest test PR-AUC of 0.2568** among all
-evaluated models while retaining **51.68% Recall**.
+**Selected Configuration:** `max_depth = 8` · `learning_rate = 0.05` ·
+`n_estimators = 300`
+
+The tuned XGBoost model achieved **76.45% Accuracy**, **18.23% Precision**,
+**54.36% Recall**, and a **PR-AUC of 0.2771**.
 """
 )
 
