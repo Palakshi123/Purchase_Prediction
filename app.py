@@ -45,11 +45,13 @@ html, body, [class*="css"] {
     font-family: "Source Sans Pro", sans-serif;
 }
 
+/* Normal explanatory text */
 p, li {
-    font-size: 13px !important;
-    line-height: 1.55 !important;
+    font-size: 15px !important;
+    line-height: 1.60 !important;
 }
 
+/* Header */
 .dashboard-title {
     font-size: 26px;
     font-weight: 700;
@@ -59,14 +61,14 @@ p, li {
 }
 
 .dashboard-subtitle {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     color: #555555;
     margin-top: 4px;
 }
 
 .dashboard-description {
-    font-size: 13px;
+    font-size: 15px;
     color: #777777;
     margin-top: 7px;
 }
@@ -80,6 +82,7 @@ p, li {
     margin-bottom: 5px;
 }
 
+/* Main section titles */
 .section-title {
     font-size: 20px;
     font-weight: 700;
@@ -90,15 +93,16 @@ p, li {
 }
 
 .section-subtitle {
-    font-size: 12.5px;
+    font-size: 14px;
     color: #777777;
     line-height: 1.5;
     margin-top: 0;
     margin-bottom: 16px;
 }
 
+/* Subsection titles */
 .subsection-title {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     color: #E72F3D;
     line-height: 1.3;
@@ -107,13 +111,14 @@ p, li {
 }
 
 .content-heading {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     color: #333333;
     margin-top: 5px;
     margin-bottom: 6px;
 }
 
+/* KPI cards */
 .metric-card {
     text-align: center;
     padding: 6px 3px;
@@ -121,25 +126,26 @@ p, li {
 }
 
 .metric-icon {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .metric-value {
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 700;
     color: #E72F3D;
     margin-left: 4px;
 }
 
 .metric-label {
-    font-size: 11px;
+    font-size: 12px;
     color: #777777;
     margin-top: 3px;
 }
 
+/* Pills */
 .feature-pill {
     display: inline-block;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.2px;
     color: #E72F3D;
@@ -149,19 +155,31 @@ p, li {
     margin-bottom: 7px;
 }
 
+/* Tables */
 div[data-testid="stDataFrame"] {
-    font-size: 12px !important;
+    font-size: 13px !important;
 }
 
+/* Select boxes */
 div[data-testid="stSelectbox"] label p {
-    font-size: 13px !important;
+    font-size: 14px !important;
     font-weight: 600 !important;
 }
 
 div[data-baseweb="select"] {
-    font-size: 13px !important;
+    font-size: 14px !important;
 }
 
+/* Final model */
+.final-model {
+    font-size: 18px;
+    font-weight: 700;
+    color: #E72F3D;
+    margin-top: 18px;
+    margin-bottom: 12px;
+}
+
+/* Spacing */
 .section-space {
     height: 22px;
 }
@@ -179,6 +197,7 @@ div[data-baseweb="select"] {
 # ============================================================
 
 def section_title(title, subtitle):
+
     st.markdown(
         f'<div class="section-title">{title}</div>',
         unsafe_allow_html=True
@@ -191,6 +210,7 @@ def section_title(title, subtitle):
 
 
 def subsection(title):
+
     st.markdown(
         f'<div class="subsection-title">{title}</div>',
         unsafe_allow_html=True
@@ -198,6 +218,7 @@ def subsection(title):
 
 
 def pill(text):
+
     st.markdown(
         f'<span class="feature-pill">{text}</span>',
         unsafe_allow_html=True
@@ -205,6 +226,7 @@ def pill(text):
 
 
 def space():
+
     st.markdown(
         '<div class="section-space"></div>',
         unsafe_allow_html=True
@@ -212,6 +234,7 @@ def space():
 
 
 def small_space():
+
     st.markdown(
         '<div class="small-space"></div>',
         unsafe_allow_html=True
@@ -219,10 +242,13 @@ def small_space():
 
 
 def metric_cards(cards):
+
     cols = st.columns(len(cards))
 
     for col, (icon, value, label) in zip(cols, cards):
+
         with col:
+
             st.markdown(
                 f"""
                 <div class="metric-card">
@@ -235,7 +261,12 @@ def metric_cards(cards):
             )
 
 
-def centered_image(filename, width=None, ratio=(0.7, 2.6, 0.7)):
+def centered_image(
+    filename,
+    width=None,
+    ratio=(0.7, 2.6, 0.7)
+):
+
     image_path = IMAGE_DIR / filename
 
     if image_path.exists():
@@ -245,17 +276,21 @@ def centered_image(filename, width=None, ratio=(0.7, 2.6, 0.7)):
         with center:
 
             if width:
+
                 st.image(
                     str(image_path),
                     width=width
                 )
+
             else:
+
                 st.image(
                     str(image_path),
                     use_container_width=True
                 )
 
     else:
+
         st.warning(
             f"Image not found: {image_path.name}"
         )
@@ -317,7 +352,7 @@ metric_cards([
     ("🔢", "9", "Initial Features"),
     ("📅", "1 Month", "Dataset Period"),
     ("🧭", "4", "Category Levels"),
-    ("👆", "3", "Event Types · View · Cart · Purchase")
+    ("👆", "3", "Event Types")
 ])
 
 
@@ -419,6 +454,7 @@ brand mapping existed for the same Product ID, restoring
 """
     )
 
+
 with right:
 
     subsection("Duplicate Record Analysis")
@@ -483,6 +519,7 @@ metric_cards([
 small_space()
 
 feature_groups = pd.DataFrame({
+
     "Feature Group": [
         "Behavioral",
         "Temporal / Session",
@@ -522,11 +559,13 @@ session information.
 # TARGET VARIABLE
 # ============================================================
 
+space()
+
 subsection("Target Variable")
 
 st.markdown(
     """
-### 🎯 `purchase_later`
+**🎯 `purchase_later`**
 
 Binary target indicating whether a purchase occurs **later within the
 same user session**.
@@ -577,6 +616,7 @@ with encoding_col1:
 - Reduces memory requirements
 """
     )
+
 
 with encoding_col2:
 
@@ -733,7 +773,7 @@ st.markdown(
 
 
 # ============================================================
-# TEXT PIPELINE
+# TEXT ENRICHMENT PIPELINE
 # ============================================================
 
 subsection("Text Enrichment Pipeline")
@@ -769,6 +809,7 @@ with local_col:
 """
     )
 
+
 with cloud_col:
 
     pill("LARGE CLOUD LLM")
@@ -780,6 +821,7 @@ with cloud_col:
 - More capability than required
 """
     )
+
 
 with openai_col:
 
@@ -794,6 +836,7 @@ with openai_col:
 - Fast text generation
 """
     )
+
 
 st.markdown(
     """
@@ -874,6 +917,8 @@ metric_cards([
     ("🧪", "15%", "Test Sessions")
 ])
 
+small_space()
+
 split_summary = pd.DataFrame({
 
     "Dataset": [
@@ -913,6 +958,7 @@ st.dataframe(
     hide_index=True
 )
 
+
 subsection("Why This Split?")
 
 st.markdown(
@@ -927,7 +973,52 @@ st.markdown(
 
 
 # ============================================================
-# MODEL EVALUATION STRATEGY
+# MODEL DEVELOPMENT STRATEGY
+# ============================================================
+
+space()
+
+subsection("Model Development Strategy")
+
+model_strategy = pd.DataFrame({
+
+    "Stage": [
+        "Baseline",
+        "Nonlinear",
+        "Bagging",
+        "Boosting",
+        "Boosting",
+        "Ensemble"
+    ],
+
+    "Model": [
+        "Logistic Regression",
+        "Decision Tree",
+        "Random Forest",
+        "XGBoost",
+        "LightGBM",
+        "XGBoost + Random Forest"
+    ],
+
+    "Purpose": [
+        "Establish linear baseline",
+        "Capture nonlinear relationships",
+        "Improve stability across trees",
+        "Sequential gradient boosting",
+        "Efficient gradient boosting",
+        "Combine complementary predictions"
+    ]
+})
+
+st.dataframe(
+    model_strategy,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# EVALUATION STRATEGY
 # ============================================================
 
 space()
@@ -939,11 +1030,16 @@ st.markdown(
 Purchases represent a minority of observations, so **Accuracy alone can
 be misleading**.
 
-Models were evaluated using **Precision, Recall, F1 Score, ROC-AUC and
-PR-AUC**.
+Models were evaluated using:
+
+- **Precision** — reliability of positive purchase predictions
+- **Recall** — proportion of actual purchasers identified
+- **F1 Score** — balance between Precision and Recall
+- **ROC-AUC** — overall class discrimination
+- **PR-AUC** — performance on the minority purchase class
 
 **PR-AUC was prioritized for model selection** because it directly evaluates
-performance on the minority purchase class while accounting for the
+performance on the imbalanced positive class while accounting for the
 Precision–Recall trade-off.
 """
 )
@@ -983,8 +1079,13 @@ purchase predictions.
 """
 )
 
-centered_image("lr-roc-curve.png")
-centered_image("lr-confusion-metrics.png")
+centered_image(
+    "lr-roc-curve.png"
+)
+
+centered_image(
+    "lr-confusion-metrics.png"
+)
 
 
 # ============================================================
@@ -1013,23 +1114,30 @@ metric_cards([
 
 st.markdown(
     """
-**Model Interpretation:** The Decision Tree substantially improved Precision
-and F1 Score over the linear baseline while maintaining more than half of
-actual purchasers through **53.55% Recall**.
+**Model Interpretation:** Decision Tree substantially improved Precision
+and F1 Score over the linear baseline while retaining **53.55% Recall**.
 """
 )
 
-centered_image("dt-confusion-matrix.png", width=480)
+centered_image(
+    "dt-confusion-matrix.png",
+    width=480
+)
 
-roc_col, pr_col = st.columns(2, gap="large")
+roc_col, pr_col = st.columns(
+    2,
+    gap="large"
+)
 
 with roc_col:
+
     centered_image(
         "dt-auroc.png",
         ratio=(0.05, 2.9, 0.05)
     )
 
 with pr_col:
+
     centered_image(
         "dt-pr.png",
         ratio=(0.05, 2.9, 0.05)
@@ -1051,6 +1159,11 @@ stability and capture nonlinear customer behavior.
 """
 )
 
+
+# ============================================================
+# RANDOM FOREST BASE
+# ============================================================
+
 subsection("Base Random Forest")
 
 metric_cards([
@@ -1061,6 +1174,11 @@ metric_cards([
     ("📈", "0.7116", "ROC-AUC"),
     ("📉", "0.2516", "PR-AUC")
 ])
+
+
+# ============================================================
+# RANDOM FOREST TUNED
+# ============================================================
 
 subsection("Tuned Random Forest")
 
@@ -1081,25 +1199,41 @@ compared with **0.2471** after tuning.
 """
 )
 
-centered_image("rf-threshold-selection.png")
+centered_image(
+    "rf-threshold-selection.png"
+)
 
-roc_col, pr_col = st.columns(2, gap="large")
+roc_col, pr_col = st.columns(
+    2,
+    gap="large"
+)
 
 with roc_col:
+
     centered_image(
         "rf-auroc.png",
         ratio=(0.05, 2.9, 0.05)
     )
 
 with pr_col:
+
     centered_image(
         "rf-pr-rec.png",
         ratio=(0.05, 2.9, 0.05)
     )
 
-subsection("Global Feature Importance")
 
-centered_image("rf-global.png")
+# ============================================================
+# RANDOM FOREST EXPLAINABILITY
+# ============================================================
+
+space()
+
+subsection("Random Forest — Global Feature Importance")
+
+centered_image(
+    "rf-global.png"
+)
 
 st.markdown(
     """
@@ -1124,6 +1258,11 @@ explicitly accounting for class imbalance.
 """
 )
 
+
+# ============================================================
+# BASE XGBOOST
+# ============================================================
+
 subsection("Base XGBoost")
 
 metric_cards([
@@ -1146,11 +1285,47 @@ subsection("Hyperparameter Tuning")
 
 st.markdown(
     """
-XGBoost configurations were evaluated on the **validation set** across
-tree depth, learning rate, and number of estimators. **PR-AUC** was used
-as the primary selection metric.
+Four XGBoost configurations were evaluated on the **validation set**
+across tree depth, learning rate, and number of estimators.
+
+**PR-AUC** was used as the primary tuning metric.
 """
 )
+
+tune_col1, tune_col2, tune_col3 = st.columns(
+    3,
+    gap="large"
+)
+
+with tune_col1:
+
+    pill("MAX DEPTH")
+
+    st.markdown(
+        '<div class="content-heading">6 · 8</div>',
+        unsafe_allow_html=True
+    )
+
+with tune_col2:
+
+    pill("LEARNING RATE")
+
+    st.markdown(
+        '<div class="content-heading">0.05 · 0.10</div>',
+        unsafe_allow_html=True
+    )
+
+with tune_col3:
+
+    pill("ESTIMATORS")
+
+    st.markdown(
+        '<div class="content-heading">200 · 300</div>',
+        unsafe_allow_html=True
+    )
+
+
+small_space()
 
 tuning_results = pd.DataFrame({
 
@@ -1219,9 +1394,11 @@ st.dataframe(
 
 st.markdown(
     """
-**Selected Configuration:** `max_depth = 8`, `learning_rate = 0.05`,
-`n_estimators = 300` produced the strongest validation
-**PR-AUC of 0.2771**.
+**Selected Configuration**
+
+`max_depth = 8` · `learning_rate = 0.05` · `n_estimators = 300`
+
+This configuration achieved the strongest validation **PR-AUC of 0.2771**.
 """
 )
 
@@ -1229,6 +1406,8 @@ st.markdown(
 # ============================================================
 # TUNED XGBOOST
 # ============================================================
+
+space()
 
 subsection("Tuned XGBoost — Test Performance")
 
@@ -1244,18 +1423,25 @@ metric_cards([
 st.markdown(
     """
 Tuned XGBoost achieved the **highest test PR-AUC of 0.2568** among all
-evaluated approaches while maintaining **51.68% Recall**.
+evaluated models while retaining **51.68% Recall**.
 """
 )
 
 
 # ============================================================
-# XGBOOST EXPLAINABILITY
+# XGBOOST GLOBAL SHAP
 # ============================================================
 
 space()
 
 subsection("Global Explainability — SHAP")
+
+st.markdown(
+    """
+SHAP values quantify the average impact of each feature on XGBoost
+predictions across the evaluation population.
+"""
+)
 
 centered_image(
     "xgb-shap.png",
@@ -1265,13 +1451,27 @@ centered_image(
 
 st.markdown(
     """
-SHAP analysis identifies the behavioral signals that have the greatest
-influence on model predictions and shows whether each feature pushes the
-prediction toward **Purchase** or **No Purchase**.
+SHAP analysis identifies the behavioral signals with the greatest influence
+on model predictions and whether each feature pushes predictions toward
+**Purchase** or **No Purchase**.
 """
 )
 
+
+# ============================================================
+# XGBOOST LOCAL SHAP
+# ============================================================
+
+space()
+
 subsection("Local Explainability — SHAP")
+
+st.markdown(
+    """
+Local SHAP waterfall plots explain how individual feature values move
+specific predictions away from the model baseline.
+"""
+)
 
 example_col1, example_col2 = st.columns(
     2,
@@ -1282,25 +1482,47 @@ with example_col1:
 
     pill("EXAMPLE 1 · NO PURCHASE")
 
-    image = IMAGE_DIR / "xgb-example 1.png"
+    example_1_image = (
+        IMAGE_DIR /
+        "xgb-example 1.png"
+    )
 
-    if image.exists():
+    if example_1_image.exists():
+
         st.image(
-            str(image),
+            str(example_1_image),
             use_container_width=True
         )
+
+    else:
+
+        st.warning(
+            f"Image not found: {example_1_image.name}"
+        )
+
 
 with example_col2:
 
     pill("EXAMPLE 2 · HIGHER PURCHASE INTENT")
 
-    image = IMAGE_DIR / "xgb-example 2.png"
+    example_2_image = (
+        IMAGE_DIR /
+        "xgb-example 2.png"
+    )
 
-    if image.exists():
+    if example_2_image.exists():
+
         st.image(
-            str(image),
+            str(example_2_image),
             use_container_width=True
         )
+
+    else:
+
+        st.warning(
+            f"Image not found: {example_2_image.name}"
+        )
+
 
 st.markdown(
     """
@@ -1411,12 +1633,17 @@ actual future purchasers were not identified.
 """
 )
 
-centered_image("lightgbm-threshold.png")
-centered_image("lightgbm-purchase pro.png")
+centered_image(
+    "lightgbm-threshold.png"
+)
+
+centered_image(
+    "lightgbm-purchase pro.png"
+)
 
 
 # ============================================================
-# XGBOOST + RANDOM FOREST ENSEMBLE
+# ENSEMBLE
 # ============================================================
 
 space()
@@ -1548,7 +1775,7 @@ st.dataframe(
 
 
 # ============================================================
-# MODEL TRADE-OFF
+# MODEL PERFORMANCE TRADE-OFF
 # ============================================================
 
 space()
@@ -1564,14 +1791,14 @@ tradeoff_df = pd.DataFrame({
         "XGBoost + RF Ensemble"
     ],
 
-    "Strength": [
+    "Primary Strength": [
         "Highest Recall",
         "Highest PR-AUC",
         "High Precision & Accuracy",
         "Highest Precision & F1"
     ],
 
-    "Limitation": [
+    "Key Limitation": [
         "Very low Precision",
         "Moderate Precision",
         "Low Recall",
@@ -1613,6 +1840,8 @@ metric_cards([
 # WHY XGBOOST
 # ============================================================
 
+space()
+
 subsection("Why Tuned XGBoost?")
 
 st.markdown(
@@ -1632,8 +1861,8 @@ highest PR-AUC (`0.2568`) while retaining `51.68% Recall`.**
 - **Tuned XGBoost** retained more than half of actual future purchasers
   while producing the **highest PR-AUC across all evaluated models**.
 
-- The ensemble also introduced additional model complexity without
-  improving PR-AUC over Tuned XGBoost.
+- The ensemble introduced additional model complexity without improving
+  PR-AUC over Tuned XGBoost.
 
 Therefore, **Tuned XGBoost provides the strongest Precision–Recall
 trade-off for the purchase-intent objective.**
@@ -1642,7 +1871,7 @@ trade-off for the purchase-intent objective.**
 
 
 # ============================================================
-# WHY NOT ACCURACY
+# WHY NOT ACCURACY?
 # ============================================================
 
 space()
@@ -1651,8 +1880,8 @@ subsection("Why Not Select the Highest-Accuracy Model?")
 
 st.markdown(
     """
-The target is highly imbalanced, with non-purchase observations representing
-the majority of interactions.
+The purchase target is highly imbalanced, with non-purchase observations
+representing the majority of interactions.
 
 A model can therefore achieve high Accuracy by correctly predicting the
 majority class while still missing a large proportion of actual purchasers.
@@ -1669,10 +1898,10 @@ Recall, Precision and F1 Score rather than Accuracy alone**.
 
 space()
 
+subsection("Final Takeaway")
+
 st.markdown(
     """
-### Final Takeaway
-
 The experiments reveal a clear trade-off between **capturing more potential
 purchasers** and **increasing the reliability of positive predictions**.
 
@@ -1684,7 +1913,14 @@ purchasers** and **increasing the reliability of positive predictions**.
 - Captured nonlinear behavioral interactions
 - Outperformed LightGBM and the ensemble on the primary PR-AUC metric
 - Avoided the additional deployment complexity of a multi-model ensemble
-
-### 🏆 Final Model — Tuned XGBoost
 """
+)
+
+st.markdown(
+    """
+    <div class="final-model">
+        🏆 Final Model — Tuned XGBoost
+    </div>
+    """,
+    unsafe_allow_html=True
 )
