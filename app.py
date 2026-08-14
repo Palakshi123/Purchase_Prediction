@@ -2505,25 +2505,23 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
 # ============================================================
 # FUTURE ENHANCEMENTS
 # ============================================================
 
 section_title(
     "Future Enhancements",
-    "Directions for extending this analysis beyond a single one-month behavioral snapshot.",
+    "Where this system goes next, beyond a single one-month behavioral snapshot.",
     eyebrow="Next Steps"
 )
 
 st.markdown(
 """<div class="target-card">
-<div class="target-header">👤 Customer-Level Purchase History</div>
+<div class="target-header">👤 Know the Customer, Not Just the Session</div>
 <div class="target-text">
-The current model scores each session in isolation. Bringing in a customer's
-full purchase history — not just the current session — would let the model
-learn long-term buying patterns (what they tend to buy, how often, and when)
-rather than relying only on in-session signals.
+The model currently scores each session in isolation. Adding a customer's
+full purchase history would let it learn <b>who typically buys</b>, not just
+<b>what this session looks like</b>.
 </div>
 </div>""",
     unsafe_allow_html=True
@@ -2531,12 +2529,12 @@ rather than relying only on in-session signals.
 
 small_space()
 
-future_col1, future_col2, future_col3 = st.columns(
-    3,
+fe_row1_col1, fe_row1_col2 = st.columns(
+    2,
     gap="large"
 )
 
-with future_col1:
+with fe_row1_col1:
 
     pill("CUSTOMER HISTORY")
 
@@ -2547,17 +2545,41 @@ with future_col1:
 
     st.markdown(
         """
-- Recency, frequency, monetary (RFM) features per customer
-- Customer lifetime value and repeat-purchase cadence
-- Preferred brands / categories from past orders
-- Cross-session, cross-device identity linking
+- RFM profile (recency, frequency, monetary value) per customer
+- Lifetime value and repeat-purchase cadence
+- Cross-device / cross-session identity linking
 """
     )
 
 
-with future_col2:
+with fe_row1_col2:
 
-    pill("PRODUCT & CONTEXT")
+    pill("REAL-TIME ACTIVATION")
+
+    st.markdown(
+        '<div class="content-heading">Act on the Score, Not Just Predict It</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+- Live scoring API to trigger cart-abandonment nudges
+- Route high-intent sessions into recommendation / retargeting
+- Dynamic discounts for borderline, high-value sessions
+"""
+    )
+
+
+small_space()
+
+fe_row2_col1, fe_row2_col2 = st.columns(
+    2,
+    gap="large"
+)
+
+with fe_row2_col1:
+
+    pill("PRODUCT & MARKET CONTEXT")
 
     st.markdown(
         '<div class="content-heading">Enrich the Product Signal</div>',
@@ -2566,17 +2588,16 @@ with future_col2:
 
     st.markdown(
         """
-- Price history, discounts, and active promotions
-- Product ratings and review volume
-- Stock availability at time of interaction
-- Marketing channel / traffic source at session start
+- Price history, promotions, and competitor pricing
+- Review scores and real-time stock availability
+- Marketing channel / campaign attribution
 """
     )
 
 
-with future_col3:
+with fe_row2_col2:
 
-    pill("MODELING & OPS")
+    pill("MODELING & OPERATIONS")
 
     st.markdown(
         '<div class="content-heading">Scale the Approach</div>',
@@ -2586,18 +2607,17 @@ with future_col3:
     st.markdown(
         """
 - Sequence models (RNN / Transformer) over raw event streams
-- Multiple months of data to capture seasonality
-- Live feature pipeline with drift monitoring in production
-- A/B testing to validate uplift from targeting high-intent sessions
+- Multi-month data for seasonality; cold-start logic for new customers
+- Drift monitoring and scheduled retraining in production
 """
     )
 
+small_space()
+
 st.markdown(
     """
-**Why it matters:** Session-level features capture *what a customer is doing
-right now*; customer-level history would add *who this customer typically
-is*, combining short-term intent with long-term behavior for a more complete
-purchase-prediction signal.
+*Together, these shift the system from a single-session classifier toward
+a customer-aware, real-time purchase-intent engine.*
 """
 )
 
