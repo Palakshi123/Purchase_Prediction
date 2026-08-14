@@ -51,11 +51,29 @@ st.markdown(
 
 
 /* ==========================================================
+   HIDE DEFAULT STREAMLIT CHROME
+   (prevents the fixed top toolbar from overlapping our header)
+   ========================================================== */
+
+header[data-testid="stHeader"] {
+    display: none;
+}
+
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+
+/* ==========================================================
    PAGE
    ========================================================== */
 
 .block-container {
-    padding-top: 1.6rem;
+    padding-top: 2.2rem;
     padding-bottom: 3rem;
     padding-left: 3rem;
     padding-right: 3rem;
@@ -2506,120 +2524,62 @@ st.markdown(
 )
 
 # ============================================================
-# FUTURE ENHANCEMENTS
+# LIMITATIONS & FUTURE WORK
 # ============================================================
 
 section_title(
-    "Future Enhancements",
-    "Where this system goes next, beyond a single one-month behavioral snapshot.",
-    eyebrow="Next Steps"
+    "Limitations & Future Work",
+    "Trade-offs made in this project, and what would change with more time or data.",
+    eyebrow="Reflection"
 )
 
-st.markdown(
-"""<div class="target-card">
-<div class="target-header">👤 Know the Customer, Not Just the Session</div>
-<div class="target-text">
-The model currently scores each session in isolation. Adding a customer's
-full purchase history would let it learn <b>who typically buys</b>, not just
-<b>what this session looks like</b>.
-</div>
-</div>""",
-    unsafe_allow_html=True
-)
-
-small_space()
-
-fe_row1_col1, fe_row1_col2 = st.columns(
-    2,
+lim_col1, lim_col2, lim_col3 = st.columns(
+    3,
     gap="large"
 )
 
-with fe_row1_col1:
+with lim_col1:
 
-    pill("CUSTOMER HISTORY")
-
-    st.markdown(
-        '<div class="content-heading">Learn Long-Term Patterns</div>',
-        unsafe_allow_html=True
-    )
+    pill("LIMITATIONS")
 
     st.markdown(
         """
-- RFM profile (recency, frequency, monetary value) per customer
-- Lifetime value and repeat-purchase cadence
-- Cross-device / cross-session identity linking
+- Only one month of data — seasonality and long-term trends aren't captured
+- Features describe the current session only, not the customer's history
+- Severe class imbalance keeps Precision low across every model tested
 """
     )
 
 
-with fe_row1_col2:
+with lim_col2:
 
-    pill("REAL-TIME ACTIVATION")
-
-    st.markdown(
-        '<div class="content-heading">Act on the Score, Not Just Predict It</div>',
-        unsafe_allow_html=True
-    )
+    pill("TRADE-OFFS MADE")
 
     st.markdown(
         """
-- Live scoring API to trigger cart-abandonment nudges
-- Route high-intent sessions into recommendation / retargeting
-- Dynamic discounts for borderline, high-value sessions
+- Optimized for PR-AUC and Recall over raw Accuracy, given how rare
+  purchases are
+- Chose Tuned XGBoost over the ensemble — traded some Precision for
+  meaningfully higher Recall
+- Stuck to tree-based models over deep sequence models, to keep training
+  and inference simple
 """
     )
 
 
-small_space()
+with lim_col3:
 
-fe_row2_col1, fe_row2_col2 = st.columns(
-    2,
-    gap="large"
-)
-
-with fe_row2_col1:
-
-    pill("PRODUCT & MARKET CONTEXT")
-
-    st.markdown(
-        '<div class="content-heading">Enrich the Product Signal</div>',
-        unsafe_allow_html=True
-    )
+    pill("WITH MORE TIME OR DATA")
 
     st.markdown(
         """
-- Price history, promotions, and competitor pricing
-- Review scores and real-time stock availability
-- Marketing channel / campaign attribution
+- Collect more data — multiple months to capture seasonality and trends
+- Continue feature engineering — customer-level history, pricing, and
+  richer temporal signals
+- Try sequence models (RNN / Transformer) directly on event streams
+- Add production monitoring to catch performance drift over time
 """
     )
-
-
-with fe_row2_col2:
-
-    pill("MODELING & OPERATIONS")
-
-    st.markdown(
-        '<div class="content-heading">Scale the Approach</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        """
-- Sequence models (RNN / Transformer) over raw event streams
-- Multi-month data for seasonality; cold-start logic for new customers
-- Drift monitoring and scheduled retraining in production
-"""
-    )
-
-small_space()
-
-st.markdown(
-    """
-*Together, these shift the system from a single-session classifier toward
-a customer-aware, real-time purchase-intent engine.*
-"""
-)
 
 
 # ============================================================
