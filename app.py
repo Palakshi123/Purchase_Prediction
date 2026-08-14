@@ -1508,26 +1508,29 @@ a specific Logistic Regression purchase-intent prediction.
 """
 )
 
-lr_local_image = IMAGE_DIR / "lr-local.png"
+lr_local_left, lr_local_center, lr_local_right = st.columns(
+    [1, 1, 1],
+    gap="large"
+)
 
-if lr_local_image.exists():
+with lr_local_center:
 
-    left, center, right = st.columns(
-        [1.3, 1.4, 1.3]
-    )
+    pill("LOCAL EXPLAINABILITY")
 
-    with center:
+    lr_local_image = IMAGE_DIR / "lr-local.png"
+
+    if lr_local_image.exists():
 
         st.image(
             str(lr_local_image),
-            width=520
+            use_container_width=True
         )
 
-else:
+    else:
 
-    st.warning(
-        f"Image not found: {lr_local_image.name}"
-    )
+        st.warning(
+            f"Image not found: {lr_local_image.name}"
+        )
 
 st.markdown(
     """
@@ -1536,8 +1539,6 @@ while negative contributions decrease the predicted probability of a future
 purchase.
 """
 )
-
-
 # ============================================================
 # DECISION TREE
 # ============================================================
