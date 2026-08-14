@@ -35,6 +35,22 @@ st.markdown(
 <style>
 
 /* ==========================================================
+   ROOT TOKENS
+   ========================================================== */
+
+:root {
+    --accent: #E72F3D;
+    --accent-soft: rgba(231, 47, 61, 0.08);
+    --accent-soft-strong: rgba(231, 47, 61, 0.14);
+    --ink: #1F1F1F;
+    --ink-muted: #555555;
+    --ink-faint: #838383;
+    --line: #EAEAEA;
+    --surface: #FAFAFA;
+}
+
+
+/* ==========================================================
    PAGE
    ========================================================== */
 
@@ -43,11 +59,11 @@ st.markdown(
     padding-bottom: 3rem;
     padding-left: 3rem;
     padding-right: 3rem;
-    max-width: 100%;
+    max-width: 1400px;
 }
 
 html, body, [class*="css"] {
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 
@@ -57,7 +73,17 @@ html, body, [class*="css"] {
 
 p, li {
     font-size: 15px !important;
-    line-height: 1.60 !important;
+    line-height: 1.62 !important;
+    color: var(--ink-muted);
+}
+
+strong {
+    color: var(--ink);
+}
+
+hr {
+    margin: 0.6rem 0 !important;
+    border-color: var(--line) !important;
 }
 
 
@@ -65,34 +91,48 @@ p, li {
    HEADER
    ========================================================== */
 
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.dashboard-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent) 0%, #C21F2C 100%);
+    font-size: 22px;
+    box-shadow: 0 4px 14px rgba(231, 47, 61, 0.28);
+}
+
 .dashboard-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: #1F1F1F;
+    font-size: 27px;
+    font-weight: 800;
+    color: var(--ink);
     line-height: 1.2;
     margin: 0;
+    letter-spacing: -0.3px;
 }
 
 .dashboard-subtitle {
     font-size: 15px;
-    font-weight: 500;
-    color: #555555;
-    margin-top: 4px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    margin-top: 3px;
 }
 
 .dashboard-description {
-    font-size: 15px;
-    color: #777777;
-    margin-top: 7px;
-}
-
-.dashboard-accent {
-    width: 65px;
-    height: 4px;
-    background-color: #E72F3D;
-    border-radius: 5px;
+    font-size: 14.5px;
+    color: var(--ink-faint);
     margin-top: 10px;
-    margin-bottom: 5px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    max-width: 900px;
 }
 
 
@@ -100,37 +140,55 @@ p, li {
    SECTION TITLES
    ========================================================== */
 
+.section-block {
+    margin-top: 8px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+}
+
+.section-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
 .section-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #E72F3D;
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--ink);
     line-height: 1.25;
-    margin-top: 26px;
+    margin-top: 0;
     margin-bottom: 3px;
+    letter-spacing: -0.2px;
 }
 
 .section-subtitle {
     font-size: 14px;
-    color: #777777;
+    color: var(--ink-faint);
     line-height: 1.5;
     margin-top: 0;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .subsection-title {
     font-size: 16px;
     font-weight: 700;
-    color: #E72F3D;
+    color: var(--ink);
     line-height: 1.3;
-    margin-top: 16px;
-    margin-bottom: 8px;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 3px solid var(--accent);
 }
 
 .content-heading {
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 700;
     color: #333333;
-    margin-top: 5px;
+    margin-top: 4px;
     margin-bottom: 6px;
 }
 
@@ -139,27 +197,42 @@ p, li {
    KPI CARDS
    ========================================================== */
 
+.metric-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
 .metric-card {
     text-align: center;
-    padding: 6px 3px;
-    min-height: 58px;
+    padding: 14px 8px 12px 8px;
+    min-height: 64px;
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    width: 100%;
+    transition: border-color 0.15s ease;
 }
 
 .metric-icon {
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .metric-value {
-    font-size: 18px;
-    font-weight: 700;
-    color: #E72F3D;
-    margin-left: 4px;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-left: 5px;
+    letter-spacing: -0.2px;
 }
 
 .metric-label {
-    font-size: 12px;
-    color: #777777;
-    margin-top: 3px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 5px;
 }
 
 
@@ -170,13 +243,14 @@ p, li {
 .feature-pill {
     display: inline-block;
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    color: #E72F3D;
-    background-color: rgba(231, 47, 61, 0.07);
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: var(--accent);
+    background-color: var(--accent-soft);
+    border: 1px solid var(--accent-soft-strong);
     border-radius: 14px;
-    padding: 4px 9px;
-    margin-bottom: 7px;
+    padding: 4px 10px;
+    margin-bottom: 9px;
 }
 
 
@@ -185,38 +259,57 @@ p, li {
    ========================================================== */
 
 .target-card {
-    background-color: #FAFAFA;
-    border: 1px solid #E8E8E8;
-    border-left: 4px solid #E72F3D;
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
     border-radius: 8px;
-    padding: 12px 16px;
+    padding: 14px 18px;
     margin-top: 6px;
     margin-bottom: 10px;
 }
 
 .target-header {
     font-size: 15px;
-    font-weight: 700;
-    color: #E72F3D;
-    margin-bottom: 5px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-family: "Source Code Pro", monospace;
 }
 
 .target-text {
     font-size: 14px;
-    color: #555555;
-    line-height: 1.55;
+    color: var(--ink-muted);
+    line-height: 1.6;
 }
 
 .target-value {
-    font-size: 13px;
+    display: inline-block;
+    font-size: 12.5px;
     font-weight: 700;
-    color: #333333;
-    margin-left: 10px;
+    color: var(--ink);
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 2px 8px;
+    margin-top: 8px;
+    margin-right: 6px;
 }
 
-.target-divider {
-    color: #E72F3D;
-    margin-left: 7px;
+
+/* ==========================================================
+   FUNNEL
+   ========================================================== */
+
+.funnel-stage-card {
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 8px;
+    text-align: center;
+}
+
+.funnel-arrow {
+    text-align: center;
 }
 
 
@@ -226,6 +319,9 @@ p, li {
 
 div[data-testid="stDataFrame"] {
     font-size: 13px !important;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 
@@ -235,7 +331,8 @@ div[data-testid="stDataFrame"] {
 
 div[data-testid="stSelectbox"] label p {
     font-size: 14px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
+    color: var(--ink) !important;
 }
 
 div[data-baseweb="select"] {
@@ -244,15 +341,59 @@ div[data-baseweb="select"] {
 
 
 /* ==========================================================
+   CONTAINERS / IMAGES
+   ========================================================== */
+
+div[data-testid="stImage"] img {
+    border-radius: 8px;
+    border: 1px solid var(--line);
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    border-radius: 10px !important;
+}
+
+
+/* ==========================================================
    FINAL MODEL
    ========================================================== */
 
+.final-model-card {
+    background: linear-gradient(135deg, var(--accent) 0%, #C21F2C 100%);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-top: 20px;
+    box-shadow: 0 6px 20px rgba(231, 47, 61, 0.22);
+}
+
+.final-model-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    color: rgba(255,255,255,0.85);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
 .final-model {
-    font-size: 18px;
-    font-weight: 700;
-    color: #E72F3D;
-    margin-top: 18px;
-    margin-bottom: 12px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+.app-footer {
+    margin-top: 34px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    text-align: center;
 }
 
 
@@ -278,7 +419,19 @@ div[data-baseweb="select"] {
 # REUSABLE COMPONENTS
 # ============================================================
 
-def section_title(title, subtitle):
+def section_title(title, subtitle, eyebrow=None):
+
+    st.markdown(
+        '<div class="section-block">',
+        unsafe_allow_html=True
+    )
+
+    if eyebrow:
+
+        st.markdown(
+            f'<div class="section-eyebrow">{eyebrow}</div>',
+            unsafe_allow_html=True
+        )
 
     st.markdown(
         f'<div class="section-title">{title}</div>',
@@ -286,7 +439,7 @@ def section_title(title, subtitle):
     )
 
     st.markdown(
-        f'<div class="section-subtitle">{subtitle}</div>',
+        f'<div class="section-subtitle">{subtitle}</div></div>',
         unsafe_allow_html=True
     )
 
@@ -383,26 +536,14 @@ def centered_image(
 # ============================================================
 
 st.markdown(
-    '<div class="dashboard-title">🛒 E-Commerce Purchase Prediction</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
     """
-<div class="dashboard-subtitle">
-    Customer Behavior Analytics & Machine Learning Dashboard
+<div class="dashboard-header">
+    <div class="dashboard-badge">🛒</div>
+    <div>
+        <div class="dashboard-title">E-Commerce Purchase Prediction</div>
+        <div class="dashboard-subtitle">Customer Behavior Analytics &amp; Machine Learning Dashboard</div>
+    </div>
 </div>
-""",
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    '<div class="dashboard-accent"></div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    """
 <div class="dashboard-description">
     Predicting purchase intent from customer browsing, cart,
     product, and session behavior.
@@ -418,7 +559,8 @@ st.markdown(
 
 section_title(
     "Dataset Information",
-    "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions."
+    "One month of e-commerce behavioral data capturing View, Cart, and Purchase interactions.",
+    eyebrow="Overview"
 )
 
 metric_cards([
@@ -429,6 +571,8 @@ metric_cards([
     ("🏷️", "3,444", "Unique Brands"),
     ("🗂️", "126", "Unique Categories")
 ])
+
+small_space()
 
 metric_cards([
     ("🔢", "9", "Initial Features"),
@@ -442,11 +586,10 @@ metric_cards([
 # DATA QUALITY
 # ============================================================
 
-space()
-
 section_title(
     "Missing Value & Duplicate Records Analysis",
-    "Assessment of missing values, recoverable product metadata, and duplicate records."
+    "Assessment of missing values, recoverable product metadata, and duplicate records.",
+    eyebrow="Data Quality"
 )
 
 missing_table = pd.DataFrame({
@@ -570,11 +713,10 @@ with right:
 # FEATURE ENGINEERING
 # ============================================================
 
-space()
-
 section_title(
     "Feature Engineering",
-    "Generating predictive behavioral signals from customer activity observed up to the current interaction."
+    "Generating predictive behavioral signals from customer activity observed up to the current interaction.",
+    eyebrow="Modeling Prep"
 )
 
 
@@ -645,19 +787,15 @@ space()
 
 subsection("Target Variable")
 
-# IMPORTANT:
-# HTML begins immediately after """.
-# Do not indent the HTML inside the multiline string because Streamlit
-# can interpret indented HTML as a Markdown code block.
-
 st.markdown(
 """<div class="target-card">
 <div class="target-header">🎯 purchase_later</div>
 <div class="target-text">
 Predicts whether a purchase will occur later within the same user session using behavior observed up to the current interaction.
+<div>
 <span class="target-value">1 = Purchase Later</span>
-<span class="target-divider">•</span>
 <span class="target-value">0 = No Purchase Later</span>
+</div>
 </div>
 </div>""",
     unsafe_allow_html=True
@@ -725,15 +863,14 @@ between categorical values.
     )
 
 
- # ============================================================
+# ============================================================
 # FUNNEL ANALYSIS & CONVERSION RATE
 # ============================================================
 
-space()
-
 section_title(
     "Funnel Analysis & Conversion Rate",
-    "Event-level customer journey from product discovery to purchase."
+    "Event-level customer journey from product discovery to purchase.",
+    eyebrow="Behavioral Analytics"
 )
 
 
@@ -746,200 +883,46 @@ view_col, view_cart_col, cart_col, cart_purchase_col, purchase_col = st.columns(
     gap="small"
 )
 
+funnel_stages = [
+    (view_col, "👁️ VIEW", "23.31M", "23,306,949 events"),
+    (cart_col, "🛒 CART", "499.1K", "499,095 events"),
+    (purchase_col, "💳 PURCHASE", "558.5K", "558,484 events"),
+]
 
-# ============================================================
-# VIEW
-# ============================================================
+funnel_arrows = [
+    (view_cart_col, "2.14%", "View → Cart"),
+    (cart_purchase_col, "111.90%", "Cart → Purchase"),
+]
 
-with view_col:
+for col, label, value, caption in funnel_stages:
 
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:14px; "
-        "font-weight:700; "
-        "color:#666666; "
-        "margin-bottom:2px;'>"
-        "👁️ VIEW"
-        "</p>",
-        unsafe_allow_html=True
-    )
+    with col:
 
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:26px; "
-        "font-weight:700; "
-        "color:#E72F3D; "
-        "margin:0;'>"
-        "23.31M"
-        "</p>",
-        unsafe_allow_html=True
-    )
+        st.markdown(
+            f"""
+<div class="funnel-stage-card">
+    <p style="text-align:center; font-size:13px; font-weight:700; color:#666666; margin-bottom:2px;">{label}</p>
+    <p style="text-align:center; font-size:27px; font-weight:800; color:#E72F3D; margin:0;">{value}</p>
+    <p style="text-align:center; font-size:12.5px; color:#888888; margin-top:2px; margin-bottom:0;">{caption}</p>
+</div>
+""",
+            unsafe_allow_html=True
+        )
 
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:13px; "
-        "color:#888888; "
-        "margin-top:2px;'>"
-        "23,306,949 events"
-        "</p>",
-        unsafe_allow_html=True
-    )
+for col, rate, label in funnel_arrows:
 
+    with col:
 
-# ============================================================
-# VIEW → CART
-# ============================================================
-
-with view_cart_col:
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:22px; "
-        "font-weight:700; "
-        "color:#E72F3D; "
-        "margin-bottom:0;'>"
-        "→"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:17px; "
-        "font-weight:700; "
-        "color:#333333; "
-        "margin:0;'>"
-        "2.14%"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:12px; "
-        "color:#888888; "
-        "margin-top:2px;'>"
-        "View → Cart"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# CART
-# ============================================================
-
-with cart_col:
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:14px; "
-        "font-weight:700; "
-        "color:#666666; "
-        "margin-bottom:2px;'>"
-        "🛒 CART"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:26px; "
-        "font-weight:700; "
-        "color:#E72F3D; "
-        "margin:0;'>"
-        "499.1K"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:13px; "
-        "color:#888888; "
-        "margin-top:2px;'>"
-        "499,095 events"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# CART → PURCHASE
-# ============================================================
-
-with cart_purchase_col:
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:22px; "
-        "font-weight:700; "
-        "color:#E72F3D; "
-        "margin-bottom:0;'>"
-        "→"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:17px; "
-        "font-weight:700; "
-        "color:#333333; "
-        "margin:0;'>"
-        "111.90%"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:12px; "
-        "color:#888888; "
-        "margin-top:2px;'>"
-        "Cart → Purchase"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-
-# ============================================================
-# PURCHASE
-# ============================================================
-
-with purchase_col:
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:14px; "
-        "font-weight:700; "
-        "color:#666666; "
-        "margin-bottom:2px;'>"
-        "💳 PURCHASE"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:26px; "
-        "font-weight:700; "
-        "color:#E72F3D; "
-        "margin:0;'>"
-        "558.5K"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:13px; "
-        "color:#888888; "
-        "margin-top:2px;'>"
-        "558,484 events"
-        "</p>",
-        unsafe_allow_html=True
-    )
+        st.markdown(
+            f"""
+<div class="funnel-arrow">
+    <p style="text-align:center; font-size:22px; font-weight:700; color:#E72F3D; margin-bottom:0;">→</p>
+    <p style="text-align:center; font-size:17px; font-weight:700; color:#333333; margin:0;">{rate}</p>
+    <p style="text-align:center; font-size:12px; color:#888888; margin-top:2px;">{label}</p>
+</div>
+""",
+            unsafe_allow_html=True
+        )
 
 
 # ============================================================
@@ -955,23 +938,12 @@ overall_left, overall_center, overall_right = st.columns(
 with overall_center:
 
     st.markdown(
-        "<p style='text-align:center; "
-        "font-size:14px; "
-        "color:#666666; "
-        "margin-bottom:0;'>"
-        "Overall View → Purchase Conversion"
-        "</p>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center; "
-        "font-size:22px; "
-        "font-weight:700; "
-        "color:#E72F3D; "
-        "margin-top:0;'>"
-        "2.40%"
-        "</p>",
+        """
+<div style="text-align:center;">
+    <p style="font-size:14px; color:#666666; margin-bottom:0;">Overall View → Purchase Conversion</p>
+    <p style="font-size:24px; font-weight:800; color:#E72F3D; margin-top:2px;">2.40%</p>
+</div>
+""",
         unsafe_allow_html=True
     )
 
@@ -999,11 +971,10 @@ Purchase events can therefore exceed cart events.
 # EXPLORATORY DATA ANALYSIS
 # ============================================================
 
-space()
-
 section_title(
     "Univariate / Bivariate / Multivariate Data Visualization",
-    "Exploring customer behavior, purchase patterns, session activity, and temporal trends."
+    "Exploring customer behavior, purchase patterns, session activity, and temporal trends.",
+    eyebrow="Exploratory Analysis"
 )
 
 eda_visualizations = {
@@ -1111,11 +1082,10 @@ st.markdown(
 # TEXT ENRICHMENT
 # ============================================================
 
-space()
-
 section_title(
     "Product Description Generation — Text Generation + Enrichment",
-    "Generating semantic product descriptions from structured metadata to introduce richer product context."
+    "Generating semantic product descriptions from structured metadata to introduce richer product context.",
+    eyebrow="Enrichment Pipeline"
 )
 
 subsection(
@@ -1249,11 +1219,10 @@ designed for mobile communication and everyday digital use.
 # MACHINE LEARNING MODELING
 # ============================================================
 
-space()
-
 section_title(
     "Machine Learning Modeling",
-    "Evaluating linear, tree-based, boosting, and ensemble models for future purchase-intent prediction."
+    "Evaluating linear, tree-based, boosting, and ensemble models for future purchase-intent prediction.",
+    eyebrow="Modeling"
 )
 
 
@@ -1331,9 +1300,6 @@ st.markdown(
 """
 )
 
-    
-
-
 
 # ============================================================
 # LOGISTIC REGRESSION
@@ -1374,7 +1340,7 @@ purchase predictions.
 # LOGISTIC REGRESSION — MODEL EVALUATION
 # ============================================================
 
-space()
+small_space()
 
 subsection("Model Evaluation")
 
@@ -1492,6 +1458,7 @@ with lr_features_col:
             f"Image not found: {lr_features_image.name}"
         )
 
+
 # ============================================================
 # DECISION TREE
 # ============================================================
@@ -1528,7 +1495,7 @@ and F1 Score over the linear baseline while retaining **53.55% Recall**.
 # DECISION TREE — MODEL EVALUATION
 # ============================================================
 
-space()
+small_space()
 
 subsection("Model Evaluation")
 
@@ -1753,7 +1720,7 @@ with pr_col:
 # RANDOM FOREST FEATURE IMPORTANCE
 # ============================================================
 
-space()
+small_space()
 
 subsection("Random Forest — Global Feature Importance")
 
@@ -1805,7 +1772,7 @@ metric_cards([
 # XGBOOST TUNING
 # ============================================================
 
-space()
+small_space()
 
 subsection("Hyperparameter Tuning")
 
@@ -2207,11 +2174,10 @@ PR-AUC remained slightly below Tuned XGBoost.
 # FINAL MODEL COMPARISON
 # ============================================================
 
-space()
-
 section_title(
     "Final Model Comparison",
-    "Performance comparison across all candidate models on the held-out test set."
+    "Performance comparison across all candidate models on the held-out test set.",
+    eyebrow="Results"
 )
 
 final_comparison = pd.DataFrame({
@@ -2305,7 +2271,7 @@ st.dataframe(
 # MODEL PERFORMANCE TRADE-OFF
 # ============================================================
 
-space()
+small_space()
 
 subsection("Model Performance Trade-Off")
 
@@ -2344,11 +2310,10 @@ st.dataframe(
 # FINAL MODEL SELECTION
 # ============================================================
 
-space()
-
 section_title(
     "Final Model Selection",
-    "Selecting the model that provides the strongest balance for purchase-intent prediction."
+    "Selecting the model that provides the strongest balance for purchase-intent prediction.",
+    eyebrow="Conclusion"
 )
 
 subsection("🏆 Tuned XGBoost")
@@ -2367,7 +2332,7 @@ metric_cards([
 # WHY TUNED XGBOOST
 # ============================================================
 
-space()
+small_space()
 
 subsection("Why Tuned XGBoost?")
 
@@ -2401,7 +2366,7 @@ trade-off for the purchase-intent objective.**
 # WHY NOT ACCURACY
 # ============================================================
 
-space()
+small_space()
 
 subsection("Why Not Select the Highest-Accuracy Model?")
 
@@ -2423,7 +2388,7 @@ Recall, Precision and F1 Score rather than Accuracy alone**.
 # FINAL TAKEAWAY
 # ============================================================
 
-space()
+small_space()
 
 subsection("Final Takeaway")
 
@@ -2444,832 +2409,25 @@ purchasers** and **increasing the reliability of positive predictions**.
 )
 
 st.markdown(
-    """<div class="final-model">🏆 Final Model — Tuned XGBoost</div>""",
+    """
+<div class="final-model-card">
+    <div class="final-model-eyebrow">Final Model</div>
+    <p class="final-model">🏆 Tuned XGBoost</p>
+</div>
+""",
     unsafe_allow_html=True
 )
 
-# ============================================================
-# DECISION TREE
-# ============================================================
 
-space()
-
-subsection("Decision Tree — Nonlinear Model")
+# ============================================================
+# FOOTER
+# ============================================================
 
 st.markdown(
     """
-Decision Tree was evaluated to capture nonlinear thresholds and interactions
-between customer behavioral signals.
-"""
-)
-
-metric_cards([
-    ("📊", "74.64%", "Accuracy"),
-    ("🎯", "15.95%", "Precision"),
-    ("🔎", "53.55%", "Recall"),
-    ("⚖️", "24.57%", "F1 Score"),
-    ("📈", "0.6962", "ROC-AUC"),
-    ("📉", "0.2478", "PR-AUC")
-])
-
-st.markdown(
-    """
-**Model Interpretation:** Decision Tree substantially improved Precision
-and F1 Score over the linear baseline while retaining **53.55% Recall**.
-"""
-)
-
-centered_image(
-    "dt-confusion-matrix.png",
-    width=480
-)
-
-roc_col, pr_col = st.columns(
-    2,
-    gap="large"
-)
-
-with roc_col:
-
-    centered_image(
-        "dt-auroc.png",
-        ratio=(0.05, 2.9, 0.05)
-    )
-
-with pr_col:
-
-    centered_image(
-        "dt-pr.png",
-        ratio=(0.05, 2.9, 0.05)
-    )
-
-
-# ============================================================
-# RANDOM FOREST
-# ============================================================
-
-space()
-
-subsection("Random Forest — Ensemble Model")
-
-st.markdown(
-    """
-Random Forest combines multiple decision trees to improve prediction
-stability and capture nonlinear customer behavior.
-"""
-)
-
-
-subsection("Base Random Forest")
-
-metric_cards([
-    ("📊", "72.34%", "Accuracy"),
-    ("🎯", "15.25%", "Precision"),
-    ("🔎", "56.72%", "Recall"),
-    ("⚖️", "24.03%", "F1 Score"),
-    ("📈", "0.7116", "ROC-AUC"),
-    ("📉", "0.2516", "PR-AUC")
-])
-
-
-subsection("Tuned Random Forest")
-
-metric_cards([
-    ("📊", "72.65%", "Accuracy"),
-    ("🎯", "15.19%", "Precision"),
-    ("🔎", "55.55%", "Recall"),
-    ("⚖️", "23.86%", "F1 Score"),
-    ("📈", "0.7055", "ROC-AUC"),
-    ("📉", "0.2471", "PR-AUC")
-])
-
-st.markdown(
-    """
-**Tuning Result:** Hyperparameter tuning did not improve Random Forest
-PR-AUC. The base Random Forest remained stronger with **0.2516 PR-AUC**
-compared with **0.2471** after tuning.
-"""
-)
-
-centered_image(
-    "rf-threshold-selection.png"
-)
-
-roc_col, pr_col = st.columns(
-    2,
-    gap="large"
-)
-
-with roc_col:
-
-    centered_image(
-        "rf-auroc.png",
-        ratio=(0.05, 2.9, 0.05)
-    )
-
-with pr_col:
-
-    centered_image(
-        "rf-pr-rec.png",
-        ratio=(0.05, 2.9, 0.05)
-    )
-
-
-# ============================================================
-# RANDOM FOREST FEATURE IMPORTANCE
-# ============================================================
-
-space()
-
-subsection("Random Forest — Global Feature Importance")
-
-centered_image(
-    "rf-global.png"
-)
-
-st.markdown(
-    """
-Cart progression and repeated product engagement emerged as important
-predictive signals across the Random Forest ensemble.
-"""
-)
-
-
-# ============================================================
-# XGBOOST
-# ============================================================
-
-space()
-
-subsection("XGBoost — Gradient Boosting Model")
-
-st.markdown(
-    """
-XGBoost was evaluated to capture complex nonlinear relationships while
-explicitly accounting for class imbalance.
-"""
-)
-
-
-# ============================================================
-# BASE XGBOOST
-# ============================================================
-
-subsection("Base XGBoost")
-
-metric_cards([
-    ("📊", "75.86%", "Accuracy"),
-    ("🎯", "16.48%", "Precision"),
-    ("🔎", "52.35%", "Recall"),
-    ("⚖️", "25.07%", "F1 Score"),
-    ("📈", "0.7072", "ROC-AUC"),
-    ("📉", "0.2552", "PR-AUC")
-])
-
-
-# ============================================================
-# XGBOOST TUNING
-# ============================================================
-
-space()
-
-subsection("Hyperparameter Tuning")
-
-st.markdown(
-    """
-Four XGBoost configurations were evaluated on the **validation set**
-across tree depth, learning rate, and number of estimators.
-
-**PR-AUC** was used as the primary tuning metric.
-"""
-)
-
-tune_col1, tune_col2, tune_col3 = st.columns(
-    3,
-    gap="large"
-)
-
-with tune_col1:
-
-    pill("MAX DEPTH")
-
-    st.markdown(
-        '<div class="content-heading">6 · 8</div>',
-        unsafe_allow_html=True
-    )
-
-
-with tune_col2:
-
-    pill("LEARNING RATE")
-
-    st.markdown(
-        '<div class="content-heading">0.05 · 0.10</div>',
-        unsafe_allow_html=True
-    )
-
-
-with tune_col3:
-
-    pill("ESTIMATORS")
-
-    st.markdown(
-        '<div class="content-heading">200 · 300</div>',
-        unsafe_allow_html=True
-    )
-
-
-small_space()
-
-tuning_results = pd.DataFrame({
-
-    "Depth": [
-        6,
-        8,
-        6,
-        8
-    ],
-
-    "Learning Rate": [
-        0.05,
-        0.05,
-        0.10,
-        0.10
-    ],
-
-    "Trees": [
-        300,
-        300,
-        200,
-        200
-    ],
-
-    "Precision": [
-        "18.21%",
-        "18.23%",
-        "18.31%",
-        "17.93%"
-    ],
-
-    "Recall": [
-        "54.22%",
-        "54.36%",
-        "53.78%",
-        "54.67%"
-    ],
-
-    "F1": [
-        "27.26%",
-        "27.30%",
-        "27.31%",
-        "27.01%"
-    ],
-
-    "PR-AUC": [
-        "0.2757",
-        "0.2771",
-        "0.2756",
-        "0.2755"
-    ],
-
-    "ROC-AUC": [
-        "0.7171",
-        "0.7163",
-        "0.7165",
-        "0.7148"
-    ]
-})
-
-st.dataframe(
-    tuning_results,
-    use_container_width=True,
-    hide_index=True
-)
-
-st.markdown(
-    """
-**Selected Configuration:** `max_depth = 8` · `learning_rate = 0.05` ·
-`n_estimators = 300`
-
-This configuration achieved the strongest validation **PR-AUC of 0.2771**.
-"""
-)
-
-
-# ============================================================
-# TUNED XGBOOST
-# ============================================================
-
-space()
-
-subsection("Tuned XGBoost — Test Performance")
-
-metric_cards([
-    ("📊", "76.45%", "Accuracy"),
-    ("🎯", "16.74%", "Precision"),
-    ("🔎", "51.68%", "Recall"),
-    ("⚖️", "25.29%", "F1 Score"),
-    ("📈", "0.7100", "ROC-AUC"),
-    ("📉", "0.2568", "PR-AUC")
-])
-
-st.markdown(
-    """
-Tuned XGBoost achieved the **highest test PR-AUC of 0.2568** among all
-evaluated models while retaining **51.68% Recall**.
-"""
-)
-
-
-# ============================================================
-# XGBOOST GLOBAL SHAP
-# ============================================================
-
-space()
-
-subsection("Global Explainability — SHAP")
-
-st.markdown(
-    """
-SHAP values quantify the impact of each feature on XGBoost predictions
-across the evaluation population.
-"""
-)
-
-centered_image(
-    "xgb-shap.png",
-    width=560,
-    ratio=(1.15, 1.7, 1.15)
-)
-
-st.markdown(
-    """
-SHAP analysis identifies the behavioral signals with the greatest influence
-on model predictions and whether each feature pushes predictions toward
-**Purchase** or **No Purchase**.
-"""
-)
-
-
-# ============================================================
-# XGBOOST LOCAL SHAP
-# ============================================================
-
-space()
-
-subsection("Local Explainability — SHAP")
-
-st.markdown(
-    """
-Local SHAP plots explain how individual feature values influence specific
-purchase-intent predictions.
-"""
-)
-
-example_col1, example_col2 = st.columns(
-    2,
-    gap="large"
-)
-
-with example_col1:
-
-    pill("EXAMPLE 1 · NO PURCHASE")
-
-    example_1_image = (
-        IMAGE_DIR /
-        "xgb-example 1.png"
-    )
-
-    if example_1_image.exists():
-
-        st.image(
-            str(example_1_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {example_1_image.name}"
-        )
-
-
-with example_col2:
-
-    pill("EXAMPLE 2 · HIGHER PURCHASE INTENT")
-
-    example_2_image = (
-        IMAGE_DIR /
-        "xgb-example 2.png"
-    )
-
-    if example_2_image.exists():
-
-        st.image(
-            str(example_2_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {example_2_image.name}"
-        )
-
-
-st.markdown(
-    """
-**Reading SHAP:** Positive SHAP values push predictions toward
-**Purchase**, while negative values push predictions toward
-**No Purchase**. Larger absolute values indicate stronger influence.
-"""
-)
-
-
-# ============================================================
-# BUSINESS TARGETING PERFORMANCE
-# ============================================================
-
-space()
-
-subsection("Business Targeting Performance")
-
-st.markdown(
-    """
-Instead of relying only on a fixed classification threshold, predicted
-probabilities can be used to rank sessions by purchase intent.
-"""
-)
-
-lift_df = pd.DataFrame({
-
-    "Targeted Population": [
-        "Top 1%",
-        "Top 5%",
-        "Top 10%",
-        "Top 20%",
-        "Top 30%"
-    ],
-
-    "Precision": [
-        "60.69%",
-        "38.21%",
-        "27.27%",
-        "18.80%",
-        "15.18%"
-    ],
-
-    "Recall": [
-        "7.87%",
-        "24.77%",
-        "35.35%",
-        "48.74%",
-        "59.04%"
-    ],
-
-    "Lift": [
-        "7.87×",
-        "4.95×",
-        "3.53×",
-        "2.44×",
-        "1.97×"
-    ]
-})
-
-st.dataframe(
-    lift_df,
-    use_container_width=True,
-    hide_index=True
-)
-
-st.markdown(
-    """
-**Business Interpretation:** The highest-scored **1% of sessions**
-achieved **60.69% Precision and 7.87× lift**.
-
-Targeting the **top 10%** captures **35.35% of eventual purchases**
-while maintaining **3.53× lift**, demonstrating how model scores can
-prioritize high-intent sessions.
-"""
-)
-
-
-# ============================================================
-# LIGHTGBM
-# ============================================================
-
-space()
-
-subsection("LightGBM — Gradient Boosting Model")
-
-st.markdown(
-    """
-LightGBM was evaluated as an efficient gradient boosting alternative
-for large-scale purchase-intent prediction.
-"""
-)
-
-metric_cards([
-    ("📊", "89.82%", "Accuracy"),
-    ("🎯", "32.21%", "Precision"),
-    ("🔎", "28.98%", "Recall"),
-    ("⚖️", "30.51%", "F1 Score"),
-    ("📈", "0.7018", "ROC-AUC"),
-    ("📉", "0.2508", "PR-AUC")
-])
-
-st.markdown(
-    """
-**Model Interpretation:** LightGBM substantially increased Precision and
-Accuracy, but Recall declined to **28.98%**. This means more than 70% of
-actual future purchasers were not identified.
-"""
-)
-
-centered_image(
-    "lightgbm-threshold.png"
-)
-
-centered_image(
-    "lightgbm-purchase pro.png"
-)
-
-
-# ============================================================
-# XGBOOST + RANDOM FOREST ENSEMBLE
-# ============================================================
-
-space()
-
-subsection("XGBoost + Random Forest Ensemble")
-
-st.markdown(
-    """
-An ensemble was evaluated by combining predictions from XGBoost and
-Random Forest to determine whether complementary tree structures could
-improve overall performance.
-"""
-)
-
-metric_cards([
-    ("📊", "90.14%", "Accuracy"),
-    ("🎯", "33.43%", "Precision"),
-    ("🔎", "28.13%", "Recall"),
-    ("⚖️", "30.55%", "F1 Score"),
-    ("📈", "0.7114", "ROC-AUC"),
-    ("📉", "0.2560", "PR-AUC")
-])
-
-st.markdown(
-    """
-**Ensemble Result:** The ensemble achieved the highest Accuracy,
-Precision and F1 Score. However, Recall declined to **28.13%**, and
-PR-AUC remained slightly below Tuned XGBoost.
-"""
-)
-
-
-# ============================================================
-# FINAL MODEL COMPARISON
-# ============================================================
-
-space()
-
-section_title(
-    "Final Model Comparison",
-    "Performance comparison across all candidate models on the held-out test set."
-)
-
-final_comparison = pd.DataFrame({
-
-    "Model": [
-        "Logistic Regression",
-        "Decision Tree",
-        "Random Forest — Base",
-        "Random Forest — Tuned",
-        "XGBoost — Base",
-        "XGBoost — Tuned",
-        "LightGBM",
-        "XGBoost + RF Ensemble"
-    ],
-
-    "Accuracy": [
-        "39.55%",
-        "74.64%",
-        "72.34%",
-        "72.65%",
-        "75.86%",
-        "76.45%",
-        "89.82%",
-        "90.14%"
-    ],
-
-    "Precision": [
-        "9.76%",
-        "15.95%",
-        "15.25%",
-        "15.19%",
-        "16.48%",
-        "16.74%",
-        "32.21%",
-        "33.43%"
-    ],
-
-    "Recall": [
-        "82.92%",
-        "53.55%",
-        "56.72%",
-        "55.55%",
-        "52.35%",
-        "51.68%",
-        "28.98%",
-        "28.13%"
-    ],
-
-    "F1 Score": [
-        "17.47%",
-        "24.57%",
-        "24.03%",
-        "23.86%",
-        "25.07%",
-        "25.29%",
-        "30.51%",
-        "30.55%"
-    ],
-
-    "ROC-AUC": [
-        "0.6961",
-        "0.6962",
-        "0.7116",
-        "0.7055",
-        "0.7072",
-        "0.7100",
-        "0.7018",
-        "0.7114"
-    ],
-
-    "PR-AUC": [
-        "0.2294",
-        "0.2478",
-        "0.2516",
-        "0.2471",
-        "0.2552",
-        "0.2568",
-        "0.2508",
-        "0.2560"
-    ]
-})
-
-st.dataframe(
-    final_comparison,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# MODEL PERFORMANCE TRADE-OFF
-# ============================================================
-
-space()
-
-subsection("Model Performance Trade-Off")
-
-tradeoff_df = pd.DataFrame({
-
-    "Model": [
-        "Logistic Regression",
-        "Tuned XGBoost",
-        "LightGBM",
-        "XGBoost + RF Ensemble"
-    ],
-
-    "Primary Strength": [
-        "Highest Recall",
-        "Highest PR-AUC",
-        "High Precision & Accuracy",
-        "Highest Precision & F1"
-    ],
-
-    "Key Limitation": [
-        "Very low Precision",
-        "Moderate Precision",
-        "Low Recall",
-        "Low Recall"
-    ]
-})
-
-st.dataframe(
-    tradeoff_df,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# FINAL MODEL SELECTION
-# ============================================================
-
-space()
-
-section_title(
-    "Final Model Selection",
-    "Selecting the model that provides the strongest balance for purchase-intent prediction."
-)
-
-subsection("🏆 Tuned XGBoost")
-
-metric_cards([
-    ("📊", "76.45%", "Accuracy"),
-    ("🎯", "16.74%", "Precision"),
-    ("🔎", "51.68%", "Recall"),
-    ("⚖️", "25.29%", "F1 Score"),
-    ("📈", "0.7100", "ROC-AUC"),
-    ("📉", "0.2568", "PR-AUC")
-])
-
-
-# ============================================================
-# WHY TUNED XGBOOST
-# ============================================================
-
-space()
-
-subsection("Why Tuned XGBoost?")
-
-st.markdown(
-    """
-**Tuned XGBoost was selected as the final model because it achieved the
-highest PR-AUC (`0.2568`) while retaining `51.68% Recall`.**
-
-- **Logistic Regression** captured **82.92%** of purchasers but Precision
-  was only **9.76%**, resulting in a large number of false positives.
-
-- **LightGBM** increased Precision to **32.21%**, but Recall declined to
-  **28.98%**, meaning more than 70% of purchasers were missed.
-
-- The **XGBoost + Random Forest Ensemble** achieved the highest Accuracy,
-  Precision and F1 Score, but Recall declined further to **28.13%**.
-
-- **Tuned XGBoost** retained more than half of actual future purchasers
-  while producing the **highest PR-AUC across all evaluated models**.
-
-- The ensemble introduced additional model complexity without improving
-  PR-AUC over Tuned XGBoost.
-
-Therefore, **Tuned XGBoost provides the strongest Precision–Recall
-trade-off for the purchase-intent objective.**
-"""
-)
-
-
-# ============================================================
-# WHY NOT ACCURACY
-# ============================================================
-
-space()
-
-subsection("Why Not Select the Highest-Accuracy Model?")
-
-st.markdown(
-    """
-The purchase target is highly imbalanced, with non-purchase observations
-representing the majority of interactions.
-
-A model can therefore achieve high Accuracy by correctly predicting the
-majority class while still missing a large proportion of actual purchasers.
-
-For this reason, final model selection focused primarily on **PR-AUC,
-Recall, Precision and F1 Score rather than Accuracy alone**.
-"""
-)
-
-
-# ============================================================
-# FINAL TAKEAWAY
-# ============================================================
-
-space()
-
-subsection("Final Takeaway")
-
-st.markdown(
-    """
-The experiments reveal a clear trade-off between **capturing more potential
-purchasers** and **increasing the reliability of positive predictions**.
-
-**Tuned XGBoost** was selected because it:
-
-- Achieved the **highest PR-AUC — 0.2568**
-- Retained **51.68% Recall**
-- Improved Precision over the baseline models
-- Captured nonlinear behavioral interactions
-- Outperformed LightGBM and the ensemble on the primary PR-AUC metric
-- Avoided the additional deployment complexity of a multi-model ensemble
-"""
-)
-
-st.markdown(
-"""<div class="final-model">🏆 Final Model — Tuned XGBoost</div>""",
+<div class="app-footer">
+    E-Commerce Purchase Prediction Dashboard · Behavioral Analytics &amp; Machine Learning
+</div>
+""",
     unsafe_allow_html=True
 )
