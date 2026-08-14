@@ -2592,15 +2592,6 @@ section_title(
     eyebrow="Final Model Selection"
 )
 
-st.markdown(
-    """
-<div class="final-model-card">
-    <div class="final-model-eyebrow">🏆 Selected Model</div>
-    <div class="final-model">Tuned XGBoost</div>
-</div>
-""",
-    unsafe_allow_html=True
-)
 
 small_space()
 
