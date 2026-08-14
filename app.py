@@ -30,8 +30,13 @@ IMAGE_DIR = BASE_DIR / "images"
 # GLOBAL CSS
 # ============================================================
 
-st.markdown("""
+st.markdown(
+    """
 <style>
+
+/* ==========================================================
+   PAGE
+   ========================================================== */
 
 .block-container {
     padding-top: 1.6rem;
@@ -45,13 +50,21 @@ html, body, [class*="css"] {
     font-family: "Source Sans Pro", sans-serif;
 }
 
-/* Normal explanatory text */
+
+/* ==========================================================
+   NORMAL TEXT
+   ========================================================== */
+
 p, li {
     font-size: 15px !important;
     line-height: 1.60 !important;
 }
 
-/* Header */
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
+
 .dashboard-title {
     font-size: 26px;
     font-weight: 700;
@@ -82,7 +95,11 @@ p, li {
     margin-bottom: 5px;
 }
 
-/* Main section titles */
+
+/* ==========================================================
+   SECTION TITLES
+   ========================================================== */
+
 .section-title {
     font-size: 20px;
     font-weight: 700;
@@ -100,7 +117,6 @@ p, li {
     margin-bottom: 16px;
 }
 
-/* Subsection titles */
 .subsection-title {
     font-size: 16px;
     font-weight: 700;
@@ -118,7 +134,11 @@ p, li {
     margin-bottom: 6px;
 }
 
-/* KPI cards */
+
+/* ==========================================================
+   KPI CARDS
+   ========================================================== */
+
 .metric-card {
     text-align: center;
     padding: 6px 3px;
@@ -142,7 +162,11 @@ p, li {
     margin-top: 3px;
 }
 
-/* Pills */
+
+/* ==========================================================
+   PILLS
+   ========================================================== */
+
 .feature-pill {
     display: inline-block;
     font-size: 11px;
@@ -155,12 +179,53 @@ p, li {
     margin-bottom: 7px;
 }
 
-/* Tables */
+
+/* ==========================================================
+   TARGET VARIABLE
+   ========================================================== */
+
+.target-card {
+    background: #FAFAFA;
+    border: 1px solid #E8E8E8;
+    border-left: 4px solid #E72F3D;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+.target-header {
+    font-size: 15px;
+    font-weight: 700;
+    color: #E72F3D;
+    margin-bottom: 4px;
+}
+
+.target-text {
+    font-size: 14px;
+    color: #555555;
+    line-height: 1.5;
+}
+
+.target-value {
+    font-weight: 700;
+    color: #333333;
+}
+
+
+/* ==========================================================
+   TABLES
+   ========================================================== */
+
 div[data-testid="stDataFrame"] {
     font-size: 13px !important;
 }
 
-/* Select boxes */
+
+/* ==========================================================
+   SELECT BOX
+   ========================================================== */
+
 div[data-testid="stSelectbox"] label p {
     font-size: 14px !important;
     font-weight: 600 !important;
@@ -170,7 +235,11 @@ div[data-baseweb="select"] {
     font-size: 14px !important;
 }
 
-/* Final model */
+
+/* ==========================================================
+   FINAL MODEL
+   ========================================================== */
+
 .final-model {
     font-size: 18px;
     font-weight: 700;
@@ -179,7 +248,11 @@ div[data-baseweb="select"] {
     margin-bottom: 12px;
 }
 
-/* Spacing */
+
+/* ==========================================================
+   SPACING
+   ========================================================== */
+
 .section-space {
     height: 22px;
 }
@@ -189,7 +262,9 @@ div[data-baseweb="select"] {
 }
 
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True
+)
 
 
 # ============================================================
@@ -426,7 +501,10 @@ treatment_table = pd.DataFrame({
     ]
 })
 
-left, right = st.columns(2, gap="large")
+left, right = st.columns(
+    2,
+    gap="large"
+)
 
 with left:
 
@@ -519,7 +597,6 @@ metric_cards([
 small_space()
 
 feature_groups = pd.DataFrame({
-
     "Feature Group": [
         "Behavioral",
         "Temporal / Session",
@@ -543,6 +620,15 @@ st.dataframe(
     hide_index=True
 )
 
+st.markdown(
+    """
+**Feature Engineering Principle:** Each observation represents a snapshot
+of the customer session at the current interaction. Predictors are constructed
+only from behavior that has already occurred, ensuring the model does not
+have access to future session information.
+"""
+)
+
 
 # ============================================================
 # TARGET VARIABLE
@@ -554,17 +640,24 @@ subsection("Target Variable")
 
 st.markdown(
     """
-**🎯 `purchase_later`**
+    <div class="target-card">
 
-Binary target indicating whether a purchase occurs **later within the
-same user session**.
+        <div class="target-header">
+            🎯 purchase_later
+        </div>
 
-- `1` — Purchase occurs later
-- `0` — No purchase occurs later
+        <div class="target-text">
+            Predicts whether a purchase will occur later within the same
+            user session using behavior observed up to the current interaction.
+            &nbsp;&nbsp;
+            <span class="target-value">1 = Purchase Later</span>
+            &nbsp;·&nbsp;
+            <span class="target-value">0 = No Purchase Later</span>
+        </div>
 
-The modeling objective is therefore to predict **future purchase intent**
-from customer behavior already observed during the session.
-"""
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 
@@ -712,11 +805,15 @@ image_path = (
 
 if image_path.exists():
 
-    left, center, right = st.columns([1, 2, 1])
+    left, center, right = st.columns(
+        [1, 2, 1]
+    )
 
     with center:
 
-        subsection(selected_visualization)
+        subsection(
+            selected_visualization
+        )
 
         st.image(
             str(image_path),
@@ -747,7 +844,9 @@ section_title(
     "Generating semantic product descriptions from structured metadata to introduce richer product context."
 )
 
-subsection("Why Product Description Generation using LLM API?")
+subsection(
+    "Why Product Description Generation using LLM API?"
+)
 
 st.markdown(
     """
@@ -829,10 +928,8 @@ with openai_col:
 
 st.markdown(
     """
-**Model Selection Decision**
-
-An OpenAI API model was selected because it provided a practical balance
-between **cost, quality, speed, and scalability**.
+**Model Selection Decision:** An OpenAI API model was selected because it
+provided a practical balance between **cost, quality, speed, and scalability**.
 """
 )
 
@@ -1149,10 +1246,6 @@ stability and capture nonlinear customer behavior.
 )
 
 
-# ============================================================
-# RANDOM FOREST BASE
-# ============================================================
-
 subsection("Base Random Forest")
 
 metric_cards([
@@ -1164,10 +1257,6 @@ metric_cards([
     ("📉", "0.2516", "PR-AUC")
 ])
 
-
-# ============================================================
-# RANDOM FOREST TUNED
-# ============================================================
 
 subsection("Tuned Random Forest")
 
@@ -1213,7 +1302,7 @@ with pr_col:
 
 
 # ============================================================
-# RANDOM FOREST EXPLAINABILITY
+# RANDOM FOREST FEATURE IMPORTANCE
 # ============================================================
 
 space()
@@ -1295,6 +1384,7 @@ with tune_col1:
         unsafe_allow_html=True
     )
 
+
 with tune_col2:
 
     pill("LEARNING RATE")
@@ -1303,6 +1393,7 @@ with tune_col2:
         '<div class="content-heading">0.05 · 0.10</div>',
         unsafe_allow_html=True
     )
+
 
 with tune_col3:
 
@@ -1383,9 +1474,8 @@ st.dataframe(
 
 st.markdown(
     """
-**Selected Configuration**
-
-`max_depth = 8` · `learning_rate = 0.05` · `n_estimators = 300`
+**Selected Configuration:** `max_depth = 8` · `learning_rate = 0.05` ·
+`n_estimators = 300`
 
 This configuration achieved the strongest validation **PR-AUC of 0.2771**.
 """
@@ -1427,8 +1517,8 @@ subsection("Global Explainability — SHAP")
 
 st.markdown(
     """
-SHAP values quantify the average impact of each feature on XGBoost
-predictions across the evaluation population.
+SHAP values quantify the impact of each feature on XGBoost predictions
+across the evaluation population.
 """
 )
 
@@ -1457,8 +1547,8 @@ subsection("Local Explainability — SHAP")
 
 st.markdown(
     """
-Local SHAP waterfall plots explain how individual feature values move
-specific predictions away from the model baseline.
+Local SHAP plots explain how individual feature values influence specific
+purchase-intent predictions.
 """
 )
 
@@ -1632,7 +1722,7 @@ centered_image(
 
 
 # ============================================================
-# ENSEMBLE
+# XGBOOST + RANDOM FOREST ENSEMBLE
 # ============================================================
 
 space()
@@ -1826,7 +1916,7 @@ metric_cards([
 
 
 # ============================================================
-# WHY XGBOOST
+# WHY TUNED XGBOOST
 # ============================================================
 
 space()
@@ -1860,7 +1950,7 @@ trade-off for the purchase-intent objective.**
 
 
 # ============================================================
-# WHY NOT ACCURACY?
+# WHY NOT ACCURACY
 # ============================================================
 
 space()
