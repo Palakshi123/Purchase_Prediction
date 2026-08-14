@@ -12,7 +12,7 @@ from pathlib import Path
 # ============================================================
 
 st.set_page_config(
-    page_title="E-Commerce Purchase Prediction",
+    page_title="Will this Session convert into Purchase?",
     page_icon="🛒",
     layout="wide"
 )
