@@ -2700,7 +2700,6 @@ with lim_col1:
         """
 - Only one month of data — seasonality and long-term trends aren't captured
 - Features describe the current session only, not the customer's history
-- Severe class imbalance keeps Precision low across every model tested
 """
     )
 
@@ -2731,7 +2730,6 @@ with lim_col3:
 - Continue feature engineering — customer-level history, pricing, and
   richer temporal signals
 - Try sequence models (RNN / Transformer) directly on event streams
-- Add production monitoring to catch performance drift over time
 """
     )
 
