@@ -1692,46 +1692,121 @@ compared with **0.2471** after tuning.
 """
 )
 
-centered_image(
-    "rf-threshold-selection.png"
-)
+small_space()
 
-roc_col, pr_col = st.columns(
+pill("MODEL EVALUATION")
+
+
+# ============================================================
+# ROW 1 — THRESHOLD SELECTION + ROC CURVE
+# ============================================================
+
+rf_threshold_col, rf_roc_col = st.columns(
     2,
     gap="large"
 )
 
-with roc_col:
+with rf_threshold_col:
 
-    centered_image(
-        "rf-auroc.png",
-        ratio=(0.05, 2.9, 0.05)
-    )
+    pill("THRESHOLD SELECTION")
 
-with pr_col:
+    rf_threshold_image = IMAGE_DIR / "rf-threshold-selection.png"
 
-    centered_image(
-        "rf-pr-rec.png",
-        ratio=(0.05, 2.9, 0.05)
-    )
+    if rf_threshold_image.exists():
+
+        st.image(
+            str(rf_threshold_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {rf_threshold_image.name}"
+        )
+
+
+with rf_roc_col:
+
+    pill("ROC CURVE")
+
+    rf_roc_image = IMAGE_DIR / "rf-auroc.png"
+
+    if rf_roc_image.exists():
+
+        st.image(
+            str(rf_roc_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {rf_roc_image.name}"
+        )
 
 
 # ============================================================
-# RANDOM FOREST FEATURE IMPORTANCE
+# ROW 2 — PRECISION–RECALL CURVE + FEATURE IMPORTANCE
 # ============================================================
 
 small_space()
 
-subsection("Random Forest — Global Feature Importance")
-
-centered_image(
-    "rf-global.png"
+rf_pr_col, rf_feature_col = st.columns(
+    2,
+    gap="large"
 )
+
+with rf_pr_col:
+
+    pill("PRECISION–RECALL CURVE")
+
+    rf_pr_image = IMAGE_DIR / "rf-pr-rec.png"
+
+    if rf_pr_image.exists():
+
+        st.image(
+            str(rf_pr_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {rf_pr_image.name}"
+        )
+
+
+with rf_feature_col:
+
+    pill("GLOBAL FEATURE IMPORTANCE")
+
+    rf_feature_image = IMAGE_DIR / "rf-global.png"
+
+    if rf_feature_image.exists():
+
+        st.image(
+            str(rf_feature_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {rf_feature_image.name}"
+        )
+
+
+# ============================================================
+# RANDOM FOREST INSIGHT
+# ============================================================
+
+small_space()
 
 st.markdown(
     """
-Cart progression and repeated product engagement emerged as important
-predictive signals across the Random Forest ensemble.
+**Random Forest Insight:** Cart progression and repeated product engagement
+emerged as important predictive signals across the Random Forest ensemble.
 """
 )
 
@@ -2127,13 +2202,53 @@ actual future purchasers were not identified.
 """
 )
 
-centered_image(
-    "lightgbm-threshold.png"
+small_space()
+
+pill("MODEL EVALUATION")
+
+lgbm_threshold_col, lgbm_purchase_col = st.columns(
+    2,
+    gap="large"
 )
 
-centered_image(
-    "lightgbm-purchase pro.png"
-)
+with lgbm_threshold_col:
+
+    pill("THRESHOLD ANALYSIS")
+
+    lgbm_threshold_image = IMAGE_DIR / "lightgbm-threshold.png"
+
+    if lgbm_threshold_image.exists():
+
+        st.image(
+            str(lgbm_threshold_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {lgbm_threshold_image.name}"
+        )
+
+
+with lgbm_purchase_col:
+
+    pill("PURCHASE PROBABILITY DISTRIBUTION")
+
+    lgbm_purchase_image = IMAGE_DIR / "lightgbm-purchase pro.png"
+
+    if lgbm_purchase_image.exists():
+
+        st.image(
+            str(lgbm_purchase_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {lgbm_purchase_image.name}"
+        )
 
 
 # ============================================================
@@ -2329,7 +2444,7 @@ metric_cards([
 
 
 # ============================================================
-# WHY TUNED XGBOOST
+# SELECTION RATIONALE
 # ============================================================
 
 small_space()
@@ -2338,75 +2453,47 @@ subsection("Why Tuned XGBoost?")
 
 st.markdown(
     """
-**Tuned XGBoost was selected as the final model because it achieved the
-highest PR-AUC (`0.2568`) while retaining `51.68% Recall`.**
-
-- **Logistic Regression** captured **82.92%** of purchasers but Precision
-  was only **9.76%**, resulting in a large number of false positives.
-
-- **LightGBM** increased Precision to **32.21%**, but Recall declined to
-  **28.98%**, meaning more than 70% of purchasers were missed.
-
-- The **XGBoost + Random Forest Ensemble** achieved the highest Accuracy,
-  Precision and F1 Score, but Recall declined further to **28.13%**.
-
-- **Tuned XGBoost** retained more than half of actual future purchasers
-  while producing the **highest PR-AUC across all evaluated models**.
-
-- The ensemble introduced additional model complexity without improving
-  PR-AUC over Tuned XGBoost.
-
-Therefore, **Tuned XGBoost provides the strongest Precision–Recall
-trade-off for the purchase-intent objective.**
+**Tuned XGBoost was selected because it achieved the highest PR-AUC
+(`0.2568`) while retaining over half of actual future purchasers
+(`51.68% Recall`)** — the strongest overall Precision–Recall trade-off
+among all evaluated models.
 """
 )
 
-
-# ============================================================
-# WHY NOT ACCURACY
-# ============================================================
-
-small_space()
-
-subsection("Why Not Select the Highest-Accuracy Model?")
-
-st.markdown(
-    """
-The purchase target is highly imbalanced, with non-purchase observations
-representing the majority of interactions.
-
-A model can therefore achieve high Accuracy by correctly predicting the
-majority class while still missing a large proportion of actual purchasers.
-
-For this reason, final model selection focused primarily on **PR-AUC,
-Recall, Precision and F1 Score rather than Accuracy alone**.
-"""
+rationale_col1, rationale_col2 = st.columns(
+    2,
+    gap="large"
 )
 
+with rationale_col1:
 
-# ============================================================
-# FINAL TAKEAWAY
-# ============================================================
-
-small_space()
-
-subsection("Final Takeaway")
-
-st.markdown(
-    """
-The experiments reveal a clear trade-off between **capturing more potential
-purchasers** and **increasing the reliability of positive predictions**.
-
-**Tuned XGBoost** was selected because it:
-
-- Achieved the **highest PR-AUC — 0.2568**
-- Retained **51.68% Recall**
-- Improved Precision over the baseline models
-- Captured nonlinear behavioral interactions
-- Outperformed LightGBM and the ensemble on the primary PR-AUC metric
-- Avoided the additional deployment complexity of a multi-model ensemble
+    st.markdown(
+        """
+- **Logistic Regression** led on Recall (82.92%) but Precision was only
+  9.76% — too many false positives to act on.
+- **LightGBM** and the **ensemble** pushed Precision above 32%, but
+  Recall fell below 29% — most purchasers were missed.
 """
-)
+    )
+
+with rationale_col2:
+
+    st.markdown(
+        """
+- **Tuned XGBoost** balances both: highest PR-AUC, meaningful Precision,
+  and Recall above 50%.
+- Accuracy alone was not used to select the model, since the purchase
+  class is a small minority — high Accuracy is easy to achieve while
+  still missing most purchasers.
+"""
+    )
+
+
+# ============================================================
+# FINAL MODEL CARD
+# ============================================================
+
+space()
 
 st.markdown(
     """
@@ -2416,6 +2503,102 @@ st.markdown(
 </div>
 """,
     unsafe_allow_html=True
+)
+
+
+# ============================================================
+# FUTURE ENHANCEMENTS
+# ============================================================
+
+section_title(
+    "Future Enhancements",
+    "Directions for extending this analysis beyond a single one-month behavioral snapshot.",
+    eyebrow="Next Steps"
+)
+
+st.markdown(
+"""<div class="target-card">
+<div class="target-header">👤 Customer-Level Purchase History</div>
+<div class="target-text">
+The current model scores each session in isolation. Bringing in a customer's
+full purchase history — not just the current session — would let the model
+learn long-term buying patterns (what they tend to buy, how often, and when)
+rather than relying only on in-session signals.
+</div>
+</div>""",
+    unsafe_allow_html=True
+)
+
+small_space()
+
+future_col1, future_col2, future_col3 = st.columns(
+    3,
+    gap="large"
+)
+
+with future_col1:
+
+    pill("CUSTOMER HISTORY")
+
+    st.markdown(
+        '<div class="content-heading">Learn Long-Term Patterns</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+- Recency, frequency, monetary (RFM) features per customer
+- Customer lifetime value and repeat-purchase cadence
+- Preferred brands / categories from past orders
+- Cross-session, cross-device identity linking
+"""
+    )
+
+
+with future_col2:
+
+    pill("PRODUCT & CONTEXT")
+
+    st.markdown(
+        '<div class="content-heading">Enrich the Product Signal</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+- Price history, discounts, and active promotions
+- Product ratings and review volume
+- Stock availability at time of interaction
+- Marketing channel / traffic source at session start
+"""
+    )
+
+
+with future_col3:
+
+    pill("MODELING & OPS")
+
+    st.markdown(
+        '<div class="content-heading">Scale the Approach</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+- Sequence models (RNN / Transformer) over raw event streams
+- Multiple months of data to capture seasonality
+- Live feature pipeline with drift monitoring in production
+- A/B testing to validate uplift from targeting high-intent sessions
+"""
+    )
+
+st.markdown(
+    """
+**Why it matters:** Session-level features capture *what a customer is doing
+right now*; customer-level history would add *who this customer typically
+is*, combining short-term intent with long-term behavior for a more complete
+purchase-prediction signal.
+"""
 )
 
 
