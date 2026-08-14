@@ -558,8 +558,8 @@ st.markdown(
 <div class="dashboard-header">
     <div class="dashboard-badge">🛒</div>
     <div>
-        <div class="dashboard-title">E-Commerce Purchase Prediction</div>
-        <div class="dashboard-subtitle">Customer Behavior Analytics &amp; Machine Learning Dashboard</div>
+        <div class="dashboard-title">Will Session Convert into Purchase?</div>
+        <div class="dashboard-subtitle">Purchase Behavior Analytics &amp; Machine Learning Dashboard</div>
     </div>
 </div>
 <div class="dashboard-description">
