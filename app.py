@@ -724,6 +724,116 @@ between categorical values.
 """
     )
 
+# ============================================================
+# FUNNEL ANALYSIS & CONVERSION RATE
+# ============================================================
+
+space()
+
+section_title(
+    "Funnel Analysis & Conversion Rate",
+    "Understanding how customer interactions progress from product views to cart activity and purchases."
+)
+
+
+# ============================================================
+# EVENT FUNNEL
+# ============================================================
+
+subsection("Customer Interaction Funnel")
+
+funnel_df = pd.DataFrame({
+    "Stage": [
+        "View",
+        "Cart",
+        "Purchase"
+    ],
+    "Event Count": [
+        23_306_949,
+        499_095,
+        558_484
+    ]
+})
+
+st.dataframe(
+    funnel_df,
+    use_container_width=True,
+    hide_index=True,
+    column_config={
+        "Event Count": st.column_config.NumberColumn(
+            "Event Count",
+            format="%d"
+        )
+    }
+)
+
+
+# ============================================================
+# FUNNEL KPIs
+# ============================================================
+
+small_space()
+
+metric_cards([
+    ("👁️", "23.31M", "View Events"),
+    ("🛒", "499.1K", "Cart Events"),
+    ("💳", "558.5K", "Purchase Events")
+])
+
+
+# ============================================================
+# CONVERSION RATES
+# ============================================================
+
+space()
+
+subsection("Conversion Rate")
+
+conversion_df = pd.DataFrame({
+    "Funnel Transition": [
+        "View → Cart",
+        "Cart → Purchase",
+        "View → Purchase"
+    ],
+    "Conversion Rate": [
+        "2.14%",
+        "111.90%",
+        "2.40%"
+    ]
+})
+
+st.dataframe(
+    conversion_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# FUNNEL INSIGHTS
+# ============================================================
+
+subsection("💡 Funnel Insights")
+
+st.markdown(
+    """
+- **View → Cart: 2.14%** — only a small proportion of product-view events
+  translate into cart activity, indicating the largest drop-off occurs
+  before the cart stage.
+
+- **View → Purchase: 2.40%** — purchases represent a relatively small
+  proportion of overall product-view activity.
+
+- **Cart → Purchase: 111.90%** — this exceeds 100% because the calculation
+  is based on aggregate **event counts**, not a strict sequential
+  session-level funnel. Purchase events can occur without a corresponding
+  cart event in the aggregated event stream.
+
+**Key Takeaway:** The strongest opportunity is improving movement from
+**product viewing to stronger purchase-intent behavior**, particularly
+cart engagement.
+"""
+)
 
 # ============================================================
 # EXPLORATORY DATA ANALYSIS
