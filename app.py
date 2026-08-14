@@ -2583,26 +2583,45 @@ st.dataframe(
 
 
 # ============================================================
-# FINAL MODEL SELECTION
+# CONCLUSION — FINAL MODEL SELECTION
 # ============================================================
 
 section_title(
     "Final Model Selection",
     "Selecting the model that provides the strongest balance for purchase-intent prediction.",
-    eyebrow="Conclusion"
+    eyebrow="Final Model Selection"
 )
 
-subsection("🏆 Tuned XGBoost")
+st.markdown(
+    """
+<div class="final-model-card">
+    <div class="final-model-eyebrow">🏆 Selected Model</div>
+    <div class="final-model">Tuned XGBoost</div>
+</div>
+""",
+    unsafe_allow_html=True
+)
+
+small_space()
 
 metric_cards([
     ("📊", "76.45%", "Accuracy"),
-    ("🎯", "16.74%", "Precision"),
-    ("🔎", "51.68%", "Recall"),
-    ("⚖️", "25.29%", "F1 Score"),
-    ("📈", "0.7100", "ROC-AUC"),
-    ("📉", "0.2568", "PR-AUC")
+    ("🎯", "18.23%", "Precision"),
+    ("🔎", "54.36%", "Recall"),
+    ("⚖️", "27.30%", "F1 Score"),
+    ("📈", "0.7163", "ROC-AUC"),
+    ("📉", "0.2771", "PR-AUC")
 ])
 
+small_space()
+
+st.markdown(
+    """
+**Final Model:** Tuned XGBoost achieved **76.45% Accuracy**, 
+**18.23% Precision**, **54.36% Recall**, **27.30% F1 Score**, 
+**0.7163 ROC-AUC**, and **0.2771 PR-AUC**.
+"""
+)
 
 # ============================================================
 # SELECTION RATIONALE
