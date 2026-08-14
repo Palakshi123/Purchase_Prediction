@@ -543,17 +543,6 @@ st.dataframe(
     hide_index=True
 )
 
-st.markdown(
-    """
-**Feature Engineering Principle**
-
-Each observation represents a snapshot of the customer session at the
-current interaction. Predictors are constructed only from behavior that
-has already occurred, ensuring the model does not have access to future
-session information.
-"""
-)
-
 
 # ============================================================
 # TARGET VARIABLE
