@@ -1492,53 +1492,6 @@ with lr_features_col:
             f"Image not found: {lr_features_image.name}"
         )
 
-
-# ============================================================
-# LOGISTIC REGRESSION — LOCAL EXPLAINABILITY
-# ============================================================
-
-space()
-
-subsection("Local Explainability")
-
-st.markdown(
-    """
-Local explainability shows how individual feature values contribute to
-a specific Logistic Regression purchase-intent prediction.
-"""
-)
-
-lr_local_left, lr_local_center, lr_local_right = st.columns(
-    [1, 1, 1],
-    gap="large"
-)
-
-with lr_local_center:
-
-    pill("LOCAL EXPLAINABILITY")
-
-    lr_local_image = IMAGE_DIR / "lr-local.png"
-
-    if lr_local_image.exists():
-
-        st.image(
-            str(lr_local_image),
-            use_container_width=True
-        )
-
-    else:
-
-        st.warning(
-            f"Image not found: {lr_local_image.name}"
-        )
-
-st.markdown(
-    """
-**Interpretation:** Positive contributions increase predicted purchase intent,
-while negative contributions decrease the predicted probability of a future
-purchase.
-"""
-)
 # ============================================================
 # DECISION TREE
 # ============================================================
