@@ -1331,78 +1331,8 @@ st.markdown(
 """
 )
 
+    
 
-# ============================================================
-# MODEL DEVELOPMENT STRATEGY
-# ============================================================
-
-space()
-
-subsection("Model Development Strategy")
-
-model_strategy = pd.DataFrame({
-
-    "Stage": [
-        "Baseline",
-        "Nonlinear",
-        "Bagging",
-        "Boosting",
-        "Boosting",
-        "Ensemble"
-    ],
-
-    "Model": [
-        "Logistic Regression",
-        "Decision Tree",
-        "Random Forest",
-        "XGBoost",
-        "LightGBM",
-        "XGBoost + Random Forest"
-    ],
-
-    "Purpose": [
-        "Establish linear baseline",
-        "Capture nonlinear relationships",
-        "Improve stability across trees",
-        "Sequential gradient boosting",
-        "Efficient gradient boosting",
-        "Combine complementary predictions"
-    ]
-})
-
-st.dataframe(
-    model_strategy,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# EVALUATION STRATEGY
-# ============================================================
-
-space()
-
-subsection("Evaluation Strategy")
-
-st.markdown(
-    """
-Purchases represent a minority of observations, so **Accuracy alone can
-be misleading**.
-
-Models were evaluated using:
-
-- **Precision** — reliability of positive purchase predictions
-- **Recall** — proportion of actual purchasers identified
-- **F1 Score** — balance between Precision and Recall
-- **ROC-AUC** — overall class discrimination
-- **PR-AUC** — performance on the minority purchase class
-
-**PR-AUC was prioritized for model selection** because it directly evaluates
-performance on the imbalanced positive class while accounting for the
-Precision–Recall trade-off.
-"""
-)
 
 
 # ============================================================
@@ -1439,14 +1369,1005 @@ purchase predictions.
 """
 )
 
-centered_image(
-    "lr-roc-curve.png"
+
+# ============================================================
+# LOGISTIC REGRESSION — MODEL EVALUATION
+# ============================================================
+
+space()
+
+subsection("Model Evaluation")
+
+
+# ============================================================
+# ROW 1 — ROC CURVE + CONFUSION MATRIX
+# ============================================================
+
+lr_roc_col, lr_confusion_col = st.columns(
+    2,
+    gap="large"
+)
+
+
+with lr_roc_col:
+
+    pill("ROC CURVE")
+
+    lr_roc_image = (
+        IMAGE_DIR /
+        "lr-roc-curve.png"
+    )
+
+    if lr_roc_image.exists():
+
+        st.image(
+            str(lr_roc_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {lr_roc_image.name}"
+        )
+
+
+with lr_confusion_col:
+
+    pill("CONFUSION MATRIX")
+
+    lr_confusion_image = (
+        IMAGE_DIR /
+        "lr-confusion-metrics.png"
+    )
+
+    if lr_confusion_image.exists():
+
+        st.image(
+            str(lr_confusion_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {lr_confusion_image.name}"
+        )
+
+
+# ============================================================
+# ROW 2 — THRESHOLD + FEATURE IMPORTANCE
+# ============================================================
+
+small_space()
+
+lr_threshold_col, lr_features_col = st.columns(
+    2,
+    gap="large"
+)
+
+
+with lr_threshold_col:
+
+    pill("THRESHOLD ANALYSIS")
+
+    lr_threshold_image = (
+        IMAGE_DIR /
+        "lr-threshold.png"
+    )
+
+    if lr_threshold_image.exists():
+
+        st.image(
+            str(lr_threshold_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {lr_threshold_image.name}"
+        )
+
+
+with lr_features_col:
+
+    pill("GLOBAL FEATURE IMPORTANCE")
+
+    lr_features_image = (
+        IMAGE_DIR /
+        "lr-features.png"
+    )
+
+    if lr_features_image.exists():
+
+        st.image(
+            str(lr_features_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {lr_features_image.name}"
+        )
+
+
+# ============================================================
+# LOGISTIC REGRESSION — LOCAL EXPLAINABILITY
+# ============================================================
+
+space()
+
+subsection("Local Explainability")
+
+st.markdown(
+    """
+Local explainability shows how individual feature values contribute to
+a specific Logistic Regression purchase-intent prediction.
+"""
+)
+
+lr_local_image = (
+    IMAGE_DIR /
+    "lr-local.png"
+)
+
+if lr_local_image.exists():
+
+    lr_local_left, lr_local_center, lr_local_right = st.columns(
+        [0.6, 2.8, 0.6]
+    )
+
+    with lr_local_center:
+
+        st.image(
+            str(lr_local_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {lr_local_image.name}"
+    )
+
+
+st.markdown(
+    """
+**Interpretation:** Logistic Regression coefficients provide directional
+explainability. Positive contributions increase predicted purchase intent,
+while negative contributions decrease the predicted probability of a
+future purchase.
+"""
+)
+
+
+# ============================================================
+# DECISION TREE
+# ============================================================
+
+space()
+
+subsection("Decision Tree — Nonlinear Model")
+
+st.markdown(
+    """
+Decision Tree was evaluated to capture nonlinear thresholds and interactions
+between customer behavioral signals.
+"""
+)
+
+metric_cards([
+    ("📊", "74.64%", "Accuracy"),
+    ("🎯", "15.95%", "Precision"),
+    ("🔎", "53.55%", "Recall"),
+    ("⚖️", "24.57%", "F1 Score"),
+    ("📈", "0.6962", "ROC-AUC"),
+    ("📉", "0.2478", "PR-AUC")
+])
+
+st.markdown(
+    """
+**Model Interpretation:** Decision Tree substantially improved Precision
+and F1 Score over the linear baseline while retaining **53.55% Recall**.
+"""
 )
 
 centered_image(
-    "lr-confusion-metrics.png"
+    "dt-confusion-matrix.png",
+    width=480
 )
 
+roc_col, pr_col = st.columns(
+    2,
+    gap="large"
+)
+
+with roc_col:
+
+    centered_image(
+        "dt-auroc.png",
+        ratio=(0.05, 2.9, 0.05)
+    )
+
+with pr_col:
+
+    centered_image(
+        "dt-pr.png",
+        ratio=(0.05, 2.9, 0.05)
+    )
+
+
+# ============================================================
+# RANDOM FOREST
+# ============================================================
+
+space()
+
+subsection("Random Forest — Ensemble Model")
+
+st.markdown(
+    """
+Random Forest combines multiple decision trees to improve prediction
+stability and capture nonlinear customer behavior.
+"""
+)
+
+
+subsection("Base Random Forest")
+
+metric_cards([
+    ("📊", "72.34%", "Accuracy"),
+    ("🎯", "15.25%", "Precision"),
+    ("🔎", "56.72%", "Recall"),
+    ("⚖️", "24.03%", "F1 Score"),
+    ("📈", "0.7116", "ROC-AUC"),
+    ("📉", "0.2516", "PR-AUC")
+])
+
+
+subsection("Tuned Random Forest")
+
+metric_cards([
+    ("📊", "72.65%", "Accuracy"),
+    ("🎯", "15.19%", "Precision"),
+    ("🔎", "55.55%", "Recall"),
+    ("⚖️", "23.86%", "F1 Score"),
+    ("📈", "0.7055", "ROC-AUC"),
+    ("📉", "0.2471", "PR-AUC")
+])
+
+st.markdown(
+    """
+**Tuning Result:** Hyperparameter tuning did not improve Random Forest
+PR-AUC. The base Random Forest remained stronger with **0.2516 PR-AUC**
+compared with **0.2471** after tuning.
+"""
+)
+
+centered_image(
+    "rf-threshold-selection.png"
+)
+
+roc_col, pr_col = st.columns(
+    2,
+    gap="large"
+)
+
+with roc_col:
+
+    centered_image(
+        "rf-auroc.png",
+        ratio=(0.05, 2.9, 0.05)
+    )
+
+with pr_col:
+
+    centered_image(
+        "rf-pr-rec.png",
+        ratio=(0.05, 2.9, 0.05)
+    )
+
+
+# ============================================================
+# RANDOM FOREST FEATURE IMPORTANCE
+# ============================================================
+
+space()
+
+subsection("Random Forest — Global Feature Importance")
+
+centered_image(
+    "rf-global.png"
+)
+
+st.markdown(
+    """
+Cart progression and repeated product engagement emerged as important
+predictive signals across the Random Forest ensemble.
+"""
+)
+
+
+# ============================================================
+# XGBOOST
+# ============================================================
+
+space()
+
+subsection("XGBoost — Gradient Boosting Model")
+
+st.markdown(
+    """
+XGBoost was evaluated to capture complex nonlinear relationships while
+explicitly accounting for class imbalance.
+"""
+)
+
+
+# ============================================================
+# BASE XGBOOST
+# ============================================================
+
+subsection("Base XGBoost")
+
+metric_cards([
+    ("📊", "75.86%", "Accuracy"),
+    ("🎯", "16.48%", "Precision"),
+    ("🔎", "52.35%", "Recall"),
+    ("⚖️", "25.07%", "F1 Score"),
+    ("📈", "0.7072", "ROC-AUC"),
+    ("📉", "0.2552", "PR-AUC")
+])
+
+
+# ============================================================
+# XGBOOST TUNING
+# ============================================================
+
+space()
+
+subsection("Hyperparameter Tuning")
+
+st.markdown(
+    """
+Four XGBoost configurations were evaluated on the **validation set**
+across tree depth, learning rate, and number of estimators.
+
+**PR-AUC** was used as the primary tuning metric.
+"""
+)
+
+tune_col1, tune_col2, tune_col3 = st.columns(
+    3,
+    gap="large"
+)
+
+with tune_col1:
+
+    pill("MAX DEPTH")
+
+    st.markdown(
+        '<div class="content-heading">6 · 8</div>',
+        unsafe_allow_html=True
+    )
+
+
+with tune_col2:
+
+    pill("LEARNING RATE")
+
+    st.markdown(
+        '<div class="content-heading">0.05 · 0.10</div>',
+        unsafe_allow_html=True
+    )
+
+
+with tune_col3:
+
+    pill("ESTIMATORS")
+
+    st.markdown(
+        '<div class="content-heading">200 · 300</div>',
+        unsafe_allow_html=True
+    )
+
+
+small_space()
+
+tuning_results = pd.DataFrame({
+
+    "Depth": [
+        6,
+        8,
+        6,
+        8
+    ],
+
+    "Learning Rate": [
+        0.05,
+        0.05,
+        0.10,
+        0.10
+    ],
+
+    "Trees": [
+        300,
+        300,
+        200,
+        200
+    ],
+
+    "Precision": [
+        "18.21%",
+        "18.23%",
+        "18.31%",
+        "17.93%"
+    ],
+
+    "Recall": [
+        "54.22%",
+        "54.36%",
+        "53.78%",
+        "54.67%"
+    ],
+
+    "F1": [
+        "27.26%",
+        "27.30%",
+        "27.31%",
+        "27.01%"
+    ],
+
+    "PR-AUC": [
+        "0.2757",
+        "0.2771",
+        "0.2756",
+        "0.2755"
+    ],
+
+    "ROC-AUC": [
+        "0.7171",
+        "0.7163",
+        "0.7165",
+        "0.7148"
+    ]
+})
+
+st.dataframe(
+    tuning_results,
+    use_container_width=True,
+    hide_index=True
+)
+
+st.markdown(
+    """
+**Selected Configuration:** `max_depth = 8` · `learning_rate = 0.05` ·
+`n_estimators = 300`
+
+This configuration achieved the strongest validation **PR-AUC of 0.2771**.
+"""
+)
+
+
+# ============================================================
+# TUNED XGBOOST
+# ============================================================
+
+space()
+
+subsection("Tuned XGBoost — Test Performance")
+
+metric_cards([
+    ("📊", "76.45%", "Accuracy"),
+    ("🎯", "16.74%", "Precision"),
+    ("🔎", "51.68%", "Recall"),
+    ("⚖️", "25.29%", "F1 Score"),
+    ("📈", "0.7100", "ROC-AUC"),
+    ("📉", "0.2568", "PR-AUC")
+])
+
+st.markdown(
+    """
+Tuned XGBoost achieved the **highest test PR-AUC of 0.2568** among all
+evaluated models while retaining **51.68% Recall**.
+"""
+)
+
+
+# ============================================================
+# XGBOOST GLOBAL SHAP
+# ============================================================
+
+space()
+
+subsection("Global Explainability — SHAP")
+
+st.markdown(
+    """
+SHAP values quantify the impact of each feature on XGBoost predictions
+across the evaluation population.
+"""
+)
+
+centered_image(
+    "xgb-shap.png",
+    width=560,
+    ratio=(1.15, 1.7, 1.15)
+)
+
+st.markdown(
+    """
+SHAP analysis identifies the behavioral signals with the greatest influence
+on model predictions and whether each feature pushes predictions toward
+**Purchase** or **No Purchase**.
+"""
+)
+
+
+# ============================================================
+# XGBOOST LOCAL SHAP
+# ============================================================
+
+space()
+
+subsection("Local Explainability — SHAP")
+
+st.markdown(
+    """
+Local SHAP plots explain how individual feature values influence specific
+purchase-intent predictions.
+"""
+)
+
+example_col1, example_col2 = st.columns(
+    2,
+    gap="large"
+)
+
+with example_col1:
+
+    pill("EXAMPLE 1 · NO PURCHASE")
+
+    example_1_image = (
+        IMAGE_DIR /
+        "xgb-example 1.png"
+    )
+
+    if example_1_image.exists():
+
+        st.image(
+            str(example_1_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {example_1_image.name}"
+        )
+
+
+with example_col2:
+
+    pill("EXAMPLE 2 · HIGHER PURCHASE INTENT")
+
+    example_2_image = (
+        IMAGE_DIR /
+        "xgb-example 2.png"
+    )
+
+    if example_2_image.exists():
+
+        st.image(
+            str(example_2_image),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {example_2_image.name}"
+        )
+
+
+st.markdown(
+    """
+**Reading SHAP:** Positive SHAP values push predictions toward
+**Purchase**, while negative values push predictions toward
+**No Purchase**. Larger absolute values indicate stronger influence.
+"""
+)
+
+
+# ============================================================
+# BUSINESS TARGETING PERFORMANCE
+# ============================================================
+
+space()
+
+subsection("Business Targeting Performance")
+
+st.markdown(
+    """
+Instead of relying only on a fixed classification threshold, predicted
+probabilities can be used to rank sessions by purchase intent.
+"""
+)
+
+lift_df = pd.DataFrame({
+
+    "Targeted Population": [
+        "Top 1%",
+        "Top 5%",
+        "Top 10%",
+        "Top 20%",
+        "Top 30%"
+    ],
+
+    "Precision": [
+        "60.69%",
+        "38.21%",
+        "27.27%",
+        "18.80%",
+        "15.18%"
+    ],
+
+    "Recall": [
+        "7.87%",
+        "24.77%",
+        "35.35%",
+        "48.74%",
+        "59.04%"
+    ],
+
+    "Lift": [
+        "7.87×",
+        "4.95×",
+        "3.53×",
+        "2.44×",
+        "1.97×"
+    ]
+})
+
+st.dataframe(
+    lift_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+st.markdown(
+    """
+**Business Interpretation:** The highest-scored **1% of sessions**
+achieved **60.69% Precision and 7.87× lift**.
+
+Targeting the **top 10%** captures **35.35% of eventual purchases**
+while maintaining **3.53× lift**, demonstrating how model scores can
+prioritize high-intent sessions.
+"""
+)
+
+
+# ============================================================
+# LIGHTGBM
+# ============================================================
+
+space()
+
+subsection("LightGBM — Gradient Boosting Model")
+
+st.markdown(
+    """
+LightGBM was evaluated as an efficient gradient boosting alternative
+for large-scale purchase-intent prediction.
+"""
+)
+
+metric_cards([
+    ("📊", "89.82%", "Accuracy"),
+    ("🎯", "32.21%", "Precision"),
+    ("🔎", "28.98%", "Recall"),
+    ("⚖️", "30.51%", "F1 Score"),
+    ("📈", "0.7018", "ROC-AUC"),
+    ("📉", "0.2508", "PR-AUC")
+])
+
+st.markdown(
+    """
+**Model Interpretation:** LightGBM substantially increased Precision and
+Accuracy, but Recall declined to **28.98%**. This means more than 70% of
+actual future purchasers were not identified.
+"""
+)
+
+centered_image(
+    "lightgbm-threshold.png"
+)
+
+centered_image(
+    "lightgbm-purchase pro.png"
+)
+
+
+# ============================================================
+# XGBOOST + RANDOM FOREST ENSEMBLE
+# ============================================================
+
+space()
+
+subsection("XGBoost + Random Forest Ensemble")
+
+st.markdown(
+    """
+An ensemble was evaluated by combining predictions from XGBoost and
+Random Forest to determine whether complementary tree structures could
+improve overall performance.
+"""
+)
+
+metric_cards([
+    ("📊", "90.14%", "Accuracy"),
+    ("🎯", "33.43%", "Precision"),
+    ("🔎", "28.13%", "Recall"),
+    ("⚖️", "30.55%", "F1 Score"),
+    ("📈", "0.7114", "ROC-AUC"),
+    ("📉", "0.2560", "PR-AUC")
+])
+
+st.markdown(
+    """
+**Ensemble Result:** The ensemble achieved the highest Accuracy,
+Precision and F1 Score. However, Recall declined to **28.13%**, and
+PR-AUC remained slightly below Tuned XGBoost.
+"""
+)
+
+
+# ============================================================
+# FINAL MODEL COMPARISON
+# ============================================================
+
+space()
+
+section_title(
+    "Final Model Comparison",
+    "Performance comparison across all candidate models on the held-out test set."
+)
+
+final_comparison = pd.DataFrame({
+
+    "Model": [
+        "Logistic Regression",
+        "Decision Tree",
+        "Random Forest — Base",
+        "Random Forest — Tuned",
+        "XGBoost — Base",
+        "XGBoost — Tuned",
+        "LightGBM",
+        "XGBoost + RF Ensemble"
+    ],
+
+    "Accuracy": [
+        "39.55%",
+        "74.64%",
+        "72.34%",
+        "72.65%",
+        "75.86%",
+        "76.45%",
+        "89.82%",
+        "90.14%"
+    ],
+
+    "Precision": [
+        "9.76%",
+        "15.95%",
+        "15.25%",
+        "15.19%",
+        "16.48%",
+        "16.74%",
+        "32.21%",
+        "33.43%"
+    ],
+
+    "Recall": [
+        "82.92%",
+        "53.55%",
+        "56.72%",
+        "55.55%",
+        "52.35%",
+        "51.68%",
+        "28.98%",
+        "28.13%"
+    ],
+
+    "F1 Score": [
+        "17.47%",
+        "24.57%",
+        "24.03%",
+        "23.86%",
+        "25.07%",
+        "25.29%",
+        "30.51%",
+        "30.55%"
+    ],
+
+    "ROC-AUC": [
+        "0.6961",
+        "0.6962",
+        "0.7116",
+        "0.7055",
+        "0.7072",
+        "0.7100",
+        "0.7018",
+        "0.7114"
+    ],
+
+    "PR-AUC": [
+        "0.2294",
+        "0.2478",
+        "0.2516",
+        "0.2471",
+        "0.2552",
+        "0.2568",
+        "0.2508",
+        "0.2560"
+    ]
+})
+
+st.dataframe(
+    final_comparison,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# MODEL PERFORMANCE TRADE-OFF
+# ============================================================
+
+space()
+
+subsection("Model Performance Trade-Off")
+
+tradeoff_df = pd.DataFrame({
+
+    "Model": [
+        "Logistic Regression",
+        "Tuned XGBoost",
+        "LightGBM",
+        "XGBoost + RF Ensemble"
+    ],
+
+    "Primary Strength": [
+        "Highest Recall",
+        "Highest PR-AUC",
+        "High Precision & Accuracy",
+        "Highest Precision & F1"
+    ],
+
+    "Key Limitation": [
+        "Very low Precision",
+        "Moderate Precision",
+        "Low Recall",
+        "Low Recall"
+    ]
+})
+
+st.dataframe(
+    tradeoff_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+
+# ============================================================
+# FINAL MODEL SELECTION
+# ============================================================
+
+space()
+
+section_title(
+    "Final Model Selection",
+    "Selecting the model that provides the strongest balance for purchase-intent prediction."
+)
+
+subsection("🏆 Tuned XGBoost")
+
+metric_cards([
+    ("📊", "76.45%", "Accuracy"),
+    ("🎯", "16.74%", "Precision"),
+    ("🔎", "51.68%", "Recall"),
+    ("⚖️", "25.29%", "F1 Score"),
+    ("📈", "0.7100", "ROC-AUC"),
+    ("📉", "0.2568", "PR-AUC")
+])
+
+
+# ============================================================
+# WHY TUNED XGBOOST
+# ============================================================
+
+space()
+
+subsection("Why Tuned XGBoost?")
+
+st.markdown(
+    """
+**Tuned XGBoost was selected as the final model because it achieved the
+highest PR-AUC (`0.2568`) while retaining `51.68% Recall`.**
+
+- **Logistic Regression** captured **82.92%** of purchasers but Precision
+  was only **9.76%**, resulting in a large number of false positives.
+
+- **LightGBM** increased Precision to **32.21%**, but Recall declined to
+  **28.98%**, meaning more than 70% of purchasers were missed.
+
+- The **XGBoost + Random Forest Ensemble** achieved the highest Accuracy,
+  Precision and F1 Score, but Recall declined further to **28.13%**.
+
+- **Tuned XGBoost** retained more than half of actual future purchasers
+  while producing the **highest PR-AUC across all evaluated models**.
+
+- The ensemble introduced additional model complexity without improving
+  PR-AUC over Tuned XGBoost.
+
+Therefore, **Tuned XGBoost provides the strongest Precision–Recall
+trade-off for the purchase-intent objective.**
+"""
+)
+
+
+# ============================================================
+# WHY NOT ACCURACY
+# ============================================================
+
+space()
+
+subsection("Why Not Select the Highest-Accuracy Model?")
+
+st.markdown(
+    """
+The purchase target is highly imbalanced, with non-purchase observations
+representing the majority of interactions.
+
+A model can therefore achieve high Accuracy by correctly predicting the
+majority class while still missing a large proportion of actual purchasers.
+
+For this reason, final model selection focused primarily on **PR-AUC,
+Recall, Precision and F1 Score rather than Accuracy alone**.
+"""
+)
+
+
+# ============================================================
+# FINAL TAKEAWAY
+# ============================================================
+
+space()
+
+subsection("Final Takeaway")
+
+st.markdown(
+    """
+The experiments reveal a clear trade-off between **capturing more potential
+purchasers** and **increasing the reliability of positive predictions**.
+
+**Tuned XGBoost** was selected because it:
+
+- Achieved the **highest PR-AUC — 0.2568**
+- Retained **51.68% Recall**
+- Improved Precision over the baseline models
+- Captured nonlinear behavioral interactions
+- Outperformed LightGBM and the ensemble on the primary PR-AUC metric
+- Avoided the additional deployment complexity of a multi-model ensemble
+"""
+)
+
+st.markdown(
+    """<div class="final-model">🏆 Final Model — Tuned XGBoost</div>""",
+    unsafe_allow_html=True
+)
 
 # ============================================================
 # DECISION TREE
