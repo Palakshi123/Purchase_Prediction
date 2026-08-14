@@ -35,6 +35,13 @@ st.markdown(
 <style>
 
 /* ==========================================================
+   FONTS
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;800&family=Source+Code+Pro:wght@600;700&display=swap');
+
+
+/* ==========================================================
    ROOT TOKENS
    ========================================================== */
 
@@ -362,9 +369,16 @@ div[data-baseweb="select"] {
    CONTAINERS / IMAGES
    ========================================================== */
 
+div[data-testid="stImage"] {
+    display: flex;
+    justify-content: center;
+}
+
 div[data-testid="stImage"] img {
     border-radius: 8px;
     border: 1px solid var(--line);
+    max-width: 100%;
+    height: auto;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] {
@@ -425,6 +439,32 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 
 .small-space {
     height: 10px;
+}
+
+
+/* ==========================================================
+   RESPONSIVE — NARROW VIEWPORTS
+   ========================================================== */
+
+@media (max-width: 900px) {
+
+    .block-container {
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+    }
+
+    .dashboard-title {
+        font-size: 22px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .metric-value {
+        font-size: 16px;
+    }
+
 }
 
 </style>
@@ -519,6 +559,13 @@ def centered_image(
     width=None,
     ratio=(0.7, 2.6, 0.7)
 ):
+    """
+    Displays an image centered on the page.
+
+    NOTE: `width` is treated as a *maximum* width via CSS (max-width),
+    not a fixed pixel width — the image still scales down responsively
+    on narrower screens instead of overflowing its column.
+    """
 
     image_path = IMAGE_DIR / filename
 
@@ -528,19 +575,10 @@ def centered_image(
 
         with center:
 
-            if width:
-
-                st.image(
-                    str(image_path),
-                    width=width
-                )
-
-            else:
-
-                st.image(
-                    str(image_path),
-                    use_container_width=True
-                )
+            st.image(
+                str(image_path),
+                use_container_width=True
+            )
 
     else:
 
@@ -592,12 +630,35 @@ metric_cards([
 
 small_space()
 
-metric_cards([
+row2_cards = [
     ("🔢", "9", "Initial Features"),
     ("📅", "1 Month", "Dataset Period"),
     ("🧭", "4", "Category Levels"),
     ("👆", "3", "Event Types")
-])
+]
+
+row2_cols = st.columns(6)
+
+for col, (icon, value, label) in zip(row2_cols, row2_cards):
+
+    with col:
+
+        st.markdown(
+            f"""
+<div class="metric-card">
+    <span class="metric-icon">{icon}</span>
+    <span class="metric-value">{value}</span>
+    <div class="metric-label">{label}</div>
+</div>
+""",
+            unsafe_allow_html=True
+        )
+
+for col in row2_cols[len(row2_cards):]:
+
+    with col:
+
+        st.empty()
 
 
 # ============================================================
@@ -1269,7 +1330,6 @@ subsection("Text Enrichment Pipeline")
 
 centered_image(
     "text_enrichment_pipeline.png",
-    width=900,
     ratio=(0.5, 3, 0.5)
 )
 
@@ -2175,8 +2235,7 @@ across the evaluation population.
 
 centered_image(
     "xgb-shap.png",
-    width=560,
-    ratio=(1.15, 1.7, 1.15)
+    ratio=(1, 2, 1)
 )
 
 st.markdown(
@@ -2626,8 +2685,8 @@ subsection("Why Tuned XGBoost?")
 st.markdown(
     """
 **Tuned XGBoost was selected because it achieved the highest PR-AUC
-(`0.2568`) while retaining over half of actual future purchasers
-(`51.68% Recall`)** — the strongest overall Precision–Recall trade-off
+(`0.2771`) while retaining over half of actual future purchasers
+(`54.36% Recall`)** — the strongest overall Precision–Recall trade-off
 among all evaluated models.
 """
 )
