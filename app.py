@@ -1523,30 +1523,160 @@ and F1 Score over the linear baseline while retaining **53.55% Recall**.
 """
 )
 
-centered_image(
-    "dt-confusion-matrix.png",
-    width=480
-)
 
-roc_col, pr_col = st.columns(
+# ============================================================
+# DECISION TREE — MODEL EVALUATION
+# ============================================================
+
+space()
+
+subsection("Model Evaluation")
+
+
+# ============================================================
+# ROW 1 — CONFUSION MATRIX + ROC CURVE
+# ============================================================
+
+dt_confusion_col, dt_roc_col = st.columns(
     2,
     gap="large"
 )
 
-with roc_col:
+with dt_confusion_col:
 
-    centered_image(
-        "dt-auroc.png",
-        ratio=(0.05, 2.9, 0.05)
+    pill("CONFUSION MATRIX")
+
+    image_path = IMAGE_DIR / "dt-confusion-matrix.png"
+
+    if image_path.exists():
+
+        st.image(
+            str(image_path),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {image_path.name}"
+        )
+
+
+with dt_roc_col:
+
+    pill("ROC CURVE")
+
+    image_path = IMAGE_DIR / "dt-auroc.png"
+
+    if image_path.exists():
+
+        st.image(
+            str(image_path),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {image_path.name}"
+        )
+
+
+# ============================================================
+# ROW 2 — PR CURVE + FEATURE IMPORTANCE
+# ============================================================
+
+small_space()
+
+dt_pr_col, dt_feature_col = st.columns(
+    2,
+    gap="large"
+)
+
+with dt_pr_col:
+
+    pill("PRECISION–RECALL CURVE")
+
+    image_path = IMAGE_DIR / "dt-pr.png"
+
+    if image_path.exists():
+
+        st.image(
+            str(image_path),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {image_path.name}"
+        )
+
+
+with dt_feature_col:
+
+    pill("GLOBAL FEATURE IMPORTANCE")
+
+    image_path = IMAGE_DIR / "dt-feature-importance.png"
+
+    if image_path.exists():
+
+        st.image(
+            str(image_path),
+            use_container_width=True
+        )
+
+    else:
+
+        st.warning(
+            f"Image not found: {image_path.name}"
+        )
+
+
+# ============================================================
+# ROW 3 — DECISION TREE STRUCTURE
+# ============================================================
+
+small_space()
+
+pill("DECISION TREE STRUCTURE")
+
+dt_tree_image = IMAGE_DIR / "dt-tree.png"
+
+if dt_tree_image.exists():
+
+    left, center, right = st.columns(
+        [0.3, 3.4, 0.3]
     )
 
-with pr_col:
+    with center:
 
-    centered_image(
-        "dt-pr.png",
-        ratio=(0.05, 2.9, 0.05)
+        st.image(
+            str(dt_tree_image),
+            use_container_width=True
+        )
+
+else:
+
+    st.warning(
+        f"Image not found: {dt_tree_image.name}"
     )
 
+
+# ============================================================
+# DECISION TREE INSIGHT
+# ============================================================
+
+small_space()
+
+st.markdown(
+    """
+**Decision Tree Insight:** The tree structure provides a directly interpretable
+view of how behavioral features split customers into different purchase-intent
+segments, while feature importance highlights the variables contributing most
+to the model's predictions.
+"""
+)
 
 # ============================================================
 # RANDOM FOREST
