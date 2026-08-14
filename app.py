@@ -991,11 +991,21 @@ Purchase events can therefore exceed cart events.
 
 section_title(
     "Univariate / Bivariate / Multivariate Data Visualization",
-    "Exploring customer behavior, purchase patterns, session activity, and temporal trends.",
+    "Exploring customer behavior, purchase patterns, session activity, "
+    "product characteristics, pricing, and temporal trends.",
     eyebrow="Exploratory Analysis"
 )
 
+
+# ============================================================
+# VISUALIZATION CONFIGURATION
+# ============================================================
+
 eda_visualizations = {
+
+    # ========================================================
+    # UNIVARIATE ANALYSIS
+    # ========================================================
 
     "Event Distribution":
         "event_distribution.png",
@@ -1003,11 +1013,16 @@ eda_visualizations = {
     "Purchase vs No-Purchase Sessions":
         "purchase_sessions.png",
 
-    "Repeat Customer Conversion":
-        "repeat_conversion.png",
-
     "Customer Activity by Day of Week":
         "day_of_week.png",
+
+
+    # ========================================================
+    # BIVARIATE ANALYSIS
+    # ========================================================
+
+    "Repeat Customer Conversion":
+        "repeat_conversion.png",
 
     "Weekend vs Weekday Behavior":
         "weekend_weekday.png",
@@ -1022,53 +1037,172 @@ eda_visualizations = {
         "events_before_purchase.png",
 
     "Time to First Purchase":
-        "time_first_purchase.png"
+        "time_first_purchase.png",
+
+
+    # ========================================================
+    # MULTIVARIATE ANALYSIS
+    # ========================================================
+
+    "Brand Analysis":
+        "brands.png",
+
+    "Electronics Analysis":
+        "electronics.png",
+
+    "Price × Brand Analysis":
+        "price-brand.png",
+
+    "Multivariate Analysis":
+        "multi-variate.png"
 }
+
+
+# ============================================================
+# ANALYSIS TYPE
+# ============================================================
+
+analysis_type = {
+
+    "Event Distribution":
+        "UNIVARIATE",
+
+    "Purchase vs No-Purchase Sessions":
+        "UNIVARIATE",
+
+    "Customer Activity by Day of Week":
+        "UNIVARIATE",
+
+    "Repeat Customer Conversion":
+        "BIVARIATE",
+
+    "Weekend vs Weekday Behavior":
+        "BIVARIATE",
+
+    "Price by Event Type":
+        "BIVARIATE",
+
+    "Session Behavior":
+        "BIVARIATE",
+
+    "Events Before Purchase":
+        "BIVARIATE",
+
+    "Time to First Purchase":
+        "BIVARIATE",
+
+    "Brand Analysis":
+        "MULTIVARIATE",
+
+    "Electronics Analysis":
+        "MULTIVARIATE",
+
+    "Price × Brand Analysis":
+        "MULTIVARIATE",
+
+    "Multivariate Analysis":
+        "MULTIVARIATE"
+}
+
+
+# ============================================================
+# BUSINESS INSIGHTS
+# ============================================================
 
 business_insights = {
 
     "Event Distribution":
-        "Product views dominate customer activity, while purchases represent a much smaller share of interactions.",
+        "Product views dominate customer activity, while purchases "
+        "represent a much smaller share of interactions.",
 
     "Purchase vs No-Purchase Sessions":
-        "Most customer sessions do not result in a purchase, highlighting the imbalance in conversion behavior.",
-
-    "Repeat Customer Conversion":
-        "Repeat customers demonstrate stronger purchase intent than one-session customers.",
+        "Most customer sessions do not result in a purchase, "
+        "highlighting the imbalance in conversion behavior.",
 
     "Customer Activity by Day of Week":
-        "Tuesday records the highest purchase activity, making it a potentially important day for targeted engagement.",
+        "Tuesday records the highest purchase activity, making it "
+        "a potentially important day for targeted engagement.",
+
+    "Repeat Customer Conversion":
+        "Repeat customers demonstrate stronger purchase intent "
+        "than one-session customers.",
 
     "Weekend vs Weekday Behavior":
-        "Weekday activity is higher than weekend activity, indicating stronger engagement during the workweek.",
+        "Weekday activity is higher than weekend activity, indicating "
+        "stronger customer engagement during the workweek.",
 
     "Price by Event Type":
-        "Purchased products are concentrated within a narrower price range than products customers only view.",
+        "Purchased products are concentrated within a narrower price "
+        "range than products customers only view.",
 
     "Session Behavior":
-        "Customers who purchase demonstrate higher session engagement than customers who leave without purchasing.",
+        "Customers who purchase demonstrate higher session engagement "
+        "than customers who leave without purchasing.",
 
     "Events Before Purchase":
-        "Purchase likelihood increases as customers interact with more events during a session.",
+        "Purchase likelihood increases as customers interact with "
+        "more events during a session.",
 
     "Time to First Purchase":
-        "Most purchases occur relatively early in the session, suggesting purchase intent develops quickly."
+        "Most purchases occur relatively early in the session, "
+        "suggesting purchase intent develops quickly.",
+
+    "Brand Analysis":
+        "Purchase behavior differs across brands, suggesting that "
+        "brand preference contributes to customer purchase intent.",
+
+    "Electronics Analysis":
+        "Customer behavior varies across electronics product segments, "
+        "highlighting differences in engagement and conversion patterns.",
+
+    "Price × Brand Analysis":
+        "Price and brand jointly influence purchase behavior, suggesting "
+        "that customer price sensitivity varies across brands.",
+
+    "Multivariate Analysis":
+        "Purchase behavior is influenced by interactions between "
+        "customer activity, product characteristics, price, and "
+        "session-level engagement."
 }
+
+
+# ============================================================
+# VISUALIZATION SELECTOR
+# ============================================================
 
 selected_visualization = st.selectbox(
     "Select an analysis",
     list(eda_visualizations.keys())
 )
 
+
+# ============================================================
+# DISPLAY ANALYSIS TYPE
+# ============================================================
+
+pill(
+    analysis_type[selected_visualization]
+)
+
+
+# ============================================================
+# IMAGE PATH
+# ============================================================
+
 image_path = (
     IMAGE_DIR /
     eda_visualizations[selected_visualization]
 )
 
+
+# ============================================================
+# DISPLAY VISUALIZATION
+# ============================================================
+
 if image_path.exists():
 
     left, center, right = st.columns(
-        [1, 2, 1]
+        [0.7, 2.6, 0.7]
     )
 
     with center:
@@ -1079,7 +1213,7 @@ if image_path.exists():
 
         st.image(
             str(image_path),
-            width=500
+            use_container_width=True
         )
 
 else:
@@ -1089,10 +1223,16 @@ else:
     )
 
 
+# ============================================================
+# BUSINESS INSIGHT
+# ============================================================
+
 subsection("💡 Business Insight")
 
 st.markdown(
-    f"**{business_insights[selected_visualization]}**"
+    f"""
+**{business_insights[selected_visualization]}**
+"""
 )
 
 
