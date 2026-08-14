@@ -732,108 +732,216 @@ space()
 
 section_title(
     "Funnel Analysis & Conversion Rate",
-    "Understanding how customer interactions progress from product views to cart activity and purchases."
+    "Event-level customer journey from product discovery to purchase."
+)
+
+st.markdown(
+"""<div style="
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    margin-top:18px;
+    margin-bottom:10px;
+">
+
+    <div style="width:25%; text-align:center;">
+        <div style="
+            font-size:13px;
+            font-weight:700;
+            color:#777777;
+            margin-bottom:5px;
+        ">
+            👁️ VIEW
+        </div>
+
+        <div style="
+            font-size:25px;
+            font-weight:700;
+            color:#E72F3D;
+        ">
+            23.31M
+        </div>
+
+        <div style="
+            font-size:13px;
+            color:#777777;
+            margin-top:3px;
+        ">
+            23,306,949 events
+        </div>
+    </div>
+
+
+    <div style="width:12%; text-align:center;">
+
+        <div style="
+            font-size:20px;
+            color:#E72F3D;
+            font-weight:700;
+        ">
+            →
+        </div>
+
+        <div style="
+            font-size:15px;
+            font-weight:700;
+            color:#333333;
+        ">
+            2.14%
+        </div>
+
+        <div style="
+            font-size:11px;
+            color:#888888;
+        ">
+            View → Cart
+        </div>
+
+    </div>
+
+
+    <div style="width:25%; text-align:center;">
+
+        <div style="
+            font-size:13px;
+            font-weight:700;
+            color:#777777;
+            margin-bottom:5px;
+        ">
+            🛒 CART
+        </div>
+
+        <div style="
+            font-size:25px;
+            font-weight:700;
+            color:#E72F3D;
+        ">
+            499.1K
+        </div>
+
+        <div style="
+            font-size:13px;
+            color:#777777;
+            margin-top:3px;
+        ">
+            499,095 events
+        </div>
+
+    </div>
+
+
+    <div style="width:12%; text-align:center;">
+
+        <div style="
+            font-size:20px;
+            color:#E72F3D;
+            font-weight:700;
+        ">
+            →
+        </div>
+
+        <div style="
+            font-size:15px;
+            font-weight:700;
+            color:#333333;
+        ">
+            111.90%
+        </div>
+
+        <div style="
+            font-size:11px;
+            color:#888888;
+        ">
+            Cart → Purchase
+        </div>
+
+    </div>
+
+
+    <div style="width:25%; text-align:center;">
+
+        <div style="
+            font-size:13px;
+            font-weight:700;
+            color:#777777;
+            margin-bottom:5px;
+        ">
+            💳 PURCHASE
+        </div>
+
+        <div style="
+            font-size:25px;
+            font-weight:700;
+            color:#E72F3D;
+        ">
+            558.5K
+        </div>
+
+        <div style="
+            font-size:13px;
+            color:#777777;
+            margin-top:3px;
+        ">
+            558,484 events
+        </div>
+
+    </div>
+
+</div>""",
+    unsafe_allow_html=True
 )
 
 
 # ============================================================
-# EVENT FUNNEL
+# OVERALL CONVERSION
 # ============================================================
 
-subsection("Customer Interaction Funnel")
+st.markdown(
+"""<div style="
+    text-align:center;
+    margin-top:12px;
+    margin-bottom:15px;
+">
 
-funnel_df = pd.DataFrame({
-    "Stage": [
-        "View",
-        "Cart",
-        "Purchase"
-    ],
-    "Event Count": [
-        23_306_949,
-        499_095,
-        558_484
-    ]
-})
+    <span style="
+        font-size:13px;
+        color:#777777;
+    ">
+        Overall View → Purchase Conversion
+    </span>
 
-st.dataframe(
-    funnel_df,
-    use_container_width=True,
-    hide_index=True,
-    column_config={
-        "Event Count": st.column_config.NumberColumn(
-            "Event Count",
-            format="%d"
-        )
-    }
+    <span style="
+        font-size:17px;
+        font-weight:700;
+        color:#E72F3D;
+        margin-left:8px;
+    ">
+        2.40%
+    </span>
+
+</div>""",
+    unsafe_allow_html=True
 )
 
 
 # ============================================================
-# FUNNEL KPIs
+# FUNNEL INSIGHT
 # ============================================================
-
-small_space()
-
-metric_cards([
-    ("👁️", "23.31M", "View Events"),
-    ("🛒", "499.1K", "Cart Events"),
-    ("💳", "558.5K", "Purchase Events")
-])
-
-
-# ============================================================
-# CONVERSION RATES
-# ============================================================
-
-space()
-
-subsection("Conversion Rate")
-
-conversion_df = pd.DataFrame({
-    "Funnel Transition": [
-        "View → Cart",
-        "Cart → Purchase",
-        "View → Purchase"
-    ],
-    "Conversion Rate": [
-        "2.14%",
-        "111.90%",
-        "2.40%"
-    ]
-})
-
-st.dataframe(
-    conversion_df,
-    use_container_width=True,
-    hide_index=True
-)
-
-
-# ============================================================
-# FUNNEL INSIGHTS
-# ============================================================
-
-subsection("💡 Funnel Insights")
 
 st.markdown(
     """
-- **View → Cart: 2.14%** — only a small proportion of product-view events
-  translate into cart activity, indicating the largest drop-off occurs
-  before the cart stage.
+**💡 Funnel Insight:** Only **2.14% of view events progress to cart activity**,
+showing that the largest drop-off occurs before the cart stage. Overall,
+purchase events represent **2.40% of view activity**.
 
-- **View → Purchase: 2.40%** — purchases represent a relatively small
-  proportion of overall product-view activity.
-
-- **Cart → Purchase: 111.90%** — this exceeds 100% because the calculation
-  is based on aggregate **event counts**, not a strict sequential
-  session-level funnel. Purchase events can occur without a corresponding
-  cart event in the aggregated event stream.
-
-**Key Takeaway:** The strongest opportunity is improving movement from
-**product viewing to stronger purchase-intent behavior**, particularly
-cart engagement.
+*Cart → Purchase exceeds 100% because this is an aggregate event-level
+funnel rather than a strict sequential session funnel.*
 """
 )
+
+
+
 
 # ============================================================
 # EXPLORATORY DATA ANALYSIS
